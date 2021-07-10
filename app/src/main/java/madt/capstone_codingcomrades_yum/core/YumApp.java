@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 
-/**
- * Created by ranjana on 23/6/17.
- */
+
 
 public class YumApp extends Application {
     public static final String TAG = YumApp.class
