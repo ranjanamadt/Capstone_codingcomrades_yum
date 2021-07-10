@@ -16,10 +16,10 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        AppSharedPreferences.getInstance().setString(SharedConstants.TEST, "Implemented");
+   /*     AppSharedPreferences.getInstance().setString(SharedConstants.TEST, "Implemented");
         yLog("Test share : ", AppSharedPreferences.getInstance().getString(SharedConstants.TEST));
         yToast(this,"toast");
         ySnackbar(this, "snackbar");
-
+*/
     }
 }
