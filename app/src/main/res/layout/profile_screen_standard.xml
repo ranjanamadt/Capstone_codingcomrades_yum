@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F6">
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="413dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="667dp"
+        android:background="#FFFFFF"
+        android:clickable="false"
+        android:fontFamily="@font/segoe_ui"
+        android:shadowColor="#434343"
+        android:shadowDy="3"
+        android:shadowRadius="0"
+        android:text="@string/about_me"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/user_image_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="420dp"
+        android:background="#F6F6F6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:srcCompat="@drawable/ic_add_image"
+        android:contentDescription="@string/todo" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:clickable="false"
+        android:shadowColor="#7C7C7C"
+        android:shadowDy="-3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/user_fname_lname"
+        android:layout_width="195dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="19dp"
+        android:fontFamily="@font/segoe_ui_bold"
+        android:text="@string/ernest_khalimov"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_image_profile" />
+
+    <TextView
+        android:id="@+id/user_age_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:fontFamily="@font/segoe_ui"
+        android:text="@string/_31_male"
+        android:textColor="#222222"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_fname_lname" />
+
+    <Button
+        android:id="@+id/match_btn"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFFFFF"
+        android:foreground="@drawable/ic_match_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/chat_btn"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="178dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFFFFF"
+        android:foreground="@drawable/ic_chat_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/profile_btn"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFFFFF"
+        android:foreground="@drawable/ic_profile_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button3" />
+
+    <TextView
+        android:id="@+id/bio_text"
+        android:layout_width="352dp"
+        android:layout_height="172dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="51dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/segoe_ui"
+        android:textAlignment="viewStart"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_age_gender" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
