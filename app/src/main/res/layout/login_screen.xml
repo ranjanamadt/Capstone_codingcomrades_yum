@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/logo_yum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="3.3"
+        android:scaleY="3.3"
+        app:srcCompat="@mipmap/ic_yum_logo"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="149dp" />
+
+    <Button
+        android:id="@+id/phone_login_btn"
+        android:layout_width="236dp"
+        android:layout_height="61dp"
+        android:background="@drawable/custom_rounded_corners"
+        android:fontFamily="@font/segoe_ui_bold"
+        android:text="Login with Phone Number"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="529dp" />
+
+    <Button
+        android:id="@+id/fb_login_btn"
+        android:layout_width="236dp"
+        android:layout_height="61dp"
+        android:background="@drawable/custom_rounded_corners_fb"
+        android:fontFamily="@font/segoe_ui_bold"
+        android:text="Login with Facebook"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="90dp"
+        tools:layout_editor_absoluteY="605dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
