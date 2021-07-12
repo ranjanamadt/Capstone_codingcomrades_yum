@@ -55,7 +55,7 @@ public class SplashActivity extends BaseActivity {
                     return;
                 }
                 Log.e("device token : ", task.getResult().toString());
-              // mSharedPreferences.setString(SharedConstants.DEVICE_TOKEN, task.getResult().toString());
+             mSharedPreferences.setString(SharedConstants.DEVICE_TOKEN, task.getResult().toString());
             }
         });
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);

@@ -26,7 +26,6 @@ import madt.capstone_codingcomrades_yum.aboutme.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityLoginWithPhoneNumberBinding;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
-import madt.capstone_codingcomrades_yum.splash.SplashActivity;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class LoginWithPhoneNumberActivity extends BaseActivity {
@@ -45,12 +44,12 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        binding.btnVerifyCode.setOnClickListener(v ->{
-            yLog("verification code",mVerificationId+"//");
-            yLog("otp code",binding.edtOtp.getText().toString()+"//");
+        binding.btnVerifyCode.setOnClickListener(v -> {
+            yLog("verification code", mVerificationId + "//");
+            yLog("otp code", binding.edtOtp.getText().toString() + "//");
 
 
-            verifyPhoneNumberWithCode(mVerificationId,binding.edtOtp.getText().toString());
+            verifyPhoneNumberWithCode(mVerificationId, binding.edtOtp.getText().toString());
         });
         binding.btnGetCode.setOnClickListener(v -> {
             startPhoneNumberVerification(binding.edtPhoneNumber.getText().toString());
@@ -62,9 +61,10 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
 
     }
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
-        if(!verificationId.isEmpty()) {
+        if (!verificationId.isEmpty()) {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
             signInWithPhoneAuthCredential(credential);
         }
@@ -93,7 +93,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                 // for instance if the the phone number format is not valid.
 
                 yLog("onVerificationFailed:", e.getLocalizedMessage());
-                ySnackbar(LoginWithPhoneNumberActivity.this,e.getLocalizedMessage());
+                ySnackbar(LoginWithPhoneNumberActivity.this, e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     // Invalid request
                 } else if (e instanceof FirebaseTooManyRequestsException) {
@@ -112,7 +112,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                 // now need to ask the user to enter the code and then construct a credential
                 // by combining the code with a verification ID.
                 yLog("onCodeSent:", verificationId);
-                yToast(LoginWithPhoneNumberActivity.this,getString(R.string.verification_code_sent));
+                yToast(LoginWithPhoneNumberActivity.this, getString(R.string.verification_code_sent));
 
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
@@ -120,8 +120,8 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
             }
 
             @Override
-            public void onCodeAutoRetrievalTimeOut(@NonNull String  VerificationId) {
-                super.onCodeAutoRetrievalTimeOut( VerificationId);
+            public void onCodeAutoRetrievalTimeOut(@NonNull String VerificationId) {
+                super.onCodeAutoRetrievalTimeOut(VerificationId);
                 mVerificationId = VerificationId;
             }
         };
@@ -139,6 +139,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
         // [END start_phone_auth]
     }
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -146,23 +147,23 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("signInWithCredential",":success");
+                            Log.d("signInWithCredential", ":success");
 
                             FirebaseUser user = task.getResult().getUser();
-                            yLog("user",user.toString()+"//");
+                            yLog("user", user.toString() + "//");
 
-                           // mSharedPreferences.setString(SharedConstants.USER_UID, user.getUid());
+                             mSharedPreferences.setString(SharedConstants.USER_UID, user.getUid());
 
                             Intent i = new Intent(LoginWithPhoneNumberActivity.this,
                                     AboutMeActivity.class);
                             startActivity(i);
-                            yToast(LoginWithPhoneNumberActivity.this,getString(R.string.logged_in_successfully));
+                            yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
 
                             // Update UI
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.d("signIn:failure", task.getException().getLocalizedMessage());
-                            ySnackbar(LoginWithPhoneNumberActivity.this,task.getException().getLocalizedMessage());
+                            ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
                         /*    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                             }*/
@@ -170,6 +171,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                     }
                 });
     }
+
     @Override
     protected void setTopBar() {
         YumTopBar.setToolbar(
