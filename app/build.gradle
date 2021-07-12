@@ -42,6 +42,8 @@ dependencies {
 // Firebase Auth
     implementation 'com.google.firebase:firebase-auth'
     implementation 'androidx.browser:browser:1.3.0'
+    //OtpView
+    implementation ('com.alimuzaffar.lib:pinentryedittext:1.3.10')
     // Firebase push & messaging
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-firestore:23.0.2'

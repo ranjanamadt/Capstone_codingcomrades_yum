@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.LoginWithPhoneNumberActivity"
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <data></data>
-
-    <LinearLayout
+    <madt.capstone_codingcomrades_yum.utils.YumTopBar
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
 
-        <madt.capstone_codingcomrades_yum.utils.YumTopBar
-            android:id="@+id/topBar"
-            android:layout_width="match_parent"
+        android:elevation="@dimen/_6sdp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/otp_code_text"/>
+
+
+    <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@id/txt_phn_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="10"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        app:pinLineColors="@color/black"/>
+    <Button
+        android:id="@+id/btnGetCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:text="@string/get_code"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:background="@color/red"/>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/_6sdp" />
+            android:text="@string/otp_description_text"/>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
+        <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/txt_phn_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        app:pinLineColors="@color/black"/>
 
-                <EditText
-                    android:id="@+id/edtPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                 android:hint="+00 0000000000"
-                    android:textColorHint="@color/black"
-                    tools:layout_editor_absoluteX="181dp"
-                    tools:layout_editor_absoluteY="113dp" />
+    <Button
+        android:id="@+id/btnVerifyCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:background="@color/red"
+        android:text="@string/verify_code"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:textColor="@color/white" />
 
-                <Button
-                    android:id="@+id/btnGetCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/get_code" />
 
-                <EditText
-                    android:id="@+id/edtOtp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    />
-
-                <Button
-                    android:id="@+id/btnVerifyCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/verify_code" />
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
-</layout>
+</LinearLayout>
