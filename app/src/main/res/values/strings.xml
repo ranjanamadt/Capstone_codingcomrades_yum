@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">Capstone_codingcomrades_yum</string>
+    <string name="app_name">Yum</string>
     <string name="todo">TODO</string>
     <string name="login_with_phone_number">Login with Phone Number</string>
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="about_me">About me</string>
     <string name="ernest_khalimov">Ernest Khalimov</string>
     <string name="_31_male">31 - Male</string>
-    <string name="todo">TODO</string>
+
+    <string name="get_code">Get code</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="verification_code_sent">Verification code set successfully</string>
+    <string name="logged_in_successfully">Logged in Successfully</string>
 </resources>

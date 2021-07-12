@@ -8,4 +8,6 @@ public class SharedConstants {
     public static final String TEST = "test";
 
 
+    public static final String DEVICE_TOKEN = "device_token";
+    public static final String USER_UID = "user_uid";
 }
