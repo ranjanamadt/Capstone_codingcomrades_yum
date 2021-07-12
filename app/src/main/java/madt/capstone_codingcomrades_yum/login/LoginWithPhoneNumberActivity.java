@@ -152,7 +152,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                             FirebaseUser user = task.getResult().getUser();
                             yLog("user", user.toString() + "//");
 
-                             mSharedPreferences.setString(SharedConstants.USER_UID, user.getUid());
+                            // mSharedPreferences.setString(SharedConstants.USER_UID, user.getUid());
 
                             Intent i = new Intent(LoginWithPhoneNumberActivity.this,
                                     AboutMeActivity.class);
