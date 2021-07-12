@@ -7,7 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_white">#FFEDEDED</color>
     <color name="facebook_blue">#4267B2</color>
-    <color name="red">#F00</color>
-
+    <color name="red_log">#FFFF0000</color>
+    <color name="shadow_color">#FF434343</color>
+    <color name="light_text">#FF222222</color>
 </resources>

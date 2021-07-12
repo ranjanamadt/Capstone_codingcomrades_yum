@@ -176,7 +176,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
     protected void setTopBar() {
         YumTopBar.setToolbar(
                 binding.topBar,
-                R.drawable.ic_baseline_arrow_back_24,
+                R.drawable.ic_back_arrow,
                 "",
                 true,
                 false,
