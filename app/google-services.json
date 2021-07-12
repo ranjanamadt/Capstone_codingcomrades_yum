@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "643218771073",
+    "project_id": "codingcomrades-yum",
+    "storage_bucket": "codingcomrades-yum.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643218771073:android:1c3ae0552ca3fcef775180",
+        "android_client_info": {
+          "package_name": "madt.capstone_codingcomrades_yum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643218771073-cfvbfp4399g1ehn9uqitqggtv9jo1f3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLi0VxYSFs8ipP0nPs8fL_VpzwyS-mz8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643218771073-cfvbfp4399g1ehn9uqitqggtv9jo1f3n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
