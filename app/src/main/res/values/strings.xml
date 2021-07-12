@@ -13,4 +13,8 @@
     <string name="logged_in_successfully">Logged in Successfully</string>
     <string name="otp_description_text">After Sending the code, you will receive a message in your phone, put code in the box below</string>
     <string name="otp_code_text">Introduce Phone Number</string>
+
+    <string name="facebook_app_id">337209048055201</string>
+    <string name="fb_login_protocol_scheme">fb337209048055201</string>
+
 </resources>
