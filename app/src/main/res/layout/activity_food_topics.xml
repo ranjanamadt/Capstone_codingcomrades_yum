@@ -81,6 +81,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
+                <!--<com.google.android.material.chip.Chip
+                    android:id="@+id/chipSpicy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Spicy"
+                    app:chipBackgroundColor="@color/light_pink"
+                    app:closeIcon="@drawable/ic_baseline_close_24"
+                    style="@style/Widget.MaterialComponents.Chip.Entry"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEscargot"
+                    style="@style/Widget.MaterialComponents.Chip.Entry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Escargot"
+                    app:chipBackgroundColor="@color/light_pink"
+                    app:closeIcon="@drawable/ic_baseline_close_24"
+                    app:layout_constraintStart_toEndOf="@+id/chipSpicy"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner" />-->
+
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"

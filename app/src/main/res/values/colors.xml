@@ -12,4 +12,5 @@
     <color name="red_log">#FFFF0000</color>
     <color name="shadow_color">#FF434343</color>
     <color name="light_text">#FF222222</color>
+    <color name="light_pink">#F0738A</color>
 </resources>
