@@ -7,18 +7,26 @@ public class CommonUtils {
     static ProgressDialog progress;
 
     public static void showProgress(Activity activity) {
-        progress = new ProgressDialog(activity);
-        progress.setMessage("Loading... ");
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        if (!progress.isShowing())
-            progress.show();
+        try {
+            progress = new ProgressDialog(activity);
+            progress.setMessage("Loading... ");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            if (!progress.isShowing())
+                progress.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void hideProgress() {
-        if (progress != null) {
-            if (progress.isShowing()) {
-                progress.hide();
+        try {
+            if (progress != null) {
+                if (progress.isShowing()) {
+                    progress.hide();
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
