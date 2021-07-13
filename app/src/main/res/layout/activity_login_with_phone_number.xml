@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:background="@color/white">
 
+
         <madt.capstone_codingcomrades_yum.utils.YumTopBar
             android:id="@+id/topBar"
             android:layout_width="match_parent"
@@ -23,7 +24,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/segoe_ui"
             android:text="@string/otp_code_text"/>
+
 
 
         <com.alimuzaffar.lib.pin.PinEntryEditText
@@ -44,13 +47,18 @@
             android:layout_marginHorizontal="@dimen/_16sdp"
             android:text="@string/get_code"
             android:textColor="@color/white"
-            app:layout_constraintHorizontal_bias="0.5"
-            android:background="@color/red_log"/>
+            android:fontFamily="@font/segoe_ui_bold"
+            android:background="@drawable/custom_rounded_corners"
+            app:layout_constraintHorizontal_bias="0.5" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/otp_description_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="149dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/segoe_ui"
+            android:text="@string/otp_description_text" />
 
 
         <com.alimuzaffar.lib.pin.PinEntryEditText
@@ -64,16 +72,18 @@
             android:textIsSelectable="false"
             android:textSize="20sp"
             app:pinLineColors="@color/black" />
-                <Button
-                    android:id="@+id/btnVerifyCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_16sdp"
-                    android:background="@color/red_log"
-                    android:text="@string/verify_code"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnVerifyCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16.00dp"
+            android:background="@drawable/custom_rounded_corners"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:text="@string/verify_code"
+            android:textColor="@color/white"
+            app:layout_constraintHorizontal_bias="0.5" />
 
 
-            </LinearLayout>
+    </LinearLayout>
         </layout>
