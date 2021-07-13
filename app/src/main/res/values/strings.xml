@@ -16,4 +16,7 @@
     <string name="title_chat">title</string>
     <string name="title_matches">matches</string>
     <string name="title_profile">profile</string>
+
+    <string name="facebook_app_id">337209048055201</string>
+    <string name="fb_login_protocol_scheme">fb337209048055201</string>
 </resources>

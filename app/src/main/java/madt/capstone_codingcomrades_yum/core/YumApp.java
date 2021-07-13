@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.facebook.FacebookSdk;
 import com.google.firebase.FirebaseApp;
 
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
@@ -25,7 +26,7 @@ public class YumApp extends Application {
         mInstance = this;
         mContext = getApplicationContext();
         FirebaseApp.initializeApp(getApplicationContext());
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     public static SharedPreferences getGlobalPrefs() {

@@ -29,25 +29,24 @@
             </intent-filter>
         </activity>
 
-        <!--<activity android:name=".login.LoginWithPhoneNumberActivity">
+        <activity android:name=".login.LoginWithPhoneNumberActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
-        <!--
-        <activity
-            android:name=".home.home_screen"
+        </activity>
+        <!--<activity
+            android:name=".home_screen"
             android:label="@string/app_name">
 
-        </activity>
+        </activity>-->
          <activity android:name=".aboutme.AboutMeActivity">
 
         </activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>-->
+            android:value="@string/facebook_app_id"/>
 
     </application>
 

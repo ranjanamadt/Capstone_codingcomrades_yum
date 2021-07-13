@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import madt.capstone_codingcomrades_yum.R;
+import madt.capstone_codingcomrades_yum.aboutme.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.LoginScreenBinding;
 
@@ -24,6 +25,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -40,6 +42,8 @@ public class LoginActivity extends BaseActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;
 
+    private LoginButton loginButton;
+
     public static final String TAG = "FacebookAuthentication";
 
     @Override
@@ -47,28 +51,31 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.login_screen);
 
+        loginButton = findViewById(R.id.fb_login_btn);
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
+        loginButton.setReadPermissions("email","public_profile");
         mCallbackManager = CallbackManager.Factory.create();
 
-//        binding.fbLoginBtn.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>(){
-//
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//                Log.d(TAG, "onSuccess: " + loginResult);
-//                handleFacebookAccessToken(loginResult.getAccessToken());
-//            }
-//
-//            @Override
-//            public void onCancel(){
-//                Log.d(TAG, "onCancel: ");
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error){
-//                Log.d(TAG, "onError: " + error);
-//            }
-//        });
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>(){
+
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "onSuccess: " + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel(){
+                Log.d(TAG, "onCancel: ");
+            }
+
+            @Override
+            public void onError(FacebookException error){
+                Log.d(TAG, "onError: " + error);
+            }
+        });
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -95,13 +102,13 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        binding.fbLoginBtn.setOnClickListener(new View.OnClickListener() {
+        /*binding.fbLoginBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // Facebook login code
             }
-        });
+        });*/
 
     }
 
@@ -115,7 +122,9 @@ public class LoginActivity extends BaseActivity {
                 if(task.isSuccessful()){
                     Log.d(TAG, "Sign in with credential: successful");
                     FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                    //updateUI();
+                    Intent i = new Intent(LoginActivity.this,
+                            AboutMeActivity.class);
+                    startActivity(i);
                 } else{
                     Log.d(TAG, "Sign in with credential: failure");
                     Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
