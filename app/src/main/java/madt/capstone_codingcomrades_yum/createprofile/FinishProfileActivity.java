@@ -19,14 +19,14 @@ public class FinishProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
-        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+        /*binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
                 startActivity(i);
             }
-        });
+        });*/
     }
 
     @Override

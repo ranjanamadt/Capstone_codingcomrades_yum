@@ -19,14 +19,14 @@ public class FoodTopicsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_food_topics);
-        /*binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+        binding.btnConfirmFoodTopics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(FoodTopicsActivity.this,
-                        HomeActivity.class);
+                        FinishProfileActivity.class);
                 startActivity(i);
             }
-        });*/
+        });
     }
 
     @Override
