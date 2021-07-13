@@ -32,5 +32,14 @@
     <string name="about_me_title_1">Cooking your profile!</string>
     <string name="about_me_subtitle_1">Enter the following information about you:</string>
     <string name="about_me_info_1">After confirming your basic information we are going to ask your interests and what kind of food you like</string>
+    <string name="about_me_title_3">What do you like to talk about?</string>
+    <string name="about_me_subtitle_3">Eating is not only about food, but the connections we make with the people we eat with! Choose your favourite topics.</string>
+    <string name="interest_topics">I like to talk about</string>
+    <string name="topic_1">Art</string>
+    <string name="topic_2">Movies</string>
+    <string name="topic_3">Gym</string>
+    <string name="topic_4">Politics</string>
+    <string name="confirm_button">Confirm</string>
+
 
 </resources>
