@@ -46,13 +46,13 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
         binding.btnVerifyCode.setOnClickListener(v -> {
             yLog("verification code", mVerificationId + "//");
-            yLog("otp code", binding.edtOtp.getText().toString() + "//");
+            yLog("otp code", binding.txtCodeEntry.getText().toString() + "//");
 
 
-            verifyPhoneNumberWithCode(mVerificationId, binding.edtOtp.getText().toString());
+            verifyPhoneNumberWithCode(mVerificationId, binding.txtCodeEntry.getText().toString());
         });
         binding.btnGetCode.setOnClickListener(v -> {
-            startPhoneNumberVerification(binding.edtPhoneNumber.getText().toString());
+            startPhoneNumberVerification(binding.txtPhnEntry.getText().toString());
         });
 
         auth.useAppLanguage();

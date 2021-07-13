@@ -50,24 +50,25 @@ public class LoginActivity extends BaseActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
-        binding.fbLoginBtn.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>(){
 
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "onSuccess: " + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel(){
-                Log.d(TAG, "onCancel: ");
-            }
-
-            @Override
-            public void onError(FacebookException error){
-                Log.d(TAG, "onError: " + error);
-            }
-        });
+//        binding.fbLoginBtn.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>(){
+//
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//                Log.d(TAG, "onSuccess: " + loginResult);
+//                handleFacebookAccessToken(loginResult.getAccessToken());
+//            }
+//
+//            @Override
+//            public void onCancel(){
+//                Log.d(TAG, "onCancel: ");
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error){
+//                Log.d(TAG, "onError: " + error);
+//            }
+//        });
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
