@@ -24,5 +24,13 @@
     <string name="logout">Logout</string>
     <string name="india">+91</string>
     <string name="canada">+1</string>
+    <string name="first_name_label">First Name</string>
+    <string name="last_name_lbl">Last Name</string>
+    <string name="date_birth_lbl">Date of Birth</string>
+    <string name="gender_lbl">Gender</string>
+    <string name="sex_pref_lbl">Sexual Preferences</string>
+    <string name="about_me_title_1">Cooking your profile!</string>
+    <string name="about_me_subtitle_1">Enter the following information about you:</string>
+    <string name="about_me_info_1">After confirming your basic information we are going to ask your interests and what kind of food you like</string>
 
 </resources>
