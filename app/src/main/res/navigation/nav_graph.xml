@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_matches"
-        android:name="madt.capstone_codingcomrades_yum.MathesFragment"
+        android:name="madt.capstone_codingcomrades_yum.MatchesFragment"
         android:label="@string/title_matches"
         tools:layout="@layout/fragment_matches" />
 

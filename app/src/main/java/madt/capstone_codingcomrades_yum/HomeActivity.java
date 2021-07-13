@@ -37,7 +37,7 @@ public class HomeActivity extends BaseActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);*/
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().add(R.id.navHostFragment, new MathesFragment()).commit();
+        manager.beginTransaction().add(R.id.navHostFragment, new MatchesFragment()).commit();
 
         screenTitle = getString(R.string.title_matches);
         setTopBar();
@@ -47,7 +47,7 @@ public class HomeActivity extends BaseActivity {
 
                 switch (item.getItemId()) {
                     case R.id.navigation_matches:
-                        switchToFragment(manager, new MathesFragment());
+                        switchToFragment(manager, new MatchesFragment());
                         screenTitle = getString(R.string.title_matches);
                         break;
                     case R.id.navigation_chat:
