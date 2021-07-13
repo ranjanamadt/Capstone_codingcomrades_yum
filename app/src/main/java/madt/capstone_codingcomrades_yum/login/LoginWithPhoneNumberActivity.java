@@ -80,8 +80,8 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
     private void setCountryCodeSpinner() {
 
         binding.spnCountryCode.setOnItemSelectedListener(this);
-        ArrayAdapter ad
-                = new ArrayAdapter(
+        ArrayAdapter<String> ad
+                = new ArrayAdapter<String>(
                 LoginWithPhoneNumberActivity.this,
                 android.R.layout.simple_spinner_item,
                 countryCodes);
