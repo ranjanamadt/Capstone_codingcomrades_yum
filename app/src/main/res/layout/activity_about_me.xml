@@ -34,67 +34,88 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/about_me_title_1"
                     android:textSize="20sp"
-                    tools:layout_editor_absoluteX="111dp"
-                    tools:layout_editor_absoluteY="16dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/about_me_subtitle_1"
-                    tools:layout_editor_absoluteX="72dp"
-                    tools:layout_editor_absoluteY="72dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                 <EditText
                     android:id="@+id/firstNameET"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="138dp"
                     android:ems="10"
                     android:fontFamily="@font/segoe_ui"
                     android:inputType="textPersonName"
-                    tools:layout_editor_absoluteX="31dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="134dp" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginBottom="11dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/first_name_label"
-                    tools:layout_editor_absoluteX="35dp"
-                    tools:layout_editor_absoluteY="107dp" />
+                    app:layout_constraintBottom_toTopOf="@+id/firstNameET"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
                     android:id="@+id/lastNameET"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="138dp"
                     android:ems="10"
                     android:fontFamily="@font/segoe_ui"
                     android:inputType="textPersonName"
-                    tools:layout_editor_absoluteX="36dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="227dp" />
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="296dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/date_birth_lbl"
-                    tools:layout_editor_absoluteX="37dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="283dp" />
 
                 <EditText
                     android:id="@+id/dobET"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="136dp"
                     android:ems="10"
                     android:fontFamily="@font/segoe_ui"
                     android:inputType="date"
-                    tools:layout_editor_absoluteX="37dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="302dp" />
 
                 <Spinner
@@ -133,9 +154,12 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="310dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/last_name_lbl"
-                    tools:layout_editor_absoluteX="35dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="204dp" />
 
                 <TextView
