@@ -1,12 +1,19 @@
 package madt.capstone_codingcomrades_yum;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
+import madt.capstone_codingcomrades_yum.databinding.FragmentProfileBinding;
+import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +66,23 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+
+
+        FragmentProfileBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_profile, container, false);
+
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppSharedPreferences.getInstance().clearAll();
+                Intent i = new Intent(getActivity(),
+                        LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+
+            }
+        });
+
+        return  binding.getRoot();
     }
 }

@@ -9,20 +9,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/logo_yum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="169dp"
-            android:layout_marginTop="149dp"
-            android:layout_marginEnd="170dp"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_140sdp"
+
+            android:layout_marginTop="@dimen/_140sdp"
+
             android:contentDescription="@string/todo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_yum_logo" />
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <Button
             android:id="@+id/phone_login_btn"
@@ -33,18 +34,26 @@
             android:background="@drawable/custom_rounded_corners"
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/login_with_phone_number"
+            android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp"
             app:layout_constraintBottom_toTopOf="@+id/fb_login_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_yum"
+            app:layout_constraintVertical_bias="1.0" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/fb_login_btn"
             android:layout_width="0dp"
             android:layout_height="@dimen/_80sdp"
             android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_65sdp"
+            android:layout_marginBottom="@dimen/_90sdp"
+            android:paddingTop="@dimen/_11sdp"
+            android:paddingBottom="@dimen/_11sdp"
+            android:textSize="@dimen/_14sdp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

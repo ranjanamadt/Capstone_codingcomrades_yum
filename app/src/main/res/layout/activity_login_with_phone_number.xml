@@ -1,89 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".login.LoginWithPhoneNumberActivity">
 
     <data></data>
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
 
         <madt.capstone_codingcomrades_yum.utils.YumTopBar
             android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/_6sdp" />
+            android:elevation="@dimen/_6sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/segoe_ui"
-            android:text="@string/otp_code_text"/>
-
-
-
-        <com.alimuzaffar.lib.pin.PinEntryEditText
-            android:id="@+id/txt_phn_entry"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:digits="1234567890"
-            android:inputType="number"
-            android:maxLength="10"
-            android:textIsSelectable="false"
-            android:textSize="20sp"
-            app:pinLineColors="@color/black" />
-        <Button
-            android:id="@+id/btnGetCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_16sdp"
-            android:text="@string/get_code"
-            android:textColor="@color/white"
-            android:fontFamily="@font/segoe_ui_bold"
-            android:background="@drawable/custom_rounded_corners"
-            app:layout_constraintHorizontal_bias="0.5" />
+
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topBar">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="center"
+                android:text="@string/otp_code_text"
+                android:textSize="@dimen/_14sdp" />
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Spinner
+        android:id="@+id/spnCountryCode"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="149dp"
-            android:layout_marginBottom="15dp"
-            android:fontFamily="@font/segoe_ui"
-            android:text="@string/otp_description_text" />
+
+    <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/txt_phn_entry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="10"
+        android:textIsSelectable="false"
+        android:textSize="@dimen/_18sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spnCountryCode"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pinCharacterSpacing="@dimen/_4sdp"
+        app:pinLineColors="@color/black"
+        app:pinLineStroke="@dimen/_1sdp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnGetCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/custom_rounded_corners"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:paddingHorizontal="@dimen/_36sdp"
+                android:text="@string/get_code"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp"
+                app:layout_constraintHorizontal_bias="0.5" />
 
 
-        <com.alimuzaffar.lib.pin.PinEntryEditText
-            android:id="@+id/txt_code_entry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:digits="1234567890"
-            android:inputType="number"
-            android:maxLength="6"
-            android:textIsSelectable="false"
-            android:textSize="20sp"
-            app:pinLineColors="@color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="center"
+                android:text="@string/otp_description_text"
+                android:textSize="@dimen/_16sdp" />
 
-        <Button
-            android:id="@+id/btnVerifyCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16.00dp"
-            android:background="@drawable/custom_rounded_corners"
-            android:fontFamily="@font/segoe_ui_bold"
-            android:text="@string/verify_code"
-            android:textColor="@color/white"
-            app:layout_constraintHorizontal_bias="0.5" />
+            <com.alimuzaffar.lib.pin.PinEntryEditText
+                android:id="@+id/txt_code_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:cursorVisible="false"
+                android:digits="1234567890"
+                android:inputType="number"
+                android:maxLength="6"
+                android:textIsSelectable="false"
+                android:textSize="@dimen/_24sdp"
+                app:pinCharacterSpacing="@dimen/_5sdp"
+                app:pinLineColors="@color/black"
+                app:pinLineStroke="@dimen/_1sdp" />
 
+            <Button
+                android:id="@+id/btnVerifyCode"
 
-    </LinearLayout>
-        </layout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/custom_rounded_corners"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:paddingHorizontal="@dimen/_26sdp"
+                android:text="@string/verify_code"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp"
+                app:layout_constraintHorizontal_bias="0.5" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

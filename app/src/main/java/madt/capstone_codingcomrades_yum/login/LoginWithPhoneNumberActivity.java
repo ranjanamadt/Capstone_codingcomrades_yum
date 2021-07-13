@@ -3,6 +3,9 @@ package madt.capstone_codingcomrades_yum.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -10,10 +13,8 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -22,20 +23,23 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 
 import madt.capstone_codingcomrades_yum.R;
-import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
+import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityLoginWithPhoneNumberBinding;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
+import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
-public class LoginWithPhoneNumberActivity extends BaseActivity {
+public class LoginWithPhoneNumberActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 
     private ActivityLoginWithPhoneNumberBinding binding;
     private FirebaseAuth auth;
-    private String mVerificationId;
+    private String mVerificationId = "";
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    private String[] countryCodes = {"+91", "+1"};
+    private String selectedCountryCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +48,14 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_with_phone_number);
 
         auth = FirebaseAuth.getInstance();
+        setTopBar();
+        setCountryCodeSpinner();
 
         binding.btnGetCode.setOnClickListener(v -> {
             if (binding.txtPhnEntry.getText().toString().isEmpty()) {
                 ySnackbar(this, getString(R.string.err_enter_phone_number));
             } else {
-                startPhoneNumberVerification("+91"+binding.txtPhnEntry.getText().toString());
+                startPhoneNumberVerification(selectedCountryCode + binding.txtPhnEntry.getText().toString());
             }
         });
 
@@ -71,11 +77,29 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
     }
 
+    private void setCountryCodeSpinner() {
+
+        binding.spnCountryCode.setOnItemSelectedListener(this);
+        ArrayAdapter ad
+                = new ArrayAdapter(
+                LoginWithPhoneNumberActivity.this,
+                android.R.layout.simple_spinner_item,
+                countryCodes);
+        ad.setDropDownViewResource(
+                android.R.layout
+                        .simple_spinner_dropdown_item);
+        binding.spnCountryCode.setAdapter(ad);
+    }
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         // [START verify_with_code]
-        if (!verificationId.isEmpty()) {
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-            signInWithPhoneAuthCredential(credential);
+
+        if (verificationId != null) {
+            if (!verificationId.isEmpty()) {
+                CommonUtils.showProgress(LoginWithPhoneNumberActivity.this);
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+                signInWithPhoneAuthCredential(credential);
+            }
         }
         // [END verify_with_code]
     }
@@ -93,6 +117,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                 //     user action.
                 yLog("onVerificationCompleted:", credential.toString());
                 signInWithPhoneAuthCredential(credential);
+
             }
 
             @Override
@@ -102,14 +127,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
                 yLog("onVerificationFailed:", e.getLocalizedMessage());
                 ySnackbar(LoginWithPhoneNumberActivity.this, e.getLocalizedMessage());
-                if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                } else if (e instanceof FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
-                }
-
-
-                // Show a message and update the UI
+                CommonUtils.hideProgress();
             }
 
             @Override
@@ -125,12 +143,14 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
+                CommonUtils.hideProgress();
             }
 
             @Override
             public void onCodeAutoRetrievalTimeOut(@NonNull String VerificationId) {
                 super.onCodeAutoRetrievalTimeOut(VerificationId);
                 mVerificationId = VerificationId;
+                CommonUtils.hideProgress();
             }
         };
     }
@@ -138,6 +158,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
+        CommonUtils.showProgress(LoginWithPhoneNumberActivity.this);
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(auth)
                         .setPhoneNumber(phoneNumber)       // Phone number to verify
@@ -145,6 +166,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                         .setActivity(this)                 // Activity (for callback binding)
                         .setCallbacks(mCallbacks).build();
         PhoneAuthProvider.verifyPhoneNumber(options);
+
         // [END start_phone_auth]
     }
 
@@ -159,16 +181,18 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                             FirebaseUser user = task.getResult().getUser();
                             yLog("user", user.toString() + "//");
 
-                           AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID, user.getUid());
-                         //  AppSharedPreferences.getInstance().setString(SharedConstants.USER_TOKEN, user.getIdToken(true).getResult().getToken());
-
+                            AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID, user.getUid());
+                            //  AppSharedPreferences.getInstance().setString(SharedConstants.USER_TOKEN, user.getIdToken(true).getResult().getToken());
+                            CommonUtils.hideProgress();
                             Intent i = new Intent(LoginWithPhoneNumberActivity.this,
                                     AboutMeActivity.class);
                             startActivity(i);
                             finish();
                             yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
+
                         } else {
                             ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
+                            CommonUtils.hideProgress();
                         }
                     }
                 });
@@ -188,5 +212,15 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        selectedCountryCode = countryCodes[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
