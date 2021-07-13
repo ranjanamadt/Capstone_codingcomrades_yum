@@ -18,14 +18,14 @@ public class AboutMeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about_me);
-        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(AboutMeActivity.this,
-                        TasteActivity.class);
-                startActivity(i);
-            }
-        });
+//        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(AboutMeActivity.this,
+//                        TasteActivity.class);
+//                startActivity(i);
+//            }
+//        });
     }
 
     @Override
