@@ -2,51 +2,62 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="madt.capstone_codingcomrades_yum">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".core.YumApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".core.YumApp"
         android:theme="@style/Theme.Capstone_codingcomrades_yum">
 
         <activity
-            android:name=".home_screen"
-            android:label="@string/app_name">
-        </activity>
-        <activity android:name=".login.LoginActivity">
+            android:name=".HomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
 
-        </activity>
 
-        <activity android:name=".splash.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="portrait" />
 
-                <category  android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".login.LoginWithPhoneNumberActivity">
-
+        <activity
+            android:name=".splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity
-            android:name=".home_screen"
-            android:label="@string/app_name">
 
-        </activity>-->
-         <activity android:name=".aboutme.AboutMeActivity">
+        <activity
+            android:name=".login.LoginWithPhoneNumberActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <activity
+            android:name=".createprofile.AboutMeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".createprofile.InterestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".createprofile.TasteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".createprofile.FoodTopicsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".createprofile.FinishProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
     </application>
 

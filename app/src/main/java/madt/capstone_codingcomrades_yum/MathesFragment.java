@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link matches#newInstance} factory method to
+ * Use the {@link MathesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class matches extends Fragment {
+public class MathesFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class matches extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public matches() {
+    public MathesFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +37,8 @@ public class matches extends Fragment {
      * @return A new instance of fragment matches.
      */
     // TODO: Rename and change types and number of parameters
-    public static matches newInstance(String param1, String param2) {
-        matches fragment = new matches();
+    public static MathesFragment newInstance(String param1, String param2) {
+        MathesFragment fragment = new MathesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

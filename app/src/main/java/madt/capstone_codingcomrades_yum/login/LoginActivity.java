@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import madt.capstone_codingcomrades_yum.R;
-import madt.capstone_codingcomrades_yum.aboutme.AboutMeActivity;
+import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.LoginScreenBinding;
 
@@ -23,9 +22,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -42,7 +39,7 @@ public class LoginActivity extends BaseActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;
 
-    private LoginButton loginButton;
+
 
     public static final String TAG = "FacebookAuthentication";
 
@@ -51,14 +48,14 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.login_screen);
 
-        loginButton = findViewById(R.id.fb_login_btn);
+
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
-        loginButton.setReadPermissions("email","public_profile");
+        binding.fbLoginBtn.setReadPermissions("email","public_profile");
         mCallbackManager = CallbackManager.Factory.create();
 
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>(){
+        binding.fbLoginBtn.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>(){
 
             @Override
             public void onSuccess(LoginResult loginResult) {

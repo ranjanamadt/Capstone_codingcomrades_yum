@@ -1,6 +1,7 @@
 package madt.capstone_codingcomrades_yum.core;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,15 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
+import madt.capstone_codingcomrades_yum.createprofile.InterestActivity;
+import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.splash.SplashActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected AppSharedPreferences mSharedPreferences;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        mSharedPreferences= AppSharedPreferences.getInstance();
+
 
     }
 

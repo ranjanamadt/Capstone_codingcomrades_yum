@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="madt.capstone_codingcomrades_yum.profile"
+        android:name="madt.capstone_codingcomrades_yum.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/navigation_matches"
-        android:name="madt.capstone_codingcomrades_yum.matches"
+        android:name="madt.capstone_codingcomrades_yum.MathesFragment"
         android:label="@string/title_matches"
         tools:layout="@layout/fragment_matches" />
 
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="madt.capstone_codingcomrades_yum.chat"
+        android:name="madt.capstone_codingcomrades_yum.ChatFragment"
         android:label="@string/title_chat"
         tools:layout="@layout/fragment_chat" />
 

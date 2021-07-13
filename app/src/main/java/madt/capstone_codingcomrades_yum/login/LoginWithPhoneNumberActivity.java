@@ -22,9 +22,10 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 
 import madt.capstone_codingcomrades_yum.R;
-import madt.capstone_codingcomrades_yum.aboutme.AboutMeActivity;
+import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityLoginWithPhoneNumberBinding;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
@@ -44,19 +45,27 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        binding.btnGetCode.setOnClickListener(v -> {
+            if (binding.txtPhnEntry.getText().toString().isEmpty()) {
+                ySnackbar(this, getString(R.string.err_enter_phone_number));
+            } else {
+                startPhoneNumberVerification("+91"+binding.txtPhnEntry.getText().toString());
+            }
+        });
+
         binding.btnVerifyCode.setOnClickListener(v -> {
             yLog("verification code", mVerificationId + "//");
             yLog("otp code", binding.txtCodeEntry.getText().toString() + "//");
 
+            if (binding.txtCodeEntry.getText().toString().isEmpty()) {
+                ySnackbar(this, getString(R.string.err_enter_code));
+            } else {
+                verifyPhoneNumberWithCode(mVerificationId, binding.txtCodeEntry.getText().toString());
+            }
+        });
 
-            verifyPhoneNumberWithCode(mVerificationId, binding.txtCodeEntry.getText().toString());
-        });
-        binding.btnGetCode.setOnClickListener(v -> {
-            startPhoneNumberVerification(binding.txtPhnEntry.getText().toString());
-        });
 
         auth.useAppLanguage();
-
         setAuthCallback();
 
 
@@ -83,7 +92,6 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                 //     detect the incoming verification SMS and perform verification without
                 //     user action.
                 yLog("onVerificationCompleted:", credential.toString());
-
                 signInWithPhoneAuthCredential(credential);
             }
 
@@ -146,27 +154,21 @@ public class LoginWithPhoneNumberActivity extends BaseActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d("signInWithCredential", ":success");
 
                             FirebaseUser user = task.getResult().getUser();
                             yLog("user", user.toString() + "//");
 
-                            // mSharedPreferences.setString(SharedConstants.USER_UID, user.getUid());
+                           AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID, user.getUid());
+                         //  AppSharedPreferences.getInstance().setString(SharedConstants.USER_TOKEN, user.getIdToken(true).getResult().getToken());
 
                             Intent i = new Intent(LoginWithPhoneNumberActivity.this,
                                     AboutMeActivity.class);
                             startActivity(i);
+                            finish();
                             yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
-
-                            // Update UI
                         } else {
-                            // Sign in failed, display a message and update the UI
-                            Log.d("signIn:failure", task.getException().getLocalizedMessage());
                             ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
-                        /*    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                            }*/
                         }
                     }
                 });

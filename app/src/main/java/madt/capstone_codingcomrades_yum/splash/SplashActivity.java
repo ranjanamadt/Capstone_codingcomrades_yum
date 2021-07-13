@@ -14,7 +14,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
+import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 
 public class SplashActivity extends BaseActivity {
@@ -27,15 +29,22 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashActivity.this,
-                        LoginActivity.class);
-                //Intent is used to switch from one activity to another.
+                if (AppSharedPreferences.getInstance().getString(SharedConstants.USER_UID).isEmpty()) {
+                    // If User already logged in
+                    Intent i = new Intent(SplashActivity.this,
+                            LoginActivity.class);
+                    startActivity(i);
+                } else {
 
-                startActivity(i);
-                //invoke the SecondActivity.
+                    // If user need to logged in
+                    Intent i = new Intent(SplashActivity.this,
+                            AboutMeActivity.class);
+                    startActivity(i);
+                }
+
 
                 finish();
-                //the current activity will get finished.
+
             }
         }, 3000);
         getFCMToken();
@@ -55,7 +64,7 @@ public class SplashActivity extends BaseActivity {
                     return;
                 }
                 Log.e("device token : ", task.getResult().toString());
-           // mSharedPreferences.setString(SharedConstants.DEVICE_TOKEN, task.getResult().toString());
+                AppSharedPreferences.getInstance().setString(SharedConstants.DEVICE_TOKEN, task.getResult().toString());
             }
         });
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
