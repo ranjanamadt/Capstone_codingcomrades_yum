@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
+import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
 import madt.capstone_codingcomrades_yum.databinding.LoginScreenBinding;
 
 import com.facebook.AccessToken;
@@ -120,7 +121,7 @@ public class LoginActivity extends BaseActivity {
                     Log.d(TAG, "Sign in with credential: successful");
                     FirebaseUser user = mFirebaseAuth.getCurrentUser();
                     Intent i = new Intent(LoginActivity.this,
-                            AboutMeActivity.class);
+                            FoodTopicsActivity.class);
                     startActivity(i);
                 } else{
                     Log.d(TAG, "Sign in with credential: failure");
