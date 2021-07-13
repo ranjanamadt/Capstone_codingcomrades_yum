@@ -81,31 +81,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-                <!--<com.google.android.material.chip.Chip
-                    android:id="@+id/chipSpicy"
+                <!--<com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="10dp"
-                    android:text="Spicy"
-                    app:chipBackgroundColor="@color/light_pink"
-                    app:closeIcon="@drawable/ic_baseline_close_24"
-                    style="@style/Widget.MaterialComponents.Chip.Entry"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinner"
+                    tools:ignore="MissingConstraints">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipEscargot"
-                    style="@style/Widget.MaterialComponents.Chip.Entry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Escargot"
-                    app:chipBackgroundColor="@color/light_pink"
-                    app:closeIcon="@drawable/ic_baseline_close_24"
-                    app:layout_constraintStart_toEndOf="@+id/chipSpicy"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner" />-->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSpicy"
+                        style="@style/MaterialChips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Spicy"
+                        app:chipBackgroundColor="@color/light_pink"
+                        app:closeIcon="@drawable/ic_baseline_close_24" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipEscargot"
+                        style="@style/MaterialChips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Escargot"
+                        app:chipBackgroundColor="@color/light_pink"
+                        app:closeIcon="@drawable/ic_baseline_close_24"/>
+
+                </com.google.android.material.chip.ChipGroup>-->
 
                 <TextView
                     android:id="@+id/textView13"
