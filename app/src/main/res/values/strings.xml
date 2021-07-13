@@ -40,6 +40,20 @@
     <string name="topic_3">Gym</string>
     <string name="topic_4">Politics</string>
     <string name="confirm_button">Confirm</string>
+    <string name="about_me_title_2">Let"s talk about the food you like!</string>
+    <string name="about_me_subtitle_2">Choose from the options below, if you have something that is not in the list click on the "Add" to add it. Choose at least 3</string>
+    <string name="taste_options">I enjoy eating</string>
+    <string name="general_preference">In general, what are your preferences in taste?</string>
+    <string name="option_1">Sushi</string>
+    <string name="option_2">Ramen</string>
+    <string name="option_3">Halal</string>
+    <string name="option_4">Dessert</string>
+    <string name="option_5">Coffee</string>
+    <string name="option_6">Italian</string>
+    <string name="option_7">Ceviche</string>
+    <string name="preference_1">Sweat</string>
+    <string name="preference_2">Salty</string>
+    <string name="preference_3">Spicy</string>
 
 
 </resources>
