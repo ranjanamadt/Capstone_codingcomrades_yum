@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "643218771073-4rcd0f5m7spf29sp7c2vd3hk6hog1h6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "madt.capstone_codingcomrades_yum",
+            "certificate_hash": "5220ea40afa61a626a1487191f25bea59d6b4394"
+          }
+        },
+        {
           "client_id": "643218771073-cfvbfp4399g1ehn9uqitqggtv9jo1f3n.apps.googleusercontent.com",
           "client_type": 3
         }
