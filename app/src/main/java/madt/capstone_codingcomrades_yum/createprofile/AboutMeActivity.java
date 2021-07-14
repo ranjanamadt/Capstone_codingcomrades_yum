@@ -20,8 +20,8 @@ public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
     public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
 
-    final static String[] genders = {"Male","Female", "Non-binary"};
-    final static String[] preferences = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to disclose"};
+    final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
+    final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,21 +55,21 @@ public class AboutMeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!firstName.equals("")){
+        if(!firstName.isEmpty()){
             binding.firstNameET.setText(firstName);
         }
-        if(!lastName.equals("")){
+        if(!lastName.isEmpty()){
             binding.lastNameET.setText(lastName);
         }
-        if(!dob.equals("")){
+        if(!dob.isEmpty()){
             binding.dobET.setText(dob);
         }
-        if(!gender.equals("")){
+        if(!gender.isEmpty()){
             binding.genderSp.setSelection(Arrays.asList(genders).indexOf(gender));
         }else{
             binding.genderSp.setSelection(0);
         }
-        if(!gender.equals("")){
+        if(!gender.isEmpty()){
             binding.sexPrefSp.setSelection(Arrays.asList(preferences).indexOf(sePref));
         }else{
             binding.sexPrefSp.setSelection(0);
