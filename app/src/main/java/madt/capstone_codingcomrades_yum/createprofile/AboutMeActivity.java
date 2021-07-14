@@ -1,9 +1,11 @@
 package madt.capstone_codingcomrades_yum.createprofile;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -20,6 +22,7 @@ import madt.capstone_codingcomrades_yum.login.LoginActivity;
 public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
     public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
+    public static String stringDate = "";
 
     final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -34,6 +37,44 @@ public class AboutMeActivity extends BaseActivity {
         binding.firstNameET.setText(LoginActivity.first_name);
         binding.lastNameET.setText(LoginActivity.last_name);
 
+        // getting today's date and separating day, month and year and putting that value to array
+        long millis=System.currentTimeMillis();
+        java.sql.Date todaydate=new java.sql.Date(millis);
+        String ArrtodayDate[] = todaydate.toString().split("-");
+
+        // date into the string format
+        stringDate = getMonthLetter(Integer.parseInt(ArrtodayDate[1])-1).toString() + " "+ ArrtodayDate[2] + ", " + ArrtodayDate[0];
+        binding.dobTV.setText(stringDate);
+
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+
+        // on click listener event for the textview
+        binding.dobTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // creating date picker dialog object
+                DatePickerDialog dpDialog = new DatePickerDialog(AboutMeActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // changing the string date as per the date selected by the user
+                        String monthLetter = getMonthLetter(month) ;
+                        stringDate = monthLetter + " " + dayOfMonth + ", " + year;
+                        binding.dobTV.setText(stringDate);
+                        binding.dobTV.setTextSize(20);
+                    }
+                },year,month,day
+                );
+
+                // disabling the paste date
+                dpDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                // showing the date picket dialog
+                dpDialog.show();
+            }
+        });
+
         binding.btnConfirmAboutMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,12 +82,12 @@ public class AboutMeActivity extends BaseActivity {
                     Toast.makeText(AboutMeActivity.this, "First name field empty", Toast.LENGTH_SHORT).show();
                 }else if(binding.lastNameET.getText().toString().isEmpty()){
                     Toast.makeText(AboutMeActivity.this, "Last name field empty", Toast.LENGTH_SHORT).show();
-                }else if(binding.dobET.getText().toString().isEmpty()){
+                }else if(binding.dobTV.getText().toString().isEmpty()){
                     Toast.makeText(AboutMeActivity.this, "Date of Birth field empty", Toast.LENGTH_SHORT).show();
                 }else {
                     firstName = binding.firstNameET.getText().toString();
                     lastName = binding.lastNameET.getText().toString();
-                    dob = binding.dobET.getText().toString();
+                    dob = binding.dobTV.getText().toString();
                     gender = binding.genderSp.getSelectedItem().toString();
                     sePref = binding.sexPrefSp.getSelectedItem().toString();
                     Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
@@ -66,7 +107,7 @@ public class AboutMeActivity extends BaseActivity {
             binding.lastNameET.setText(lastName);
         }
         if(!dob.isEmpty()){
-            binding.dobET.setText(dob);
+            binding.dobTV.setText(dob);
         }
         if(!gender.isEmpty()){
             binding.genderSp.setSelection(Arrays.asList(genders).indexOf(gender));
@@ -83,6 +124,36 @@ public class AboutMeActivity extends BaseActivity {
     @Override
     protected void setTopBar() {
 
+    }
+
+    // method to reutn month name against the integer number
+    public static String getMonthLetter(int month){
+        if(month == 0){
+            return "Jan";
+        } else if(month == 1){
+            return "Feb";
+        } else if(month == 2){
+            return "Mar";
+        } else if(month == 3){
+            return "Apr";
+        } else if(month == 4){
+            return "May";
+        } else if(month == 5){
+            return "Jun";
+        } else if(month == 6){
+            return "Jul";
+        } else if(month == 7){
+            return "Aug";
+        } else if(month == 8){
+            return "Sept";
+        } else if(month == 9){
+            return "Oct";
+        } else if(month == 10){
+            return "Nov";
+        } else if(month == 11){
+            return "Dec";
+        }
+        return "";
     }
 
 
