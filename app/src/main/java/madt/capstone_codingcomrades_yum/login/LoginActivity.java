@@ -23,6 +23,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +35,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LoginActivity extends BaseActivity {
     private LoginScreenBinding binding;
 
@@ -40,9 +46,10 @@ public class LoginActivity extends BaseActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;
 
-
-
     public static final String TAG = "FacebookAuthentication";
+
+    public static String first_name = "";
+    public static String last_name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +127,17 @@ public class LoginActivity extends BaseActivity {
                 if(task.isSuccessful()){
                     Log.d(TAG, "Sign in with credential: successful");
                     FirebaseUser user = mFirebaseAuth.getCurrentUser();
+
+                    Profile profile = Profile.getCurrentProfile();
+
+                    if(profile != null){
+                        //String facebook_id = profile.getId();
+                        first_name = profile.getFirstName();
+                        last_name = profile.getLastName();
+                    }
+
                     Intent i = new Intent(LoginActivity.this,
-                            FoodTopicsActivity.class);
+                            AboutMeActivity.class);
                     startActivity(i);
                 } else{
                     Log.d(TAG, "Sign in with credential: failure");

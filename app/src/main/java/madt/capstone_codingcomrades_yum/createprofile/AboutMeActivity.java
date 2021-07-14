@@ -14,6 +14,7 @@ import java.util.Calendar;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityAboutMeBinding;
+import madt.capstone_codingcomrades_yum.login.LoginActivity;
 
 
 public class AboutMeActivity extends BaseActivity {
@@ -29,6 +30,9 @@ public class AboutMeActivity extends BaseActivity {
 
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
+
+        binding.firstNameET.setText(LoginActivity.first_name);
+        binding.lastNameET.setText(LoginActivity.last_name);
 
         binding.btnConfirmAboutMe.setOnClickListener(new View.OnClickListener() {
             @Override
