@@ -38,17 +38,20 @@ public class FinishProfileActivity extends BaseActivity {
                         HomeActivity.class);
                 startActivity(i);
                 Map<String, Object> user = new HashMap<>();
-                user.put("first", "Ada");
-                user.put("last", "Lovelace");
-                user.put("born", 1815);
+                user.put("firstName", AboutMeActivity.firstName);
+                user.put("lastName", AboutMeActivity.lastName);
+                user.put("gender", AboutMeActivity.gender);
+                user.put("sePref", AboutMeActivity.sePref);
+                user.put("dob", AboutMeActivity.dob);
                 crudClass.create("users", user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-
+                        String savedUserID = documentReference.getId();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        ySnackbar(FinishProfileActivity.this,getString(R.string.error_saving_user));
                     }
                 });
             }

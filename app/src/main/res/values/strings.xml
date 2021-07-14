@@ -63,8 +63,9 @@
     <string name="err_first_name_empty">First name field empty</string>
     <string name="err_last_name_empty">Last name field empty</string>
     <string name="err_dob_name_empty">Date of Birth field empty</string>
-    <string name="err_enjoy_eating_name_empty">"'I enjoy eating' field empty"</string>
-    <string name="err_preferences_taste_name_empty">"'Preferences in taste' field empty"</string>
+    <string name="err_enjoy_eating_name_empty">"I enjoy eating" field empty</string>
+    <string name="err_preferences_taste_name_empty">"Preferences in taste" field empty</string>
+    <string name="error_saving_user">Error saving user into the Database</string>
 
 
     <string name="title_about_me">About Me</string>
