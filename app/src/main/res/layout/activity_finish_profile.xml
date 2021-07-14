@@ -31,8 +31,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="300dp"
-                    android:layout_height="250dp"
+                    android:layout_width="@dimen/_300sdp"
+                    android:layout_height="@dimen/_250sdp"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -44,8 +44,8 @@
                     android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/name"
                     android:textColor="@color/black"
@@ -58,27 +58,24 @@
                     android:id="@+id/tvAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/age"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
                     app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
                 <TextView
                     android:id="@+id/tvGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="300dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/gender"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvAge"
                     app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
@@ -86,95 +83,101 @@
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="306dp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:text="@string/about_me"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvAge"
                     app:layout_constraintTop_toBottomOf="@+id/tvAge" />
 
                 <EditText
                     android:id="@+id/etAboutMe"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_width="@dimen/_280sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
                     android:ems="10"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@id/textView18"
                     app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
                 <TextView
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/i_enjoy_eating"
                     android:textColor="#201D1D"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
                     app:layout_constraintTop_toBottomOf="@+id/etAboutMe" />
 
                 <TextView
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="15dp"
-                    android:text="I'm down to eat"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/i_am_down_to_eat"
                     android:textColor="#201D1D"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 
                 <TextView
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="15dp"
-                    android:text="I rather not eat"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/i_rather_not_eat"
                     android:textColor="#201D1D"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
                 <TextView
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="15dp"
-                    android:text="I rather not talk about"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/i_rather_not_talk_about"
                     android:textColor="#201D1D"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
                     app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
                 <Button
                     android:id="@+id/btnConfirmFinishProfile"
-                    android:layout_width="120dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
-                    android:background="@drawable/confirm_button"
+                    android:background="@drawable/custom_rounded_corners"
                     android:text="@string/confirm"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="@dimen/_270sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView19"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19">
+
+                </com.google.android.material.chip.ChipGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
