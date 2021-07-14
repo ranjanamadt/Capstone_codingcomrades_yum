@@ -28,7 +28,7 @@
     <string name="last_name_lbl">Last Name</string>
     <string name="date_birth_lbl">Date of Birth</string>
     <string name="gender_lbl">Gender</string>
-    <string name="sex_pref_lbl">Sexual Preferences</string>
+    <string name="sex_pref_lbl">Sexual orientation</string>
     <string name="about_me_title_1">Cooking your profile!</string>
     <string name="about_me_subtitle_1">Enter the following information about you:</string>
     <string name="about_me_info_1">After confirming your basic information we are going to ask your interests and what kind of food you like</string>
@@ -54,6 +54,13 @@
     <string name="preference_1">Sweat</string>
     <string name="preference_2">Salty</string>
     <string name="preference_3">Spicy</string>
+    <string name="next">Next</string>
+    <string name="i_enjoy_eating">I enjoy eating</string>
+    <string name="confirm">Confirm</string>
+    <string name="about_me">About me</string>
+    <string name="name">name</string>
+    <string name="age">age</string>
+    <string name="gender">gender</string>
 
 
 </resources>
