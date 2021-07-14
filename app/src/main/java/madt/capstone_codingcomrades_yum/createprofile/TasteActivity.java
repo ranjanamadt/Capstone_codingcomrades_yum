@@ -9,11 +9,14 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -22,12 +25,23 @@ public class TasteActivity extends BaseActivity  {
 
     final static String[] topics = {"Sushi","Ramen", "Halal", "Dessert", "Coffee", "Italian", "Ceviche"};
     final static String[] preferences = {"Salty", "Sweet", "Sour"};
+    public static String userID="";
     int check = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tastes);
+/*
+
+
+        FirebaseCRUD.getInstance().getDocument("users",userID).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user name :",documentSnapshot.get("firstName").toString()+"//");
+            }
+        });
+*/
 
     }
 
