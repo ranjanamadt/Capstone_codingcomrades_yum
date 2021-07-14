@@ -17,5 +17,6 @@
     <color name="chip_pink">#FFAFAF</color>
     <color name="chip_yellow">#FFEAAF</color>
     <color name="chip_purple">#C1AFFF</color>
+    <color name="paragraph_gray">#707070</color>
 
 </resources>
