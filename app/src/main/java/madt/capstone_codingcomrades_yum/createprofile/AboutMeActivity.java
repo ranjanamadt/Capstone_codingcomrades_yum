@@ -30,26 +30,26 @@ public class AboutMeActivity extends BaseActivity {
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
-//        binding.btnConfirmAboutMe.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(binding.firstNameET.getText().toString().isEmpty()){
-//                    Toast.makeText(AboutMeActivity.this, "First name field empty", Toast.LENGTH_SHORT).show();
-//                }else if(binding.lastNameET.getText().toString().isEmpty()){
-//                    Toast.makeText(AboutMeActivity.this, "Last name field empty", Toast.LENGTH_SHORT).show();
-//                }else if(binding.dobET.getText().toString().isEmpty()){
-//                    Toast.makeText(AboutMeActivity.this, "Date of Birth field empty", Toast.LENGTH_SHORT).show();
-//                }else {
-//                    firstName = binding.firstNameET.getText().toString();
-//                    lastName = binding.lastNameET.getText().toString();
-//                    dob = binding.dobET.getText().toString();
-//                    gender = binding.genderSp.getSelectedItem().toString();
-//                    sePref = binding.sexPrefSp.getSelectedItem().toString();
-//                    Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
-//                    startActivity(i);
-//                }
-//            }
-//        });
+        binding.btnConfirmAboutMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(binding.firstNameET.getText().toString().isEmpty()){
+                    Toast.makeText(AboutMeActivity.this, "First name field empty", Toast.LENGTH_SHORT).show();
+                }else if(binding.lastNameET.getText().toString().isEmpty()){
+                    Toast.makeText(AboutMeActivity.this, "Last name field empty", Toast.LENGTH_SHORT).show();
+                }else if(binding.dobET.getText().toString().isEmpty()){
+                    Toast.makeText(AboutMeActivity.this, "Date of Birth field empty", Toast.LENGTH_SHORT).show();
+                }else {
+                    firstName = binding.firstNameET.getText().toString();
+                    lastName = binding.lastNameET.getText().toString();
+                    dob = binding.dobET.getText().toString();
+                    gender = binding.genderSp.getSelectedItem().toString();
+                    sePref = binding.sexPrefSp.getSelectedItem().toString();
+                    Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     @Override
