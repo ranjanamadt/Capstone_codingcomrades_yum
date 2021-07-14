@@ -53,7 +53,7 @@ public class TasteActivity extends BaseActivity  {
 
             }
         });
-  binding.spnTastesPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spnTastesPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 addTastesChip(preferences[position]);
@@ -69,9 +69,10 @@ public class TasteActivity extends BaseActivity  {
             @Override
             public void onClick(View v) {
                 if(binding.spnEatingPreferences.getSelectedItem().toString().isEmpty()){
-                    Toast.makeText(TasteActivity.this, "'I enjoy eating' field empty", Toast.LENGTH_SHORT).show();
+                    ySnackbar(TasteActivity.this,getString(R.string.err_enjoy_eating_name_empty));
+
                 }else if(binding.spnTastesPreferences.getSelectedItem().toString().isEmpty()){
-                    Toast.makeText(TasteActivity.this, "'Preferences in taste' field empty", Toast.LENGTH_SHORT).show();
+                    ySnackbar(TasteActivity.this,getString(R.string.err_preferences_taste_name_empty));
                 }else{
                     Intent i = new Intent(TasteActivity.this, InterestActivity.class);
                     startActivity(i);
@@ -105,11 +106,25 @@ public class TasteActivity extends BaseActivity  {
         newChip.setText(topic);
         binding.chipGroupEating.addView(newChip);
 
+        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.chipGroupEating.removeView(v);
+            }
+        });
+
     }
- private void addTastesChip(String topic) {
+    private void addTastesChip(String topic) {
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTastes, false);
         newChip.setText(topic);
         binding.chipGroupTastes.addView(newChip);
+
+     newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             binding.chipGroupTastes.removeView(v);
+         }
+     });
 
     }
 

@@ -8,15 +8,23 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityAboutMeBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -24,6 +32,7 @@ public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
     public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
     public static String stringDate = "";
+    private FirebaseCRUD crudClass ;
 
     final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -31,7 +40,7 @@ public class AboutMeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about_me);
-
+        crudClass = new FirebaseCRUD();
 
 
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
@@ -55,7 +64,7 @@ public class AboutMeActivity extends BaseActivity {
         int year = cal.get(Calendar.YEAR);
 
         // on click listener event for the textview
-        binding.dobTV.setOnClickListener(new View.OnClickListener() {
+        binding.imgCalender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // creating date picker dialog object
@@ -82,20 +91,39 @@ public class AboutMeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(binding.firstNameET.getText().toString().isEmpty()){
-                 //   Toast.makeText(AboutMeActivity.this, "First name field empty", Toast.LENGTH_SHORT).show();
                     ySnackbar(AboutMeActivity.this,getString(R.string.err_first_name_empty));
                 }else if(binding.lastNameET.getText().toString().isEmpty()){
-                    Toast.makeText(AboutMeActivity.this, "Last name field empty", Toast.LENGTH_SHORT).show();
+                    ySnackbar(AboutMeActivity.this,getString(R.string.err_last_name_empty));
                 }else if(binding.dobTV.getText().toString().isEmpty()){
-                    Toast.makeText(AboutMeActivity.this, "Date of Birth field empty", Toast.LENGTH_SHORT).show();
+                    ySnackbar(AboutMeActivity.this,getString(R.string.err_dob_name_empty));
                 }else {
                     firstName = binding.firstNameET.getText().toString();
                     lastName = binding.lastNameET.getText().toString();
                     dob = binding.dobTV.getText().toString();
                     gender = binding.genderSp.getSelectedItem().toString();
                     sePref = binding.sexPrefSp.getSelectedItem().toString();
-                    Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
-                    startActivity(i);
+
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("firstName", firstName);
+                    user.put("lastName", lastName);
+                    user.put("dob", dob);
+                    user.put("gender", gender);
+                    user.put("sePref", sePref);
+                    crudClass.create("users", user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            String savedUserID = documentReference.getId();
+                            Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
+                            startActivity(i);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            ySnackbar(AboutMeActivity.this,getString(R.string.error_saving_user));
+                        }
+                    });
+
+
                 }
             }
         });
