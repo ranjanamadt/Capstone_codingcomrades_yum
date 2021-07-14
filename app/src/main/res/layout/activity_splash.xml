@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="@dimen/_160sdp"
         android:layout_height="@dimen/_160sdp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/ic_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
