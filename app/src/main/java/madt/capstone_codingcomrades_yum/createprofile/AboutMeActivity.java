@@ -64,7 +64,7 @@ public class AboutMeActivity extends BaseActivity {
         int year = cal.get(Calendar.YEAR);
 
         // on click listener event for the textview
-        binding.dobTV.setOnClickListener(new View.OnClickListener() {
+        binding.imgCalender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // creating date picker dialog object
