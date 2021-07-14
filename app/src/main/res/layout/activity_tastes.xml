@@ -27,61 +27,68 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="@dimen/_12sdp"
                 tools:context=".splash.SplashActivity">
 
                 <TextView
+                    android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
                     android:text="@string/about_me_title_2"
                     android:textSize="@dimen/_16sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.041" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
+                    android:id="@+id/textView16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/about_me_subtitle_2"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.134" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
                 <TextView
                     android:id="@+id/taste_options"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
+
                     android:layout_marginRight="300dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/taste_options"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.284" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
                 <Spinner
-                    android:id="@+id/interest_topics"
-                    android:layout_width="332dp"
-                    android:layout_height="52dp"
+                    android:id="@+id/spnEatingPreferences"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="11dp"
-                    android:layout_marginEnd="76dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textView16"
+                    app:layout_constraintStart_toStartOf="@+id/taste_options"
                     app:layout_constraintTop_toBottomOf="@+id/taste_options" />
 
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="0dp"
+                    android:background="@color/grey_divider"
+                    android:layout_height="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/spnEatingPreferences"
+                    app:layout_constraintStart_toStartOf="@+id/spnEatingPreferences"
+                    app:layout_constraintTop_toBottomOf="@+id/spnEatingPreferences" />
                 <TextView
                     android:id="@+id/general_preference"
                     android:layout_width="wrap_content"
@@ -89,20 +96,30 @@
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/general_preference"
                     android:textSize="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupEating"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <Spinner
-                    android:id="@+id/spinner_preference"
-                    android:layout_width="332dp"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="76dp"
+                    android:id="@+id/spnTastesPreferences"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/general_preference"
                     app:layout_constraintTop_toBottomOf="@+id/general_preference" />
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="0dp"
+                    android:background="@color/grey_divider"
+                    android:layout_height="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/spnTastesPreferences"
+                    app:layout_constraintStart_toStartOf="@+id/spnTastesPreferences"
+                    app:layout_constraintTop_toBottomOf="@+id/spnTastesPreferences" />
 
                 <Button
                     android:id="@+id/btnConfirm"
@@ -113,13 +130,35 @@
                     android:text="@string/confirm_button"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_13sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.48"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.871" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupEating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTastes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view3"
+                    app:layout_constraintVertical_bias="0.0">
+
+                </com.google.android.material.chip.ChipGroup>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </LinearLayout>

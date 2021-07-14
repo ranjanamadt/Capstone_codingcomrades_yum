@@ -13,4 +13,23 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="style_chip_pink" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_pink</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/segoe_ui_bold</item>
+
+    </style> <style name="style_chip_yellow" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_yellow</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/segoe_ui_bold</item>
+
+    </style> <style name="style_chip_purple" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_purple</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/segoe_ui_bold</item>
+
+    </style>
 </resources>

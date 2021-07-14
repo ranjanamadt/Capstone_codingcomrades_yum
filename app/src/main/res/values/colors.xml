@@ -8,9 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background_white">#FFEDEDED</color>
+    <color name="grey_divider">#DDDBDB</color>
     <color name="facebook_blue">#4267B2</color>
     <color name="red_log">#FFFF0000</color>
     <color name="shadow_color">#FF434343</color>
     <color name="light_text">#FF222222</color>
     <color name="light_pink">#F0738A</color>
+    <color name="chip_pink">#FFAFAF</color>
+    <color name="chip_yellow">#FFEAAF</color>
+    <color name="chip_purple">#C1AFFF</color>
+
 </resources>

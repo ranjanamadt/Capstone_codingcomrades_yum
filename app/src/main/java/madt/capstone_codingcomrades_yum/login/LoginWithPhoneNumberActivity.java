@@ -48,6 +48,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_with_phone_number);
 
         auth = FirebaseAuth.getInstance();
+        auth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
         setTopBar();
         setCountryCodeSpinner();
 
