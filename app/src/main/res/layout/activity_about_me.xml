@@ -172,7 +172,7 @@
                     tools:layout_editor_absoluteY="517dp" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btnConfirmAboutme"
                     android:layout_width="181dp"
                     android:layout_height="69dp"
                     android:backgroundTint="@color/red_log"
