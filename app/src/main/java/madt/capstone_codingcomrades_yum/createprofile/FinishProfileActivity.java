@@ -2,33 +2,57 @@ package madt.capstone_codingcomrades_yum.createprofile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
 public class FinishProfileActivity extends BaseActivity {
     private ActivityFinishProfileBinding binding;
-
+    private FirebaseCRUD crudClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
 
-        /*binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+        binding.btnConfirmFinishProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
                 startActivity(i);
+                Map<String, Object> user = new HashMap<>();
+                user.put("first", "Ada");
+                user.put("last", "Lovelace");
+                user.put("born", 1815);
+                crudClass.create("users", user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
             }
-        });*/
+        });/**/
     }
 
     @Override

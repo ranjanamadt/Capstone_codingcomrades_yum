@@ -82,12 +82,11 @@ public class AboutMeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(binding.firstNameET.getText().toString().isEmpty()){
-                 //   Toast.makeText(AboutMeActivity.this, "First name field empty", Toast.LENGTH_SHORT).show();
                     ySnackbar(AboutMeActivity.this,getString(R.string.err_first_name_empty));
                 }else if(binding.lastNameET.getText().toString().isEmpty()){
-                    Toast.makeText(AboutMeActivity.this, "Last name field empty", Toast.LENGTH_SHORT).show();
+                    ySnackbar(AboutMeActivity.this,getString(R.string.err_last_name_empty));
                 }else if(binding.dobTV.getText().toString().isEmpty()){
-                    Toast.makeText(AboutMeActivity.this, "Date of Birth field empty", Toast.LENGTH_SHORT).show();
+                    ySnackbar(AboutMeActivity.this,getString(R.string.err_dob_name_empty));
                 }else {
                     firstName = binding.firstNameET.getText().toString();
                     lastName = binding.lastNameET.getText().toString();
