@@ -56,7 +56,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
             if (binding.txtPhnEntry.getText().toString().isEmpty()) {
                 ySnackbar(this, getString(R.string.err_enter_phone_number));
             } else {
-                startPhoneNumberVerification(selectedCountryCode + binding.txtPhnEntry.getText().toString());
+                startPhoneNumberVerification(selectedCountryCode + " "+binding.txtPhnEntry.getText().toString());
             }
         });
 
@@ -158,6 +158,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
 
 
     private void startPhoneNumberVerification(String phoneNumber) {
+        yLog("phone number :",phoneNumber);
         // [START start_phone_auth]
         CommonUtils.showProgress(LoginWithPhoneNumberActivity.this);
         PhoneAuthOptions options =
