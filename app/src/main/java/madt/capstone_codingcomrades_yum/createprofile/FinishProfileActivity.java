@@ -25,7 +25,6 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class FinishProfileActivity extends BaseActivity {
     private ActivityFinishProfileBinding binding;
-    private FirebaseCRUD crudClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,23 +36,6 @@ public class FinishProfileActivity extends BaseActivity {
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
                 startActivity(i);
-                Map<String, Object> user = new HashMap<>();
-                user.put("firstName", AboutMeActivity.firstName);
-                user.put("lastName", AboutMeActivity.lastName);
-                user.put("gender", AboutMeActivity.gender);
-                user.put("sePref", AboutMeActivity.sePref);
-                user.put("dob", AboutMeActivity.dob);
-                crudClass.create("users", user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        String savedUserID = documentReference.getId();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        ySnackbar(FinishProfileActivity.this,getString(R.string.error_saving_user));
-                    }
-                });
             }
         });/**/
     }

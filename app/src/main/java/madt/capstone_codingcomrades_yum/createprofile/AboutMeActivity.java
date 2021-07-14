@@ -8,15 +8,23 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityAboutMeBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -24,6 +32,7 @@ public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
     public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
     public static String stringDate = "";
+    private FirebaseCRUD crudClass;
 
     final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -93,8 +102,28 @@ public class AboutMeActivity extends BaseActivity {
                     dob = binding.dobTV.getText().toString();
                     gender = binding.genderSp.getSelectedItem().toString();
                     sePref = binding.sexPrefSp.getSelectedItem().toString();
-                    Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
-                    startActivity(i);
+
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("firstName", firstName);
+                    user.put("lastName", lastName);
+                    user.put("dob", dob);
+                    user.put("gender", gender);
+                    user.put("sePref", sePref);
+                    crudClass.create("users", user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            String savedUserID = documentReference.getId();
+                            Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
+                            startActivity(i);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            ySnackbar(AboutMeActivity.this,getString(R.string.error_saving_user));
+                        }
+                    });
+
+
                 }
             }
         });
