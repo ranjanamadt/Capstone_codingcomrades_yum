@@ -32,7 +32,7 @@ public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
     public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
     public static String stringDate = "";
-    private FirebaseCRUD crudClass;
+    private FirebaseCRUD crudClass ;
 
     final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -40,7 +40,7 @@ public class AboutMeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about_me);
-
+        crudClass = new FirebaseCRUD();
 
 
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
