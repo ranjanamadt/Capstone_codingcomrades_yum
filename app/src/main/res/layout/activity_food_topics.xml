@@ -76,7 +76,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                 <Spinner
-                    android:id="@+id/spnNotEat"
+                    android:id="@+id/spnNoFood"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -85,13 +85,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupNotEat"
+                    android:id="@+id/chipGroupNoFood"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/spnNotEat"
-                    app:layout_constraintStart_toStartOf="@+id/spnNotEat"
-                    app:layout_constraintTop_toBottomOf="@+id/spnNotEat">
+                    app:layout_constraintEnd_toEndOf="@+id/spnNoFood"
+                    app:layout_constraintStart_toStartOf="@+id/spnNoFood"
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoFood">
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -106,9 +106,9 @@
                     android:text="@string/disliked_topic"
                     android:textColor="@color/light_text"
                     android:textSize="@dimen/_18sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/spnNotEat"
-                    app:layout_constraintStart_toStartOf="@+id/spnNotEat"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotEat" />
+                    app:layout_constraintEnd_toEndOf="@+id/spnNoFood"
+                    app:layout_constraintStart_toStartOf="@+id/spnNoFood"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNoFood" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -139,7 +139,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
                 <Spinner
-                    android:id="@+id/spnNotTalk"
+                    android:id="@+id/spnNoTopic"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -161,16 +161,16 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotTalk" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipNotTalk" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupNotTalk"
+                    android:id="@+id/chipNotTalk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/spnNotTalk"
-                    app:layout_constraintStart_toStartOf="@+id/spnNotTalk"
-                    app:layout_constraintTop_toBottomOf="@+id/spnNotTalk">
+                    app:layout_constraintEnd_toEndOf="@+id/spnNoTopic"
+                    app:layout_constraintStart_toStartOf="@+id/spnNoTopic"
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoTopic">
 
                 </com.google.android.material.chip.ChipGroup>
 

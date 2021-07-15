@@ -133,7 +133,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNoFood" />
 
                 <TextView
                     android:id="@+id/textView21"
@@ -178,7 +178,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/chipGroup4" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
+                    android:id="@+id/chipGroupNoFood"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -194,7 +194,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroup"
+                    app:layout_constraintEnd_toEndOf="@+id/chipGroupNoFood"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     app:layout_constraintTop_toBottomOf="@+id/textView20">
