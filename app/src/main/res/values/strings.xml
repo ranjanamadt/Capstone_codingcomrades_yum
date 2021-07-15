@@ -78,16 +78,16 @@
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>
     <string name="title_food_topics">No-to Food and Topics</string>
-    <string name="title_interests">Interests</string>
+    <string name="title_interests">Title Interests</string>
     <string name="title_tastes">Tastes</string>
     <string name="default_notification_channel_id">channel_id</string>
-    <string name="like_eat">I\'m down to eat</string>
+    <string name="like_eat">Im down to eat</string>
     <string name="i_rather_not_eat">I rather not eat</string>
     <string name="i_rather_not_talk_about">I rather not talk about</string>
     <string name="disliked_food">What foods are you really not interested in?</string>
-    <string name="disliked_topic">What topics you don\'t talk about while eating?</string>
+    <string name="disliked_topic">What topics you dont talk about while eating?</string>
     <string name="dislike_talking">To enjoy a meal and a conversation, people need to talk about the things they like. Let others know what topics spoils your taste</string>
-    <string name="dislike_eating">It can be really awkward if you are eating with someone and that person never touches its food. Let\'s do something about that, select what you don\'t like</string>
+    <string name="dislike_eating">It can be really awkward if you are eating with someone and that person never touches its food. Lets do something about that, select what you dont like</string>
 
 
 </resources>
