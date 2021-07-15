@@ -148,7 +148,8 @@ public class TasteActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
-
+        binding.chipGroupEating.removeAllViews();
+        binding.chipGroupTastes.removeAllViews();
         binding.spnEatingPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, topics));
         binding.spnTastesPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
                 preferences));

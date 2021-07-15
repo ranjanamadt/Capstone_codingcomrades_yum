@@ -42,6 +42,8 @@ public class InterestActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
+        binding.chipInterest.removeAllViews();
+
         binding.interestTopics.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, topics));
         binding.interestTopics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
