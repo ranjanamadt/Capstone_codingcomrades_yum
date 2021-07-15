@@ -17,6 +17,7 @@ import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
+import madt.capstone_codingcomrades_yum.createprofile.TasteActivity;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
@@ -45,7 +46,7 @@ public class SplashActivity extends BaseActivity {
                                 AboutMeActivity.class);
                     } else {
                         i = new Intent(SplashActivity.this,
-                                HomeActivity.class);
+                                TasteActivity.class);
                     }
                 }
 
