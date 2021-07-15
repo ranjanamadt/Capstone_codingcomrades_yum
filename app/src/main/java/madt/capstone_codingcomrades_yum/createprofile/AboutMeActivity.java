@@ -33,7 +33,7 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
-    public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
+    public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "", user_uid = "";
     public static String stringDate = "";
 
 
@@ -118,6 +118,7 @@ public class AboutMeActivity extends BaseActivity {
                         public void onSuccess(DocumentReference documentReference) {
 
                             yLog("userID",documentReference.getId());
+                            user_uid = documentReference.getId();
                             AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID,documentReference.getId());
 
                             Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);

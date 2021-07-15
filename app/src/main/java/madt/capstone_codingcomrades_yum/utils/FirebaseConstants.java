@@ -1,9 +1,12 @@
 package madt.capstone_codingcomrades_yum.utils;
 
 public class FirebaseConstants {
-   public interface Collections{
+
+    public interface Collections{
         String USERS="users";
+        String PREFERENCES="preferences";
     }
+
     public interface USER{
         String FIRST_NAME="firstName";
         String LAST_NAME="lastName";
@@ -11,6 +14,9 @@ public class FirebaseConstants {
         String GENDER="gender";
         String SEX_PREFER="sePref";
         String DEVICE_TOKEN="deviceToken";
+    }
+
+    public interface PREFERENCES{
 
     }
 

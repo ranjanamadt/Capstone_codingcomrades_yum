@@ -13,10 +13,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -25,23 +30,63 @@ public class TasteActivity extends BaseActivity  {
 
     final static String[] topics = {"Sushi","Ramen", "Halal", "Dessert", "Coffee", "Italian", "Ceviche"};
     final static String[] preferences = {"Salty", "Sweet", "Sour"};
-    public static String userID="";
+    //public static String userID="";
     int check = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tastes);
-/*
 
-
-        FirebaseCRUD.getInstance().getDocument("users",userID).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        FirebaseCRUD.getInstance().getDocument(FirebaseConstants.Collections.USERS, AboutMeActivity.user_uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user name :",documentSnapshot.get("firstName").toString()+"//");
             }
         });
-*/
+/*
+        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> preference = new HashMap<>();
+                preference.put(FirebaseConstants.USER.FIRST_NAME, firstName);
+                preference.put(FirebaseConstants.USER.LAST_NAME, lastName);
+            }
+        });*/
+
+
+        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(binding.spnEatingPreferences.getSelectedItem().toString().isEmpty()){
+                    ySnackbar(TasteActivity.this,getString(R.string.err_enjoy_eating_name_empty));
+
+                }else if(binding.spnTastesPreferences.getSelectedItem().toString().isEmpty()){
+                    ySnackbar(TasteActivity.this,getString(R.string.err_preferences_taste_name_empty));
+                }else{
+                    StringBuilder result = new StringBuilder("");
+
+                    for(int i=0; i<binding.chipGroupEating.getChildCount(); i++){
+                        Chip chip = (Chip) binding.chipGroupEating.getChildAt(i);
+                        if(chip.isChecked()){
+                            if(i<binding.chipGroupEating.getChildCount()-1){
+                                result.append(chip.getText()).append(",");
+                            } else{
+                                result.append(chip.getText());
+                            }
+                        }
+                    }
+
+                    Toast.makeText(TasteActivity.this, ""+ result.toString(), Toast.LENGTH_SHORT).show();
+                    yLog("taste list :",""+result.toString());
+                    /*Intent i = new Intent(TasteActivity.this, InterestActivity.class);
+                    startActivity(i);*/
+                }
+
+
+            }
+        });
+
 
     }
 
@@ -75,23 +120,6 @@ public class TasteActivity extends BaseActivity  {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(binding.spnEatingPreferences.getSelectedItem().toString().isEmpty()){
-                    ySnackbar(TasteActivity.this,getString(R.string.err_enjoy_eating_name_empty));
-
-                }else if(binding.spnTastesPreferences.getSelectedItem().toString().isEmpty()){
-                    ySnackbar(TasteActivity.this,getString(R.string.err_preferences_taste_name_empty));
-                }else{
-                    Intent i = new Intent(TasteActivity.this, InterestActivity.class);
-                    startActivity(i);
-                }
-
 
             }
         });
@@ -133,12 +161,12 @@ public class TasteActivity extends BaseActivity  {
         newChip.setText(topic);
         binding.chipGroupTastes.addView(newChip);
 
-     newChip.setOnCloseIconClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             binding.chipGroupTastes.removeView(v);
-         }
-     });
+        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.chipGroupTastes.removeView(v);
+            }
+        });
 
     }
 
