@@ -26,7 +26,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/_12sdp"
                 tools:context=".splash.SplashActivity">
 
@@ -66,7 +66,6 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginRight="300dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/taste_options"
                     android:textColor="@color/black"
@@ -87,8 +86,8 @@
                 <View
                     android:id="@+id/view2"
                     android:layout_width="0dp"
-                    android:background="@color/grey_divider"
                     android:layout_height="@dimen/_2sdp"
+                    android:background="@color/grey_divider"
                     app:layout_constraintEnd_toEndOf="@+id/spnEatingPreferences"
                     app:layout_constraintStart_toStartOf="@+id/spnEatingPreferences"
                     app:layout_constraintTop_toBottomOf="@+id/spnEatingPreferences" />
@@ -117,11 +116,12 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/general_preference"
                     app:layout_constraintTop_toBottomOf="@+id/general_preference" />
+
                 <View
                     android:id="@+id/view3"
                     android:layout_width="0dp"
-                    android:background="@color/grey_divider"
                     android:layout_height="@dimen/_2sdp"
+                    android:background="@color/grey_divider"
                     app:layout_constraintEnd_toEndOf="@+id/spnTastesPreferences"
                     app:layout_constraintStart_toStartOf="@+id/spnTastesPreferences"
                     app:layout_constraintTop_toBottomOf="@+id/spnTastesPreferences" />
@@ -130,12 +130,12 @@
                     android:id="@+id/btnConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/custom_rounded_corners"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/confirm_button"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_13sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.48"

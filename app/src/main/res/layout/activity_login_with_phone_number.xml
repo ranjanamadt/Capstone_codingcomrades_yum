@@ -44,6 +44,7 @@
                 android:fontFamily="@font/segoe_ui"
                 android:gravity="center"
                 android:text="@string/otp_code_text"
+                android:textColor="@color/paragraph_gray"
                 android:textSize="@dimen/_14sdp" />
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,16 +61,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <com.alimuzaffar.lib.pin.PinEntryEditText
         android:id="@+id/txt_phn_entry"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:cursorVisible="false"
         android:digits="1234567890"
+        android:fontFamily="@font/segoe_ui_bold"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="10"
-android:importantForAutofill="no"
+        android:textColor="@color/black"
         android:textIsSelectable="false"
         android:textSize="@dimen/_18sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,19 +105,22 @@ android:importantForAutofill="no"
                 android:fontFamily="@font/segoe_ui"
                 android:gravity="center"
                 android:text="@string/otp_description_text"
+                android:textColor="@color/paragraph_gray"
                 android:textSize="@dimen/_16sdp" />
 
             <com.alimuzaffar.lib.pin.PinEntryEditText
                 android:id="@+id/txt_code_entry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:cursorVisible="false"
                 android:digits="1234567890"
+                android:fontFamily="@font/segoe_ui_bold"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLength="6"
-                android:importantForAutofill="no"
+                android:textColor="@color/black"
                 android:textIsSelectable="false"
                 android:textSize="@dimen/_24sdp"
                 app:pinCharacterSpacing="@dimen/_5sdp"

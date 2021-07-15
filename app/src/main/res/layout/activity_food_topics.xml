@@ -26,154 +26,152 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_12sdp"
                 tools:context=".splash.SplashActivity">
 
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
-                    android:text="What foods are you really not interested in?"
+                    android:text="@string/disliked_food"
+                    android:textColor="@color/light_text"
                     android:textSize="@dimen/_18sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.495"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/textView11"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_25sdp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
-                    android:text="It can be relly awkward if you are eating with someone and that person never touches food. Let's do something about that, select what your don't like"
+                    android:text="@string/dislike_eating"
+                    android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_13sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9"
-                    tools:layout_editor_absoluteX="32dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/textView9"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:text="I rather not eat"
-                    android:textColor="#120F0F"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="@string/i_rather_not_eat"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_15sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView11"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                 <Spinner
                     android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="25dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView11"
+                    app:layout_constraintStart_toStartOf="@+id/textView12"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-                <!--<com.google.android.material.chip.ChipGroup
+                <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroup"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner"
-                    tools:ignore="MissingConstraints">
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/spinner"
+                    app:layout_constraintStart_toStartOf="@+id/spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipSpicy"
-                        style="@style/MaterialChips"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Spicy"
-                        app:chipBackgroundColor="@color/light_pink"
-                        app:closeIcon="@drawable/ic_baseline_close_24" />
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipEscargot"
-                        style="@style/MaterialChips"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Escargot"
-                        app:chipBackgroundColor="@color/light_pink"
-                        app:closeIcon="@drawable/ic_baseline_close_24"/>
+                </com.google.android.material.chip.ChipGroup>
 
-                </com.google.android.material.chip.ChipGroup>-->
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
                     android:fontFamily="@font/segoe_ui"
+                    android:layout_marginTop="@dimen/_30sdp"
                     android:gravity="center"
-                    android:text="What topics you don't talk about while eating?"
+                    android:text="@string/disliked_topic"
+                    android:textColor="@color/light_text"
                     android:textSize="@dimen/_18sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                    app:layout_constraintEnd_toEndOf="@+id/spinner"
+                    app:layout_constraintStart_toStartOf="@+id/spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_25sdp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
-                    android:text="To enjoy a meal and conversation, people need to talk about the things they like. Let others know what topics spoils your taste"
+                    android:text="@string/dislike_talking"
+                    android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_13sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13"
-                    tools:layout_editor_absoluteX="32dp" />
+                    app:layout_constraintEnd_toEndOf="@+id/textView13"
+                    app:layout_constraintStart_toStartOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                 <TextView
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:text="I rather not talk about"
-                    android:textColor="#120F0F"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="@string/i_rather_not_talk_about"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_15sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView13"
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
                 <Spinner
                     android:id="@+id/spinner2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="25dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView13"
+                    app:layout_constraintStart_toStartOf="@+id/textView14"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                 <Button
                     android:id="@+id/btnConfirmFoodTopics"
-                    android:layout_width="120dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:text="Confirm"
-                    android:background="@drawable/confirm_button"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/custom_rounded_corners"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="@string/confirm"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroup5" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/spinner2"
+                    app:layout_constraintStart_toStartOf="@+id/spinner2"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner2">
+
+                </com.google.android.material.chip.ChipGroup>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

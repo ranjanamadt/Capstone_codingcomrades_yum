@@ -36,13 +36,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="@string/about_me_title_3"
                     android:gravity="center"
+                    android:text="@string/about_me_title_3"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
                     app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
@@ -51,13 +52,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="@string/about_me_subtitle_3"
                     android:gravity="center"
+                    android:text="@string/about_me_subtitle_3"
+                    android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_14sdp"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintTop_toBottomOf="@id/title_3"/>
+                    app:layout_constraintTop_toBottomOf="@id/title_3" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -72,15 +74,15 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/subtitle_3" />
+
                 <Spinner
                     android:id="@+id/interest_topics"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="11dp"
-                    android:layout_marginEnd="4dp"
                     app:layout_constraintEnd_toEndOf="@+id/subtitle_3"
-                    app:layout_constraintTop_toBottomOf="@id/textView"
-                    app:layout_constraintStart_toStartOf="@id/textView"/>
+                    app:layout_constraintStart_toStartOf="@id/textView"
+                    app:layout_constraintTop_toBottomOf="@id/textView" />
 
                 <View
                     android:id="@+id/view3"
