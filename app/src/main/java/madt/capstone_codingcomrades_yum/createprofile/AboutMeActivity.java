@@ -24,15 +24,18 @@ import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityAboutMeBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
 public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
-    public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "";
+    public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "", user_uid = "";
     public static String stringDate = "";
-    private FirebaseCRUD crudClass ;
+
 
     final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -40,7 +43,7 @@ public class AboutMeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about_me);
-        crudClass = new FirebaseCRUD();
+
 
 
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
@@ -104,15 +107,20 @@ public class AboutMeActivity extends BaseActivity {
                     sePref = binding.sexPrefSp.getSelectedItem().toString();
 
                     Map<String, Object> user = new HashMap<>();
-                    user.put("firstName", firstName);
-                    user.put("lastName", lastName);
-                    user.put("dob", dob);
-                    user.put("gender", gender);
-                    user.put("sePref", sePref);
-                    crudClass.create("users", user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    user.put(FirebaseConstants.USER.FIRST_NAME, firstName);
+                    user.put(FirebaseConstants.USER.LAST_NAME, lastName);
+                    user.put(FirebaseConstants.USER.DOB, dob);
+                    user.put(FirebaseConstants.USER.GENDER, gender);
+                    user.put(FirebaseConstants.USER.SEX_PREFER, sePref);
+                    user.put(FirebaseConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
+                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.USERS, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            String savedUserID = documentReference.getId();
+
+                            yLog("userID",documentReference.getId());
+                            user_uid = documentReference.getId();
+                            AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID,documentReference.getId());
+
                             Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
                             startActivity(i);
                         }
@@ -122,6 +130,7 @@ public class AboutMeActivity extends BaseActivity {
                             ySnackbar(AboutMeActivity.this,getString(R.string.error_saving_user));
                         }
                     });
+
 
 
                 }
