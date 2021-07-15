@@ -25,6 +25,7 @@ import madt.capstone_codingcomrades_yum.databinding.ActivityAboutMeBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
+import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
@@ -122,12 +123,13 @@ public class AboutMeActivity extends BaseActivity {
                             ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
                         }
                     });*/
-
+                    CommonUtils.showProgress(AboutMeActivity.this);
                     FirebaseCRUD.getInstance().set(FirebaseConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
 
                             AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
+                            CommonUtils.hideProgress();
                             Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
                             startActivity(i);
                         }
@@ -135,6 +137,7 @@ public class AboutMeActivity extends BaseActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                            CommonUtils.hideProgress();
                             ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
                         }
                     });

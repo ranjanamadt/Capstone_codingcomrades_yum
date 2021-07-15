@@ -22,6 +22,7 @@ import java.util.Map;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFoodTopicsBinding;
+import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
@@ -85,6 +86,7 @@ public class FoodTopicsActivity extends BaseActivity {
                     notTalkPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultNotTalkPref);
                     notTalkPreference.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
+                    CommonUtils.showProgress(FoodTopicsActivity.this);
                     FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notEatPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
@@ -93,6 +95,7 @@ public class FoodTopicsActivity extends BaseActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            CommonUtils.hideProgress();
                             ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_eat));
                         }
                     });
@@ -101,13 +104,14 @@ public class FoodTopicsActivity extends BaseActivity {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             yLog("preference_id",documentReference.getId());
-
+                            CommonUtils.hideProgress();
                             Intent i = new Intent(FoodTopicsActivity.this, FinishProfileActivity.class);
                             startActivity(i);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            CommonUtils.hideProgress();
                             ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_talk));
                         }
                     });
@@ -121,6 +125,8 @@ public class FoodTopicsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
+        binding.chipGroupNoFood.removeAllViews();
+        binding.chipGroupNoFood.removeAllViews();
         binding.spnNoFood.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, nofood));
         binding.spnNoTopic.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
                 notopics));

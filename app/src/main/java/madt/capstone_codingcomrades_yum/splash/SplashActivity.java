@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
                                 AboutMeActivity.class);
                     } else {
                         i = new Intent(SplashActivity.this,
-                                TasteActivity.class);
+                                AboutMeActivity.class);
                     }
                 }
 
