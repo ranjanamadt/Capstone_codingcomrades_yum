@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -15,17 +14,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
-import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
-import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
@@ -34,8 +29,9 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 public class TasteActivity extends BaseActivity  {
     private ActivityTastesBinding binding;
 
-    final static String[] topics = {"Sushi","Ramen", "Halal", "Dessert", "Coffee", "Italian", "Ceviche"};
-    final static String[] preferences = {"Salty", "Sweet", "Sour"};
+    final static String[] foods = {"Sushi","Ramen", "Halal", "Dessert", "Coffee", "Italian", "Ceviche","Acorn Squash","Apple","Arugula","Asparagus","Banana","Blackberries","Broccoli","Brussel Sprouts","Butternut Squash","Cabbage","Carrots","Cauliflower","Chicken","Collard Greens","Cucumber"
+            ,"Garlic","Grapes","IceCream","Kale","Lemon","Lettuce","Mustard greens","Oatmeal","Onion","Orange","Papaya","Pear","Peas","Peppers","Pork","Strawberries","Vegan","Vegetarian","Zucchini","Yolk"};
+    final static String[] preferences = {"Salty", "Sweet", "Sour","Spicy","Healthy","Fried","Boiled","Stir fry","Soups"};
 
     int check = 0;
     @Override
@@ -141,7 +137,7 @@ public class TasteActivity extends BaseActivity  {
         super.onResume();
         setTopBar();
 
-        binding.spnEatingPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, topics));
+        binding.spnEatingPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, foods));
         binding.spnTastesPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
                 preferences));
 
@@ -150,7 +146,7 @@ public class TasteActivity extends BaseActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //if(++check > 1)
-                addEatingChip(topics[position]);
+                addEatingChip(foods[position]);
             }
 
             @Override
