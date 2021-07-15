@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -35,29 +36,21 @@ public class TasteActivity extends BaseActivity  {
 
     final static String[] topics = {"Sushi","Ramen", "Halal", "Dessert", "Coffee", "Italian", "Ceviche"};
     final static String[] preferences = {"Salty", "Sweet", "Sour"};
-    //public static String userID="";
+
     int check = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tastes);
-
-        FirebaseCRUD.getInstance().getDocument(FirebaseConstants.Collections.USERS, AboutMeActivity.user_uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+      /*  FirebaseCRUD.getInstance().getDocument("users/2ftrg0GzUpVGR3Nrqzx0/prefer", "m4Eh2qw495xepc3SpZZX").addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                yLog("user name :",documentSnapshot.get("firstName").toString()+"//");
-            }
-        });
-/*
-        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String, Object> preference = new HashMap<>();
-                preference.put(FirebaseConstants.USER.FIRST_NAME, firstName);
-                preference.put(FirebaseConstants.USER.LAST_NAME, lastName);
+                yLog("user name :", documentSnapshot.getData().toString()+"//");
+
             }
         });*/
+
 
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -100,14 +93,14 @@ public class TasteActivity extends BaseActivity  {
                     yLog("preference for taste list :","" + resultTastesPref);
 
                     Map<String, Object> eatingPref = new HashMap<>();
-                    eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "enjoy_eating");
+                    eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, FirebaseConstants.PREFERENCE_TYPE.ENJOY_EATING);
                     eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultEatingPref);
-                    eatingPref.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+                    eatingPref.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     Map<String, Object> tastePref = new HashMap<>();
-                    tastePref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "preference_taste");
+                    tastePref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, FirebaseConstants.PREFERENCE_TYPE.TASTE);
                     tastePref.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultTastesPref);
-                    tastePref.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+                    tastePref.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, eatingPref).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override

@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -33,18 +32,17 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
-    public static String firstName = "", lastName = "", gender  = "", sePref  = "", dob  = "", user_uid = "";
+    public static String firstName = "", lastName = "", gender = "", sePref = "", dob = "";
     public static String stringDate = "";
 
 
-    final static String[] genders = {"Male","Female", "Genderqueer/Non-Binary", "Prefer not to say"};
-    final static String[] preferences = {"Straight","Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
+    final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Prefer not to say"};
+    final static String[] preferences = {"Straight", "Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about_me);
-
-
 
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
@@ -53,12 +51,12 @@ public class AboutMeActivity extends BaseActivity {
         binding.lastNameET.setText(LoginActivity.last_name);
 
         // getting today's date and separating day, month and year and putting that value to array
-        long millis=System.currentTimeMillis();
-        java.sql.Date todaydate=new java.sql.Date(millis);
+        long millis = System.currentTimeMillis();
+        java.sql.Date todaydate = new java.sql.Date(millis);
         String ArrtodayDate[] = todaydate.toString().split("-");
 
         // date into the string format
-        stringDate = getMonthLetter(Integer.parseInt(ArrtodayDate[1])-1).toString() + " "+ ArrtodayDate[2] + ", " + ArrtodayDate[0];
+        stringDate = getMonthLetter(Integer.parseInt(ArrtodayDate[1]) - 1).toString() + " " + ArrtodayDate[2] + ", " + ArrtodayDate[0];
         binding.dobTV.setText(stringDate);
 
         Calendar cal = Calendar.getInstance();
@@ -75,12 +73,12 @@ public class AboutMeActivity extends BaseActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // changing the string date as per the date selected by the user
-                        String monthLetter = getMonthLetter(month) ;
+                        String monthLetter = getMonthLetter(month);
                         stringDate = monthLetter + " " + dayOfMonth + ", " + year;
                         binding.dobTV.setText(stringDate);
                         binding.dobTV.setTextSize(20);
                     }
-                },year,month,day
+                }, year, month, day
                 );
 
                 // disabling the paste date
@@ -93,13 +91,13 @@ public class AboutMeActivity extends BaseActivity {
         binding.btnConfirmAboutMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.firstNameET.getText().toString().isEmpty()){
-                    ySnackbar(AboutMeActivity.this,getString(R.string.err_first_name_empty));
-                }else if(binding.lastNameET.getText().toString().isEmpty()){
-                    ySnackbar(AboutMeActivity.this,getString(R.string.err_last_name_empty));
-                }else if(binding.dobTV.getText().toString().isEmpty()){
-                    ySnackbar(AboutMeActivity.this,getString(R.string.err_dob_name_empty));
-                }else {
+                if (binding.firstNameET.getText().toString().isEmpty()) {
+                    ySnackbar(AboutMeActivity.this, getString(R.string.err_first_name_empty));
+                } else if (binding.lastNameET.getText().toString().isEmpty()) {
+                    ySnackbar(AboutMeActivity.this, getString(R.string.err_last_name_empty));
+                } else if (binding.dobTV.getText().toString().isEmpty()) {
+                    ySnackbar(AboutMeActivity.this, getString(R.string.err_dob_name_empty));
+                } else {
                     firstName = binding.firstNameET.getText().toString();
                     lastName = binding.lastNameET.getText().toString();
                     dob = binding.dobTV.getText().toString();
@@ -113,26 +111,33 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FirebaseConstants.USER.GENDER, gender);
                     user.put(FirebaseConstants.USER.SEX_PREFER, sePref);
                     user.put(FirebaseConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
-                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.USERS, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                 /*   FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.USERS, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
-                            yLog("userID",documentReference.getId());
-                            user_uid = documentReference.getId();
-                            AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID,documentReference.getId());
-
-                            Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
-                            startActivity(i);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            ySnackbar(AboutMeActivity.this,getString(R.string.error_saving_user));
+                            ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                        }
+                    });*/
+
+                    FirebaseCRUD.getInstance().set(FirebaseConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                            AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
+                            Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
+                            startActivity(i);
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                            ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
                         }
                     });
-
-
-
                 }
             }
         });
@@ -142,23 +147,23 @@ public class AboutMeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
-        if(!firstName.isEmpty()){
+        if (!firstName.isEmpty()) {
             binding.firstNameET.setText(firstName);
         }
-        if(!lastName.isEmpty()){
+        if (!lastName.isEmpty()) {
             binding.lastNameET.setText(lastName);
         }
-        if(!dob.isEmpty()){
+        if (!dob.isEmpty()) {
             binding.dobTV.setText(dob);
         }
-        if(!gender.isEmpty()){
+        if (!gender.isEmpty()) {
             binding.genderSp.setSelection(Arrays.asList(genders).indexOf(gender));
-        }else{
+        } else {
             binding.genderSp.setSelection(0);
         }
-        if(!gender.isEmpty()){
+        if (!gender.isEmpty()) {
             binding.sexPrefSp.setSelection(Arrays.asList(preferences).indexOf(sePref));
-        }else{
+        } else {
             binding.sexPrefSp.setSelection(0);
         }
     }
@@ -180,35 +185,34 @@ public class AboutMeActivity extends BaseActivity {
     }
 
     // method to reutn month name against the integer number
-    public static String getMonthLetter(int month){
-        if(month == 0){
+    public static String getMonthLetter(int month) {
+        if (month == 0) {
             return "Jan";
-        } else if(month == 1){
+        } else if (month == 1) {
             return "Feb";
-        } else if(month == 2){
+        } else if (month == 2) {
             return "Mar";
-        } else if(month == 3){
+        } else if (month == 3) {
             return "Apr";
-        } else if(month == 4){
+        } else if (month == 4) {
             return "May";
-        } else if(month == 5){
+        } else if (month == 5) {
             return "Jun";
-        } else if(month == 6){
+        } else if (month == 6) {
             return "Jul";
-        } else if(month == 7){
+        } else if (month == 7) {
             return "Aug";
-        } else if(month == 8){
+        } else if (month == 8) {
             return "Sept";
-        } else if(month == 9){
+        } else if (month == 9) {
             return "Oct";
-        } else if(month == 10){
+        } else if (month == 10) {
             return "Nov";
-        } else if(month == 11){
+        } else if (month == 11) {
             return "Dec";
         }
         return "";
     }
-
 
 
 }

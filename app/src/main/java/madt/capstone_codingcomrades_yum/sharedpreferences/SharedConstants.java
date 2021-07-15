@@ -9,6 +9,7 @@ public class SharedConstants {
 
 
     public static final String DEVICE_TOKEN = "device_token";
-    public static final String USER_UID = "user_uid";
+    public static final String FS_AUTH_ID = "user_uid";
     public static final String USER_TOKEN = "user_token";
+    public static final String ABOUT_DONE = "about_done";
 }

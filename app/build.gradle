@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "madt.capstone_codingcomrades_yum"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -56,5 +56,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'org.jetbrains:annotations:15.0'
 }
 apply plugin: 'com.google.gms.google-services'

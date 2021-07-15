@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
@@ -29,20 +31,25 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (AppSharedPreferences.getInstance().getString(SharedConstants.USER_UID).isEmpty()) {
+                Intent i;
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                     // If User already logged in
-                    Intent i = new Intent(SplashActivity.this,
+                    i = new Intent(SplashActivity.this,
                             LoginActivity.class);
-                    startActivity(i);
+
                 } else {
 
                     // If user need to logged in
-                    Intent i = new Intent(SplashActivity.this,
-                            AboutMeActivity.class);
-                    startActivity(i);
+                    if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
+                        i = new Intent(SplashActivity.this,
+                                AboutMeActivity.class);
+                    } else {
+                        i = new Intent(SplashActivity.this,
+                                HomeActivity.class);
+                    }
                 }
 
-
+                startActivity(i);
                 finish();
 
             }

@@ -48,7 +48,6 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_with_phone_number);
 
         auth = FirebaseAuth.getInstance();
-        auth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
         setTopBar();
         setCountryCodeSpinner();
 
@@ -183,8 +182,8 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
                             FirebaseUser user = task.getResult().getUser();
                             yLog("user", user.toString() + "//");
 
-                            AppSharedPreferences.getInstance().setString(SharedConstants.USER_UID, user.getUid());
-                            //  AppSharedPreferences.getInstance().setString(SharedConstants.USER_TOKEN, user.getIdToken(true).getResult().getToken());
+                            AppSharedPreferences.getInstance().setString(SharedConstants.FS_AUTH_ID, user.getUid());
+
                             CommonUtils.hideProgress();
                             Intent i = new Intent(LoginWithPhoneNumberActivity.this,
                                     AboutMeActivity.class);

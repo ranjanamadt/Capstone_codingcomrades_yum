@@ -13,11 +13,13 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityInterestsBinding;
@@ -77,17 +79,17 @@ public class InterestActivity extends BaseActivity {
                     yLog("interest list :","" + resultInterest);
 
                     Map<String, Object> interest = new HashMap<>();
-                    interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "interest");
+                    interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, FirebaseConstants.PREFERENCE_TYPE.INTEREST);
                     interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultInterest);
-                    interest.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+                    interest.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, interest).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             yLog("preference_id",documentReference.getId());
 
-                            /*Intent i = new Intent(InterestActivity.this, FoodTopicsActivity.class);
-                            startActivity(i);*/
+                            Intent i = new Intent(InterestActivity.this, FoodTopicsActivity.class);
+                            startActivity(i);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

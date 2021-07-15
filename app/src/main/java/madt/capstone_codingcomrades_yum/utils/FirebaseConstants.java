@@ -21,6 +21,11 @@ public class FirebaseConstants {
         String PREFERENCE_TYPE="preference_type";
         String USER_UID="user_uid";
     }
+    public interface PREFERENCE_TYPE{
+        String ENJOY_EATING="enjoy_eating";
+        String TASTE="taste";
+        String INTEREST="interest";
+    }
 
 
 

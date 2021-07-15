@@ -29,6 +29,11 @@ public class FirebaseCRUD {
         return db.collection(collection).add(document);
     }
 
+    public Task<Void> set(String collection, String docId, Map<String, Object> document) {
+        // Add a new document with a generated ID
+        return db.collection(collection).document(docId).set(document);
+    }
+
     public Task<QuerySnapshot> getAll(String collection) {
         // gets all the documents in a collection
         return db.collection(collection).get();
@@ -41,7 +46,7 @@ public class FirebaseCRUD {
 
     public Task<DocumentSnapshot> getDocument(String collection, String documentId) {
         // get a document
-        Log.e("doc id ", documentId+"//");
+        Log.e("doc id ", documentId + "//");
         return FirebaseFirestore.getInstance().collection(collection).document(documentId).get();
     }
 

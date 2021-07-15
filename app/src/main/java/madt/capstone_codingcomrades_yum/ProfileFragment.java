@@ -2,15 +2,15 @@ package madt.capstone_codingcomrades_yum;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 import madt.capstone_codingcomrades_yum.databinding.FragmentProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
@@ -75,6 +75,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AppSharedPreferences.getInstance().clearAll();
+                FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(),
                         LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -83,6 +84,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        return  binding.getRoot();
+        return binding.getRoot();
     }
 }

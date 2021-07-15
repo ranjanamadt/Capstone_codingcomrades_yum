@@ -16,6 +16,8 @@ import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
 import madt.capstone_codingcomrades_yum.databinding.LoginScreenBinding;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -127,7 +129,7 @@ public class LoginActivity extends BaseActivity {
                 if(task.isSuccessful()){
                     Log.d(TAG, "Sign in with credential: successful");
                     FirebaseUser user = mFirebaseAuth.getCurrentUser();
-
+                    AppSharedPreferences.getInstance().setString(SharedConstants.FS_AUTH_ID, user.getUid());
                     Profile profile = Profile.getCurrentProfile();
 
                     if(profile != null){

@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.HashMap;
@@ -72,12 +73,12 @@ public class FoodTopicsActivity extends BaseActivity {
                     Map<String, Object> notEatPreference = new HashMap<>();
                     notEatPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "not_eat");
                     notEatPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultNotEatPref);
-                    notEatPreference.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+                    notEatPreference.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     Map<String, Object> notTalkPreference = new HashMap<>();
                     notTalkPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "not_talk");
                     notTalkPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultNotTalkPref);
-                    notTalkPreference.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+                    notTalkPreference.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notEatPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
