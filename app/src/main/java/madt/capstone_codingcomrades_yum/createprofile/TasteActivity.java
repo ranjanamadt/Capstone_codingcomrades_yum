@@ -7,10 +7,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.HashMap;
@@ -20,6 +23,8 @@ import java.util.Map;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
@@ -64,25 +69,75 @@ public class TasteActivity extends BaseActivity  {
                 }else if(binding.spnTastesPreferences.getSelectedItem().toString().isEmpty()){
                     ySnackbar(TasteActivity.this,getString(R.string.err_preferences_taste_name_empty));
                 }else{
-                    StringBuilder result = new StringBuilder("");
 
+                    StringBuilder resultEating = new StringBuilder("");
                     for(int i=0; i<binding.chipGroupEating.getChildCount(); i++){
                         Chip chip = (Chip) binding.chipGroupEating.getChildAt(i);
                         if(chip.isChecked()){
-                            if(i<binding.chipGroupEating.getChildCount()-1){
-                                result.append(chip.getText()).append(",");
-                            } else{
-                                result.append(chip.getText());
-                            }
+                            resultEating.append(chip.getText()).append(",");
                         }
                     }
 
-                    Toast.makeText(TasteActivity.this, ""+ result.toString(), Toast.LENGTH_SHORT).show();
-                    yLog("taste list :",""+result.toString());
+                    StringBuilder resultTastes = new StringBuilder("");
+                    for(int i=0; i<binding.chipGroupTastes.getChildCount(); i++){
+                        Chip chip = (Chip) binding.chipGroupTastes.getChildAt(i);
+                        if(chip.isChecked()){
+                            resultTastes.append(chip.getText()).append(",");
+                        }
+                    }
+
+                    String resultEatingPref = resultEating.toString();
+                    String resultTastesPref = resultTastes.toString();
+
+                    if (resultEatingPref != null && resultEatingPref.length() > 0){
+                        resultEatingPref = resultEatingPref.substring(0, resultEatingPref.length() - 1);
+                    }
+                    if (resultTastesPref != null && resultTastesPref.length() > 0) {
+                        resultTastesPref = resultTastesPref.substring(0, resultTastesPref.length() - 1);
+                    }
+
+                    Map<String, Object> eatingPref = new HashMap<>();
+                    eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "enjoy_eating");
+                    eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultEatingPref);
+                    eatingPref.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+
+                    Map<String, Object> tastePref = new HashMap<>();
+                    tastePref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "preference_taste");
+                    tastePref.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultTastesPref);
+                    tastePref.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+
+                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, eatingPref).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            yLog("preference_id",documentReference.getId());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            ySnackbar(TasteActivity.this, getString(R.string.error_saving_eating));
+                        }
+                    });
+
+                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, tastePref).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            yLog("preference_id",documentReference.getId());
+
+                            Intent i = new Intent(InterestActivity.this, TasteActivity.class);
+                            startActivity(i);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            ySnackbar(TasteActivity.this, getString(R.string.error_saving_tastes));
+                        }
+                    });
+
+                    yLog("taste list :","" + resultEatingPref);
+                    yLog("taste list :","" + resultTastesPref);
                     /*Intent i = new Intent(TasteActivity.this, InterestActivity.class);
                     startActivity(i);*/
                 }
-
 
             }
         });

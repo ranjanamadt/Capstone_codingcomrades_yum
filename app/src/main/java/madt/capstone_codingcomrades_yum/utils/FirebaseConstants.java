@@ -16,8 +16,10 @@ public class FirebaseConstants {
         String DEVICE_TOKEN="deviceToken";
     }
 
-    public interface PREFERENCES{
-
+    public interface PREFERENCE{
+        String PREFERENCE_NAME="preference_name";
+        String PREFERENCE_TYPE="preference_type";
+        String USER_UID="user_uid";
     }
 
 
