@@ -161,10 +161,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup5" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipNotTalk" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup5"
+                    android:id="@+id/chipNotTalk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"

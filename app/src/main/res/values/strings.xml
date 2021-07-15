@@ -70,6 +70,10 @@
     <string name="error_saving_eating">Error saving enjoy eating into the Database</string>
     <string name="error_saving_tastes">Error saving preference for tastes into the Database</string>
     <string name="error_saving_interest">Error saving interest into the Database</string>
+    <string name="error_saving_not_talk">Error saving not talk preference into the Database</string>
+    <string name="error_saving_not_eat">Error saving not eat preference into the Database</string>
+    <string name="err_not_eat_about_empty">"I rather not eat" field empty</string>
+    <string name="err_not_talk_about_empty">"I rather not talk" field empty</string>
 
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>
