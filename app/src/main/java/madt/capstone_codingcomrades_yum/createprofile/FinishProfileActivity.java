@@ -37,7 +37,7 @@ public class FinishProfileActivity extends BaseActivity {
                         HomeActivity.class);
                 startActivity(i);
             }
-        });/**/
+        });
     }
 
     @Override

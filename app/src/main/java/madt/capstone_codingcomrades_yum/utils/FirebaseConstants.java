@@ -25,6 +25,8 @@ public class FirebaseConstants {
         String ENJOY_EATING="enjoy_eating";
         String TASTE="taste";
         String INTEREST="interest";
+        String NOT_EAT="not_eat";
+        String NOT_TALK="not_talk";
     }
 
 
