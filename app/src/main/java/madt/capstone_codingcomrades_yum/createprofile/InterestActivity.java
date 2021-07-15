@@ -7,13 +7,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityInterestsBinding;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -46,13 +55,47 @@ public class InterestActivity extends BaseActivity {
         });
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (binding.interestTopics.getSelectedItem().toString().isEmpty()) {
-                    Toast.makeText(InterestActivity.this, "'I enjoy eating' field empty", Toast.LENGTH_SHORT).show();
+                if(binding.interestTopics.getSelectedItem().toString().isEmpty()){
+                    ySnackbar(InterestActivity.this, getString(R.string.err_talk_about_empty));
                 } else {
-                    Intent i = new Intent(InterestActivity.this, FoodTopicsActivity.class);
-                    startActivity(i);
+                    StringBuilder resultInt = new StringBuilder("");
+                    for(int i=0; i<binding.chipInterest.getChildCount(); i++){
+                        Chip chip = (Chip) binding.chipInterest.getChildAt(i);
+                        if(chip.isChecked()){
+                            resultInt.append(chip.getText()).append(",");
+                        }
+                    }
+
+                    String resultInterest = resultInt.toString();
+                    if (resultInterest != null && resultInterest.length() > 0) {
+                        resultInterest = resultInterest.substring(0, resultInterest.length() - 1);
+                    }
+
+                    yLog("interest list :","" + resultInterest);
+
+                    Map<String, Object> interest = new HashMap<>();
+                    interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "interest");
+                    interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultInterest);
+                    interest.put(FirebaseConstants.PREFERENCE.USER_UID, AboutMeActivity.user_uid);
+
+                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, interest).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            yLog("preference_id",documentReference.getId());
+
+                            /*Intent i = new Intent(InterestActivity.this, FoodTopicsActivity.class);
+                            startActivity(i);*/
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            ySnackbar(InterestActivity.this, getString(R.string.error_saving_interest));
+                        }
+                    });
+
                 }
             }
         });

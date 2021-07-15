@@ -64,16 +64,17 @@
     <string name="err_last_name_empty">Last name field empty</string>
     <string name="err_dob_name_empty">Date of Birth field empty</string>
     <string name="err_enjoy_eating_name_empty">"I enjoy eating" field empty</string>
+    <string name="err_talk_about_empty">"I like to talk about" field empty</string>
     <string name="err_preferences_taste_name_empty">"Preferences in taste" field empty</string>
     <string name="error_saving_user">Error saving user into the Database</string>
     <string name="error_saving_eating">Error saving enjoy eating into the Database</string>
     <string name="error_saving_tastes">Error saving preference for tastes into the Database</string>
-
+    <string name="error_saving_interest">Error saving interest into the Database</string>
 
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>
     <string name="title_food_topics">No-to Food and Topics</string>
-    <string name="title_interests">Title Interests</string>
+    <string name="title_interests">Interests</string>
     <string name="title_tastes">Tastes</string>
     <string name="default_notification_channel_id">channel_id</string>
     <string name="like_eat">I&#39;m down to eat</string>
