@@ -100,7 +100,7 @@ public class FoodTopicsActivity extends BaseActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 yLog("preference_id", documentReference.getId());
-                setAddNotTalkToDB(notTalkPreference);
+                addNotTalkToDB(notTalkPreference);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -111,7 +111,7 @@ public class FoodTopicsActivity extends BaseActivity {
         });
     }
 
-    private void setAddNotTalkToDB(Map<String, Object> notTalkPreference) {
+    private void addNotTalkToDB(Map<String, Object> notTalkPreference) {
         FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notTalkPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
