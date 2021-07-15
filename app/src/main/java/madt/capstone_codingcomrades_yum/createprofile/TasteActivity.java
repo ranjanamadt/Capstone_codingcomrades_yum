@@ -123,7 +123,7 @@ public class TasteActivity extends BaseActivity  {
                         public void onSuccess(DocumentReference documentReference) {
                             yLog("preference_id",documentReference.getId());
 
-                            Intent i = new Intent(InterestActivity.this, TasteActivity.class);
+                            Intent i = new Intent(TasteActivity.this, InterestActivity.class);
                             startActivity(i);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
