@@ -96,6 +96,9 @@ public class TasteActivity extends BaseActivity  {
                         resultTastesPref = resultTastesPref.substring(0, resultTastesPref.length() - 1);
                     }
 
+                    yLog("enjoy eating list :","" + resultEatingPref);
+                    yLog("preference for taste list :","" + resultTastesPref);
+
                     Map<String, Object> eatingPref = new HashMap<>();
                     eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "enjoy_eating");
                     eatingPref.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultEatingPref);
@@ -132,11 +135,6 @@ public class TasteActivity extends BaseActivity  {
                             ySnackbar(TasteActivity.this, getString(R.string.error_saving_tastes));
                         }
                     });
-
-                    yLog("taste list :","" + resultEatingPref);
-                    yLog("taste list :","" + resultTastesPref);
-                    /*Intent i = new Intent(TasteActivity.this, InterestActivity.class);
-                    startActivity(i);*/
                 }
 
             }
