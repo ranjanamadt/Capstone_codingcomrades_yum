@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MatchesFragment">
+    <data></data>
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".MatchesFragment">
+    android:layout_margin="@dimen/_5sdp"
+    android:elevation="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_4sdp">
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -48,10 +56,47 @@
                     android:layout_marginStart="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui_bold"
+                    android:text="Kamila Papoulous"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/mtcTasteChip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mtcUserName"/>
+
+                <TextView
+                    android:id="@+id/mtcBio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui"
+                    android:text="Looking for a partner for a food adventure in downtown!"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mtcTasteChip" />
+
+
+                <Button
+                    android:id="@+id/info_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_145sdp"
+                    android:layout_marginEnd="@dimen/_146sdp"
+                    android:background="@color/moreInfo_btn"
+                    android:fontFamily="@font/segoe_ui"
+                    android:text="@string/info_btn"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mtcBio" />
+
 
                 <Button
                     android:id="@+id/reject"
@@ -80,3 +125,5 @@
     </LinearLayout>
 
 </FrameLayout>
+</androidx.cardview.widget.CardView>
+</layout>
