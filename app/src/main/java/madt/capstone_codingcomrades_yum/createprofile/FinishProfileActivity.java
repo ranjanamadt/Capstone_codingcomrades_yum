@@ -3,7 +3,6 @@ package madt.capstone_codingcomrades_yum.createprofile;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,26 +13,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
-import madt.capstone_codingcomrades_yum.User;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
@@ -45,25 +34,28 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class FinishProfileActivity extends BaseActivity {
     private ActivityFinishProfileBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
-
+        CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FirebaseConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
-                String username = FirebaseConstants.USER.FIRST_NAME + " " + FirebaseConstants.USER.LAST_NAME;
+                String username = documentSnapshot.getString(FirebaseConstants.USER.FIRST_NAME) + " " + documentSnapshot.getString(FirebaseConstants.USER.LAST_NAME);
 
                 binding.tvUserName.setText(username);
                 binding.tvGender.setText(documentSnapshot.getString(FirebaseConstants.USER.GENDER));
                 binding.tvAge.setText(documentSnapshot.getString(FirebaseConstants.USER.DOB));
-                Picasso.get().load(LoginActivity.profile_image).into(binding.profileImage);
+                if (!LoginActivity.profile_image.isEmpty())
+                    Picasso.get().load(LoginActivity.profile_image).into(binding.profileImage);
 
                 getEnjoyEating(FirebaseAuth.getInstance().getUid());
+                CommonUtils.hideProgress();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -88,20 +80,20 @@ public class FinishProfileActivity extends BaseActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
+                if (!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                     List<String> enjoyEatingList = new ArrayList<String>();
                     String document_userId = "";
                     String document_prefType = "";
                     String document_prefName = "";
-                    for(DocumentSnapshot documentSnapshot: documentSnapshotList){
+                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
                         document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
                         document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if(document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.ENJOY_EATING)){
+                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.ENJOY_EATING)) {
                             document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
-                            if(document_prefName != null && document_prefName.length()>0){
+                            if (document_prefName != null && document_prefName.length() > 0) {
                                 enjoyEatingList = Arrays.asList(document_prefName.split(","));
                             }
                         }
@@ -129,20 +121,20 @@ public class FinishProfileActivity extends BaseActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
+                if (!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                     List<String> tasteList = new ArrayList<String>();
                     String document_userId = "";
                     String document_prefType = "";
                     String document_prefName = "";
-                    for(DocumentSnapshot documentSnapshot: documentSnapshotList){
+                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
                         document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
                         document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if(document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.TASTE)){
+                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.TASTE)) {
                             document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
-                            if(document_prefName != null && document_prefName.length()>0){
+                            if (document_prefName != null && document_prefName.length() > 0) {
                                 tasteList = Arrays.asList(document_prefName.split(","));
                             }
                         }
@@ -170,20 +162,20 @@ public class FinishProfileActivity extends BaseActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
+                if (!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                     List<String> notEatList = new ArrayList<String>();
                     String document_userId = "";
                     String document_prefType = "";
                     String document_prefName = "";
-                    for(DocumentSnapshot documentSnapshot: documentSnapshotList){
+                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
                         document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
                         document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if(document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.NOT_EAT)){
+                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.NOT_EAT)) {
                             document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
-                            if(document_prefName != null && document_prefName.length()>0){
+                            if (document_prefName != null && document_prefName.length() > 0) {
                                 notEatList = Arrays.asList(document_prefName.split(","));
                             }
                         }
@@ -211,20 +203,20 @@ public class FinishProfileActivity extends BaseActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
+                if (!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
                     List<String> notTalkList = new ArrayList<String>();
                     String document_userId = "";
                     String document_prefType = "";
                     String document_prefName = "";
-                    for(DocumentSnapshot documentSnapshot: documentSnapshotList){
+                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
                         document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
                         document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if(document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.NOT_TALK)){
+                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.NOT_TALK)) {
                             document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
-                            if(document_prefName != null && document_prefName.length()>0){
+                            if (document_prefName != null && document_prefName.length() > 0) {
                                 notTalkList = Arrays.asList(document_prefName.split(","));
                             }
                         }
@@ -270,7 +262,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void addEnjoyEating(List<String> enjoyEatingList) {
-        for(String enjoyEat: enjoyEatingList){
+        for (String enjoyEat : enjoyEatingList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipGroupEnjoyEat, false);
             newChip.setText(enjoyEat);
             binding.chipGroupEnjoyEat.addView(newChip);
@@ -280,7 +272,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void addTaste(List<String> tasteList) {
-        for(String taste: tasteList) {
+        for (String taste : tasteList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipGroupDownToEat, false);
             newChip.setText(taste);
             binding.chipGroupDownToEat.addView(newChip);
@@ -296,7 +288,7 @@ public class FinishProfileActivity extends BaseActivity {
     }*/
 
     private void addNotEat(List<String> notEatList) {
-        for(String notEat: notEatList) {
+        for (String notEat : notEatList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipGroupNotEat, false);
             newChip.setText(notEat);
             binding.chipGroupNotEat.addView(newChip);
@@ -306,7 +298,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void addNotTalk(List<String> notTalkList) {
-        for(String notTalk: notTalkList) {
+        for (String notTalk : notTalkList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipGroupNotTalk, false);
             newChip.setText(notTalk);
             binding.chipGroupNotTalk.addView(newChip);
