@@ -2,12 +2,14 @@
 package madt.capstone_codingcomrades_yum.createprofile;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -197,7 +199,64 @@ public class FoodTopicsActivity extends BaseActivity {
         super.onResume();
         setTopBar();
         binding.chipGroupNoFood.removeAllViews();
-        binding.chipGroupNoFood.removeAllViews();
+        binding.chipNotTalk.removeAllViews();
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user id :", documentSnapshot.getId() + " ");
+
+                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+
+                if(notEat != null && notEat.size() > 0){
+                    addNotEat(notEat);
+                }
+                if(notTalk != null && notTalk.size() > 0){
+                    addNotTalk(notTalk);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_eat));
+            }
+        });
+
+    }
+
+    private void addNotEat(List<String> notEatList) {
+        for (String notEat : notEatList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupNoFood, false);
+            newChip.setText(notEat);
+            binding.chipGroupNoFood.addView(newChip);
+
+            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.chipGroupNoFood.removeView(v);
+                }
+            });
+        }
+
+        // getNotTalk(FirebaseAuth.getInstance().getUid());
+    }
+
+    private void addNotTalk(List<String> notTalkList) {
+        for (String notTalk : notTalkList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipNotTalk, false);
+            newChip.setText(notTalk);
+            binding.chipNotTalk.addView(newChip);
+
+            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.chipNotTalk.removeView(v);
+                }
+            });
+        }
     }
 
     @Override
