@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "643218771073-ror29h2pppq1afu0mg86knmi02b1nov2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "madt.capstone_codingcomrades_yum",
+            "certificate_hash": "74d7413a668f7254d55721bd4b64a3d959345206"
+          }
+        },
+        {
           "client_id": "643218771073-cfvbfp4399g1ehn9uqitqggtv9jo1f3n.apps.googleusercontent.com",
           "client_type": 3
         }
