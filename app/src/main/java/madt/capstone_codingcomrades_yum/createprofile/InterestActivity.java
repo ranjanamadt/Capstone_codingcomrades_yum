@@ -32,7 +32,7 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class InterestActivity extends BaseActivity {
     private ActivityInterestsBinding binding;
-     static private List<String>  interestList;
+    static private List<String> interestList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +47,14 @@ public class InterestActivity extends BaseActivity {
         setTopBar();
         binding.chipInterest.removeAllViews();
 
+        CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.INTEREST).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
                 interestList = (List<String>) documentSnapshot.get("data");
                 setInterestDropdown();
-
+                CommonUtils.hideProgress();
 
             }
         });
