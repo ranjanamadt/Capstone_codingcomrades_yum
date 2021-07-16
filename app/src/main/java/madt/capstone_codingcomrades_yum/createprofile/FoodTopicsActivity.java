@@ -69,21 +69,30 @@ public class FoodTopicsActivity extends BaseActivity {
                     List<String> resultNotEat = new ArrayList<>();
                     for(int i=0; i<binding.chipGroupNoFood.getChildCount(); i++){
                         Chip chip = (Chip) binding.chipGroupNoFood.getChildAt(i);
-                        if(chip.isChecked()){
+                        //if(chip.isChecked()){
                             resultNotEat.add(chip.getText().toString());
-                        }
+                        //}
                     }
 
                     List<String> resultNotTalk = new ArrayList<>();
                     for(int i=0; i<binding.chipNotTalk.getChildCount(); i++){
                         Chip chip = (Chip) binding.chipNotTalk.getChildAt(i);
-                        if(chip.isChecked()){
+                        //if(chip.isChecked()){
                             resultNotTalk.add(chip.getText().toString());
-                        }
+                        //}
                     }
 
                     yLog("not eat list :","" + resultNotEat);
                     yLog("not talk list :","" + resultNotTalk);
+
+                    if(resultNotEat == null || resultNotEat.size() == 0){
+                        ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_eat_chip_empty));
+                        return;
+                    }
+                    if(resultNotTalk == null || resultNotTalk.size() == 0){
+                        ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_talk_chip_empty));
+                        return;
+                    }
 
                     Map<String, Object> notEatPreference = new HashMap<>();
                     notEatPreference.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, resultNotEat);
