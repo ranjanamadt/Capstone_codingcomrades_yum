@@ -61,7 +61,7 @@ public class FirebaseCRUD {
     }
    public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer){
        return db.collection(FSConstants.Collections.USERS)
-               .whereIn(FSConstants.PREFERENCE_TYPE.TASTE,eatingPrefer)
+               .whereArrayContainsAny(FSConstants.PREFERENCE_TYPE.TASTE,eatingPrefer)
 
                .get();
 
