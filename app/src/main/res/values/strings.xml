@@ -81,7 +81,7 @@
     <string name="title_interests">Title Interests</string>
     <string name="title_tastes">Tastes</string>
     <string name="default_notification_channel_id">channel_id</string>
-    <string name="like_eat">Im down to eat</string>
+    <string name="like_taste">I prefer taste</string>
     <string name="i_rather_not_eat">I rather not eat</string>
     <string name="i_rather_not_talk_about">I rather not talk about</string>
     <string name="disliked_food">What foods are you really not interested in?</string>

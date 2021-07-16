@@ -125,5 +125,12 @@ public class InterestActivity extends BaseActivity {
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipInterest, false);
         newChip.setText(topic);
         binding.chipInterest.addView(newChip);
+
+        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.chipInterest.removeView(v);
+            }
+        });
     }
 }

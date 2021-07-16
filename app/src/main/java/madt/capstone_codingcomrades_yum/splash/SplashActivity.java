@@ -43,10 +43,10 @@ public class SplashActivity extends BaseActivity {
                     // If user need to logged in
                     if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
                         i = new Intent(SplashActivity.this,
-                                AboutMeActivity.class);
+                                LoginActivity.class);
                     } else {
                         i = new Intent(SplashActivity.this,
-                                AboutMeActivity.class);
+                                LoginActivity.class);
                     }
                 }
 

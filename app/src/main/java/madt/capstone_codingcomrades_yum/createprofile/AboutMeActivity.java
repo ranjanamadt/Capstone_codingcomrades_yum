@@ -130,6 +130,8 @@ public class AboutMeActivity extends BaseActivity {
 
                             AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
                             CommonUtils.hideProgress();
+
+                            yLog("user id about me:", FirebaseAuth.getInstance().getUid());
                             Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
                             startActivity(i);
                         }

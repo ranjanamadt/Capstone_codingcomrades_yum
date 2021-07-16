@@ -90,7 +90,7 @@ public class FoodTopicsActivity extends BaseActivity {
                     FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notEatPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            yLog("preference_id",documentReference.getId());
+                            yLog("preference_id: ",documentReference.getId());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -103,7 +103,7 @@ public class FoodTopicsActivity extends BaseActivity {
                     FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notTalkPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            yLog("preference_id",documentReference.getId());
+                            yLog("preference_id: ",documentReference.getId());
                             CommonUtils.hideProgress();
                             Intent i = new Intent(FoodTopicsActivity.this, FinishProfileActivity.class);
                             startActivity(i);

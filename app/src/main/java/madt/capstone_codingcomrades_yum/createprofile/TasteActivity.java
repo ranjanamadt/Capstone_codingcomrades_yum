@@ -114,7 +114,7 @@ public class TasteActivity extends BaseActivity {
         FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, eatingPref).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                yLog("preference_id", documentReference.getId());
+                yLog("preference_id: ", documentReference.getId());
                 addTastePreferencesToDB(tastePref);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -130,7 +130,7 @@ public class TasteActivity extends BaseActivity {
         FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, tastePref).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                yLog("preference_id", documentReference.getId());
+                yLog("preference_id: ", documentReference.getId());
                 CommonUtils.hideProgress();
                 Intent i = new Intent(TasteActivity.this, InterestActivity.class);
                 startActivity(i);

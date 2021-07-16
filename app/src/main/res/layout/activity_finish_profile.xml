@@ -128,12 +128,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="@string/like_eat"
+                    android:text="@string/like_taste"
                     android:textColor="@color/light_text"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNoFood" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupEnjoyEat" />
 
                 <TextView
                     android:id="@+id/textView21"
@@ -146,7 +146,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup2" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupDownToEat" />
 
                 <TextView
                     android:id="@+id/textView22"
@@ -159,7 +159,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup3" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotEat" />
 
                 <Button
                     android:id="@+id/btnConfirmFinishProfile"
@@ -175,10 +175,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroup4" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotTalk" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupNoFood"
+                    android:id="@+id/chipGroupEnjoyEat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -190,11 +190,11 @@
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup2"
+                    android:id="@+id/chipGroupDownToEat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroupNoFood"
+                    app:layout_constraintEnd_toEndOf="@+id/chipGroupEnjoyEat"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     app:layout_constraintTop_toBottomOf="@+id/textView20">
@@ -202,11 +202,11 @@
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup3"
+                    android:id="@+id/chipGroupNotEat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroup2"
+                    app:layout_constraintEnd_toEndOf="@+id/chipGroupDownToEat"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView21"
                     app:layout_constraintTop_toBottomOf="@+id/textView21">
@@ -214,11 +214,11 @@
                 </com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup4"
+                    android:id="@+id/chipGroupNotTalk"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroup3"
+                    app:layout_constraintEnd_toEndOf="@+id/chipGroupNotEat"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView22"
                     app:layout_constraintTop_toBottomOf="@+id/textView22">
