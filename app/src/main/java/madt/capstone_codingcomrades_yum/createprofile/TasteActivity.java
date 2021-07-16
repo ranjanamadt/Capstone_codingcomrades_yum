@@ -1,12 +1,14 @@
 package madt.capstone_codingcomrades_yum.createprofile;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,6 +17,7 @@ import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +27,7 @@ import java.util.Map;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
+import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
@@ -216,9 +220,65 @@ public class TasteActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
+
         binding.chipGroupEating.removeAllViews();
         binding.chipGroupTastes.removeAllViews();
 
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user id :", documentSnapshot.getId() + " ");
+
+                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+
+                if(enjoyEating != null && enjoyEating.size() > 0){
+                    addEnjoyEating(enjoyEating);
+                }
+                if(taste != null && taste.size() > 0){
+                    addTaste(taste);
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(TasteActivity.this, getString(R.string.error_saving_not_eat));
+            }
+        });
+
+    }
+
+    private void addEnjoyEating(List<String> enjoyEatingList) {
+        for (String enjoyEat : enjoyEatingList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupEating, false);
+            newChip.setText(enjoyEat);
+            binding.chipGroupEating.addView(newChip);
+
+            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.chipGroupEating.removeView(v);
+                }
+            });
+        }
+    }
+
+    private void addTaste(List<String> tasteList) {
+        for (String taste : tasteList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTastes, false);
+            newChip.setText(taste);
+            binding.chipGroupTastes.addView(newChip);
+
+            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.chipGroupTastes.removeView(v);
+                }
+            });
+        }
     }
 
     @Override
