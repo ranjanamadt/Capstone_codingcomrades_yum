@@ -60,7 +60,7 @@ public class FinishProfileActivity extends BaseActivity {
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
 
                 if (!LoginActivity.profile_image.isEmpty())
-                    Picasso.get().load(LoginActivity.profile_image).into(binding.profileImage);
+                    Picasso.get().load(LoginActivity.profile_image).into(binding.imageBtn);
 
                // getEnjoyEating(FirebaseAuth.getInstance().getUid());
                 CommonUtils.hideProgress();
