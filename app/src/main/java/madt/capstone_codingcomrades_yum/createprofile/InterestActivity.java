@@ -72,12 +72,17 @@ public class InterestActivity extends BaseActivity {
                     List<String> resultInt = new ArrayList<>();
                     for (int i = 0; i < binding.chipInterest.getChildCount(); i++) {
                         Chip chip = (Chip) binding.chipInterest.getChildAt(i);
-                        if (chip.isChecked()) {
+                        //if (chip.isChecked()) {
                             resultInt.add(chip.getText().toString());
-                        }
+                        //}
                     }
 
                     yLog("interest list :", "" + resultInt);
+
+                    if(resultInt == null || resultInt.size() == 0){
+                        ySnackbar(InterestActivity.this, getString(R.string.err_interest_chip_empty));
+                        return;
+                    }
 
                     Map<String, Object> interest = new HashMap<>();
                     interest.put(FSConstants.PREFERENCE_TYPE.INTEREST, resultInt);
