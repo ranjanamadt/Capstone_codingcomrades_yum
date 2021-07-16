@@ -4,126 +4,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MatchesFragment">
     <data></data>
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/_5sdp"
-    android:elevation="@dimen/_8sdp"
-    app:cardCornerRadius="@dimen/_4sdp">
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_white"
-        android:text="@string/title_matches"
-        android:textColor="@color/black" />
+        android:elevation="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_4sdp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:background="@color/white">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!-- TODO: Update blank fragment layout -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:background="@color/background_white"
+                android:text="@string/title_matches"
+                android:textColor="@color/black" />
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="@dimen/_300sdp"
-                    android:layout_height="@dimen/_250sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/avatars" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/mtcUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/segoe_ui_bold"
-                    android:text="Kamila Papoulous"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_18sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/mtcTasteChip"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mtcUserName"/>
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
-                <TextView
-                    android:id="@+id/mtcBio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:fontFamily="@font/segoe_ui"
-                    android:text="Looking for a partner for a food adventure in downtown!"
-                    android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mtcTasteChip" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/mtcUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/segoe_ui_bold"
+                            android:text="Kamila Papoulous"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_18sdp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/mtcTasteChip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/mtcUserName" />
+
+                        <TextView
+                            android:id="@+id/mtcBio"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:fontFamily="@font/segoe_ui"
+                            android:text="Looking for a partner fon!"
+                            android:textSize="@dimen/_14sdp"
+                            app:layout_constraintEnd_toEndOf="@+id/mtcTasteChip"
+                            app:layout_constraintStart_toStartOf="@+id/mtcUserName"
+                            app:layout_constraintTop_toBottomOf="@+id/mtcTasteChip" />
 
 
-                <Button
-                    android:id="@+id/info_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_145sdp"
-                    android:layout_marginEnd="@dimen/_146sdp"
-                    android:background="@color/moreInfo_btn"
-                    android:fontFamily="@font/segoe_ui"
-                    android:text="@string/info_btn"
-                    android:textSize="@dimen/_14sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mtcBio" />
+                        <Button
+                            android:id="@+id/reject"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_marginBottom="@dimen/_30sdp"
+                            android:background="@drawable/reject_btn"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/acept"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent" />
 
+                        <Button
+                            android:id="@+id/acept"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_marginBottom="@dimen/_30sdp"
+                            android:background="@drawable/acept_btn"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/reject" />
 
-                <Button
-                    android:id="@+id/reject"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:background="@drawable/reject_btn"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/acept"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="@dimen/_300sdp"
+                            android:layout_height="@dimen/_250sdp"
+                            android:src="@drawable/ic_imageicon"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/acept"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:background="@drawable/acept_btn"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/reject" />
+                        <TextView
+                            android:id="@+id/info_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/segoe_ui"
+                            android:text="@string/info_btn"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_14sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/mtcBio" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </ScrollView>
+            </LinearLayout>
 
-</FrameLayout>
-</androidx.cardview.widget.CardView>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
 </layout>
