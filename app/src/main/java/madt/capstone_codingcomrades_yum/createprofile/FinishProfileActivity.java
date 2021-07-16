@@ -51,10 +51,16 @@ public class FinishProfileActivity extends BaseActivity {
                 binding.tvUserName.setText(username);
                 binding.tvGender.setText(documentSnapshot.getString(FSConstants.USER.GENDER));
                 binding.tvAge.setText(documentSnapshot.getString(FSConstants.USER.DOB));
+
+                addEnjoyEating((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING));
+                addTaste((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE));
+                addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
+                addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
+
                 if (!LoginActivity.profile_image.isEmpty())
                     Picasso.get().load(LoginActivity.profile_image).into(binding.profileImage);
 
-                getEnjoyEating(FirebaseAuth.getInstance().getUid());
+               // getEnjoyEating(FirebaseAuth.getInstance().getUid());
                 CommonUtils.hideProgress();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -75,7 +81,7 @@ public class FinishProfileActivity extends BaseActivity {
         });
     }
 
-    private void getEnjoyEating(String userId) {
+/*    private void getEnjoyEating(String userId) {
         FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -237,7 +243,7 @@ public class FinishProfileActivity extends BaseActivity {
                 ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_not_eat));
             }
         });
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -268,7 +274,7 @@ public class FinishProfileActivity extends BaseActivity {
             binding.chipGroupEnjoyEat.addView(newChip);
         }
 
-        getTaste(FirebaseAuth.getInstance().getUid());
+       // getTaste(FirebaseAuth.getInstance().getUid());
     }
 
     private void addTaste(List<String> tasteList) {
@@ -278,7 +284,7 @@ public class FinishProfileActivity extends BaseActivity {
             binding.chipGroupDownToEat.addView(newChip);
         }
 
-        getNotEat(FirebaseAuth.getInstance().getUid());
+        //getNotEat(FirebaseAuth.getInstance().getUid());
     }
 
     /*private void addTalkAbout(List<String> talkAbout) {
@@ -294,7 +300,7 @@ public class FinishProfileActivity extends BaseActivity {
             binding.chipGroupNotEat.addView(newChip);
         }
 
-        getNotTalk(FirebaseAuth.getInstance().getUid());
+       // getNotTalk(FirebaseAuth.getInstance().getUid());
     }
 
     private void addNotTalk(List<String> notTalkList) {
