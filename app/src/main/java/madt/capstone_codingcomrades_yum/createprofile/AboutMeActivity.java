@@ -27,7 +27,7 @@ import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
-import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
+import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -106,12 +106,12 @@ public class AboutMeActivity extends BaseActivity {
                     sePref = binding.sexPrefSp.getSelectedItem().toString();
 
                     Map<String, Object> user = new HashMap<>();
-                    user.put(FirebaseConstants.USER.FIRST_NAME, firstName);
-                    user.put(FirebaseConstants.USER.LAST_NAME, lastName);
-                    user.put(FirebaseConstants.USER.DOB, dob);
-                    user.put(FirebaseConstants.USER.GENDER, gender);
-                    user.put(FirebaseConstants.USER.SEX_PREFER, sePref);
-                    user.put(FirebaseConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
+                    user.put(FSConstants.USER.FIRST_NAME, firstName);
+                    user.put(FSConstants.USER.LAST_NAME, lastName);
+                    user.put(FSConstants.USER.DOB, dob);
+                    user.put(FSConstants.USER.GENDER, gender);
+                    user.put(FSConstants.USER.SEX_PREFER, sePref);
+                    user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
                  /*   FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.USERS, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
@@ -124,7 +124,7 @@ public class AboutMeActivity extends BaseActivity {
                         }
                     });*/
                     CommonUtils.showProgress(AboutMeActivity.this);
-                    FirebaseCRUD.getInstance().set(FirebaseConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseCRUD.getInstance().set(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
 

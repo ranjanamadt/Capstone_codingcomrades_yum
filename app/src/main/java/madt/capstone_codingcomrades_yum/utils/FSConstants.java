@@ -1,6 +1,6 @@
 package madt.capstone_codingcomrades_yum.utils;
 
-public class FirebaseConstants {
+public class FSConstants {
 
     public interface Collections{
         String USERS="users";

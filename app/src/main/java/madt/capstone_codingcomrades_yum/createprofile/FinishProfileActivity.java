@@ -28,7 +28,7 @@ import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
-import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
+import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -40,17 +40,17 @@ public class FinishProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
         CommonUtils.showProgress(this);
-        FirebaseCRUD.getInstance().getDocument(FirebaseConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
-                String username = documentSnapshot.getString(FirebaseConstants.USER.FIRST_NAME) + " " + documentSnapshot.getString(FirebaseConstants.USER.LAST_NAME);
+                String username = documentSnapshot.getString(FSConstants.USER.FIRST_NAME) + " " + documentSnapshot.getString(FSConstants.USER.LAST_NAME);
 
                 binding.tvUserName.setText(username);
-                binding.tvGender.setText(documentSnapshot.getString(FirebaseConstants.USER.GENDER));
-                binding.tvAge.setText(documentSnapshot.getString(FirebaseConstants.USER.DOB));
+                binding.tvGender.setText(documentSnapshot.getString(FSConstants.USER.GENDER));
+                binding.tvAge.setText(documentSnapshot.getString(FSConstants.USER.DOB));
                 if (!LoginActivity.profile_image.isEmpty())
                     Picasso.get().load(LoginActivity.profile_image).into(binding.profileImage);
 
@@ -76,7 +76,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void getEnjoyEating(String userId) {
-        FirebaseCRUD.getInstance().getAll(FirebaseConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -88,11 +88,11 @@ public class FinishProfileActivity extends BaseActivity {
                     String document_prefType = "";
                     String document_prefName = "";
                     for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
+                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
+                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.ENJOY_EATING)) {
-                            document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
+                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.ENJOY_EATING)) {
+                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
                             if (document_prefName != null && document_prefName.length() > 0) {
                                 enjoyEatingList = Arrays.asList(document_prefName.split(","));
                             }
@@ -117,7 +117,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void getTaste(String userId) {
-        FirebaseCRUD.getInstance().getAll(FirebaseConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -129,11 +129,11 @@ public class FinishProfileActivity extends BaseActivity {
                     String document_prefType = "";
                     String document_prefName = "";
                     for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
+                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
+                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.TASTE)) {
-                            document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
+                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.TASTE)) {
+                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
                             if (document_prefName != null && document_prefName.length() > 0) {
                                 tasteList = Arrays.asList(document_prefName.split(","));
                             }
@@ -158,7 +158,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void getNotEat(String userId) {
-        FirebaseCRUD.getInstance().getAll(FirebaseConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -170,11 +170,11 @@ public class FinishProfileActivity extends BaseActivity {
                     String document_prefType = "";
                     String document_prefName = "";
                     for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
+                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
+                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.NOT_EAT)) {
-                            document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
+                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.NOT_EAT)) {
+                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
                             if (document_prefName != null && document_prefName.length() > 0) {
                                 notEatList = Arrays.asList(document_prefName.split(","));
                             }
@@ -199,7 +199,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void getNotTalk(String userId) {
-        FirebaseCRUD.getInstance().getAll(FirebaseConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -211,11 +211,11 @@ public class FinishProfileActivity extends BaseActivity {
                     String document_prefType = "";
                     String document_prefName = "";
                     for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FirebaseConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE);
+                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
+                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
 
-                        if (document_userId.equals(userId) && document_prefType.equals(FirebaseConstants.PREFERENCE_TYPE.NOT_TALK)) {
-                            document_prefName = documentSnapshot.getString(FirebaseConstants.PREFERENCE.PREFERENCE_NAME);
+                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.NOT_TALK)) {
+                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
                             if (document_prefName != null && document_prefName.length() > 0) {
                                 notTalkList = Arrays.asList(document_prefName.split(","));
                             }

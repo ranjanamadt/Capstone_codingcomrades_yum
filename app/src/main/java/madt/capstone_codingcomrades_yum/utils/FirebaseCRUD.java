@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
 import java.util.Map;
 
 public class FirebaseCRUD {
@@ -32,6 +33,10 @@ public class FirebaseCRUD {
     public Task<Void> set(String collection, String docId, Map<String, Object> document) {
         // Add a new document with a generated ID
         return db.collection(collection).document(docId).set(document);
+
+    }  public Task<Void> updateDoc(String collection, String docId, Map<String, Object> updatedData) {
+        // Add a new document with a generated ID
+        return db.collection(collection).document(docId).update(updatedData);
     }
 
     public Task<QuerySnapshot> getAll(String collection) {
@@ -54,6 +59,9 @@ public class FirebaseCRUD {
         // deletes a document
         return db.collection(collection).document(documentId).delete();
     }
+   public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer){
+       return db.collection(FSConstants.Collections.USERS).whereIn(FSConstants.PREFERENCE_TYPE.ENJOY_EATING,eatingPrefer).get();
 
+   }
 
 }

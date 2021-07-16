@@ -24,7 +24,7 @@ import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFoodTopicsBinding;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
-import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
+import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -77,17 +77,17 @@ public class FoodTopicsActivity extends BaseActivity {
                     yLog("not talk list :","" + resultNotTalkPref);
 
                     Map<String, Object> notEatPreference = new HashMap<>();
-                    notEatPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "not_eat");
-                    notEatPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultNotEatPref);
-                    notEatPreference.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
+                    notEatPreference.put(FSConstants.PREFERENCE.PREFERENCE_TYPE, "not_eat");
+                    notEatPreference.put(FSConstants.PREFERENCE.PREFERENCE_NAME, resultNotEatPref);
+                    notEatPreference.put(FSConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     Map<String, Object> notTalkPreference = new HashMap<>();
-                    notTalkPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, "not_talk");
-                    notTalkPreference.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultNotTalkPref);
-                    notTalkPreference.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
+                    notTalkPreference.put(FSConstants.PREFERENCE.PREFERENCE_TYPE, "not_talk");
+                    notTalkPreference.put(FSConstants.PREFERENCE.PREFERENCE_NAME, resultNotTalkPref);
+                    notTalkPreference.put(FSConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
 
                     CommonUtils.showProgress(FoodTopicsActivity.this);
-                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notEatPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    FirebaseCRUD.getInstance().create(FSConstants.Collections.PREFERENCES, notEatPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             yLog("preference_id: ",documentReference.getId());
@@ -100,7 +100,7 @@ public class FoodTopicsActivity extends BaseActivity {
                         }
                     });
 
-                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, notTalkPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    FirebaseCRUD.getInstance().create(FSConstants.Collections.PREFERENCES, notTalkPreference).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             yLog("preference_id: ",documentReference.getId());

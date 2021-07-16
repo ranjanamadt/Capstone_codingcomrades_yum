@@ -14,8 +14,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
@@ -23,13 +26,13 @@ import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityInterestsBinding;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
-import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
+import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
 public class InterestActivity extends BaseActivity {
     private ActivityInterestsBinding binding;
-    final static String[] topics = {"Art", "Movies", "Sports", "Gym", "Politics"};
+     static private List<String>  interestList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +47,17 @@ public class InterestActivity extends BaseActivity {
         setTopBar();
         binding.chipInterest.removeAllViews();
 
-        binding.interestTopics.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, topics));
-        binding.interestTopics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.INTEREST).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addInterestChip(topics[position]);
-            }
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
+                interestList = (List<String>) documentSnapshot.get("data");
+                setInterestDropdown();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
 
@@ -64,30 +66,24 @@ public class InterestActivity extends BaseActivity {
                 if (binding.interestTopics.getSelectedItem().toString().isEmpty()) {
                     ySnackbar(InterestActivity.this, getString(R.string.err_talk_about_empty));
                 } else {
-                    StringBuilder resultInt = new StringBuilder("");
+                    List<String> resultInt = new ArrayList<>();
                     for (int i = 0; i < binding.chipInterest.getChildCount(); i++) {
                         Chip chip = (Chip) binding.chipInterest.getChildAt(i);
                         if (chip.isChecked()) {
-                            resultInt.append(chip.getText()).append(",");
+                            resultInt.add(chip.getText().toString());
                         }
                     }
 
-                    String resultInterest = resultInt.toString();
-                    if (resultInterest != null && resultInterest.length() > 0) {
-                        resultInterest = resultInterest.substring(0, resultInterest.length() - 1);
-                    }
-
-                    yLog("interest list :", "" + resultInterest);
+                    yLog("interest list :", "" + resultInt);
 
                     Map<String, Object> interest = new HashMap<>();
-                    interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_TYPE, FirebaseConstants.PREFERENCE_TYPE.INTEREST);
-                    interest.put(FirebaseConstants.PREFERENCE.PREFERENCE_NAME, resultInterest);
-                    interest.put(FirebaseConstants.PREFERENCE.USER_UID, FirebaseAuth.getInstance().getUid());
+                    interest.put(FSConstants.PREFERENCE_TYPE.INTEREST, resultInt);
+
                     CommonUtils.showProgress(InterestActivity.this);
-                    FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.PREFERENCES, interest).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+                    FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), interest).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            yLog("preference_id", documentReference.getId());
+                        public void onSuccess(Void unused) {
                             CommonUtils.hideProgress();
                             Intent i = new Intent(InterestActivity.this, FoodTopicsActivity.class);
                             startActivity(i);
@@ -103,6 +99,24 @@ public class InterestActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void setInterestDropdown() {
+
+        binding.interestTopics.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, interestList));
+        binding.interestTopics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                addInterestChip(interestList.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
     @Override
