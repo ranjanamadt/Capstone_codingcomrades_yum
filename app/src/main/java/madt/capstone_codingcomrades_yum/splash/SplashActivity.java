@@ -17,6 +17,9 @@ import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
+import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
+import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
+import madt.capstone_codingcomrades_yum.createprofile.InterestActivity;
 import madt.capstone_codingcomrades_yum.createprofile.TasteActivity;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
@@ -43,10 +46,22 @@ public class SplashActivity extends BaseActivity {
                     // If user need to logged in
                     if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
                         i = new Intent(SplashActivity.this,
-                                LoginActivity.class);
+                                AboutMeActivity.class);
+                    } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.TASTE_DONE)) {
+                        i = new Intent(SplashActivity.this,
+                                TasteActivity.class);
+                    } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.INTEREST_DONE)) {
+                        i = new Intent(SplashActivity.this,
+                                InterestActivity.class);
+                    } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.FOOD_TOPIC_DONE)) {
+                        i = new Intent(SplashActivity.this,
+                                FoodTopicsActivity.class);
+                    }else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.FINISH_PROFILE_DONE)) {
+                        i = new Intent(SplashActivity.this,
+                                FinishProfileActivity.class);
                     } else {
                         i = new Intent(SplashActivity.this,
-                                LoginActivity.class);
+                                HomeActivity.class);
                     }
                 }
 

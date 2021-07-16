@@ -26,6 +26,8 @@ import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
@@ -74,6 +76,7 @@ public class FinishProfileActivity extends BaseActivity {
         binding.btnConfirmFinishProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
                 startActivity(i);

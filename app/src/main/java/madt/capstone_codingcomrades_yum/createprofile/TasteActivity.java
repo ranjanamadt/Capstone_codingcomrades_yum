@@ -24,6 +24,8 @@ import java.util.Map;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
@@ -187,6 +189,7 @@ public class TasteActivity extends BaseActivity {
             @Override
             public void onSuccess(Void unused) {
                 CommonUtils.hideProgress();
+                AppSharedPreferences.getInstance().setBoolean(SharedConstants.TASTE_DONE, true);
                 Intent i = new Intent(TasteActivity.this, InterestActivity.class);
                 startActivity(i);
             }

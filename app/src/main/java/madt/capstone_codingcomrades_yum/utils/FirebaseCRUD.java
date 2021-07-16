@@ -60,7 +60,11 @@ public class FirebaseCRUD {
         return db.collection(collection).document(documentId).delete();
     }
    public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer){
-       return db.collection(FSConstants.Collections.USERS).whereIn(FSConstants.PREFERENCE_TYPE.ENJOY_EATING,eatingPrefer).get();
+       return db.collection(FSConstants.Collections.USERS)
+               .whereIn(FSConstants.PREFERENCE_TYPE.TASTE,eatingPrefer)
+
+               .get();
+
 
    }
 

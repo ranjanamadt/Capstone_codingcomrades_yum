@@ -24,6 +24,8 @@ import java.util.Map;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityInterestsBinding;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
@@ -86,6 +88,7 @@ public class InterestActivity extends BaseActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             CommonUtils.hideProgress();
+                            AppSharedPreferences.getInstance().setBoolean(SharedConstants.INTEREST_DONE, true);
                             Intent i = new Intent(InterestActivity.this, FoodTopicsActivity.class);
                             startActivity(i);
                         }
