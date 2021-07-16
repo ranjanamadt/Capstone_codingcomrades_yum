@@ -2,21 +2,26 @@ package madt.capstone_codingcomrades_yum.createprofile;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
@@ -112,6 +117,45 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.GENDER, gender);
                     user.put(FSConstants.USER.SEX_PREFER, sePref);
                     user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
+
+                    //yLog("ABOUT_DONE: ", String.valueOf(AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)));
+                    if(AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)){
+                        //yLog("ABOUT_DONE: ", String.valueOf(AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)));
+                        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+
+                                yLog("previous data enjoyEating: ", enjoyEating.toString());
+                                yLog("previous data taste: ", taste.toString());
+                                yLog("previous data notEat: ", notEat.toString());
+                                yLog("previous data notTalk: ", notTalk.toString());
+                                if(enjoyEating != null && enjoyEating.size() > 0){
+                                    user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
+                                }
+                                if(taste != null && taste.size() > 0){
+                                    user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
+                                }
+                                if(notEat != null && notEat.size() > 0){
+                                    user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
+                                }
+                                if(notTalk != null && notTalk.size() > 0){
+                                    user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                            }
+                        });
+                    }
+
                  /*   FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.USERS, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
