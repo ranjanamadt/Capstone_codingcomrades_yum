@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity {
 
     public static String first_name = "";
     public static String last_name = "";
+    public static String profile_image = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class LoginActivity extends BaseActivity {
                         //String facebook_id = profile.getId();
                         first_name = profile.getFirstName();
                         last_name = profile.getLastName();
+                        profile_image = profile.getProfilePictureUri(300,250).toString();
                     }
 
                     Intent i = new Intent(LoginActivity.this,

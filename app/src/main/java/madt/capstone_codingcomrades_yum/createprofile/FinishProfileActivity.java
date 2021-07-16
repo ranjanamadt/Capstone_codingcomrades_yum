@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,7 @@ import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding;
+import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FirebaseConstants;
@@ -54,9 +56,12 @@ public class FinishProfileActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
-                binding.tvUserName.setText(documentSnapshot.getString(FirebaseConstants.USER.FIRST_NAME));
+                String username = FirebaseConstants.USER.FIRST_NAME + " " + FirebaseConstants.USER.LAST_NAME;
+
+                binding.tvUserName.setText(username);
                 binding.tvGender.setText(documentSnapshot.getString(FirebaseConstants.USER.GENDER));
                 binding.tvAge.setText(documentSnapshot.getString(FirebaseConstants.USER.DOB));
+                Picasso.get().load(LoginActivity.profile_image).into(binding.profileImage);
 
                 getEnjoyEating(FirebaseAuth.getInstance().getUid());
             }
