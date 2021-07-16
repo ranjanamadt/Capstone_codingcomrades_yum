@@ -87,6 +87,15 @@ public class TasteActivity extends BaseActivity {
                     yLog("enjoy eating list :", "" + resultEating);
                     yLog("preference for taste list :", "" + resultTastes);
 
+                    if(resultEating == null || resultEating.size() == 0){
+                        ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_eating_chip_empty));
+                        return;
+                    }
+                    if(resultTastes == null || resultTastes.size() == 0){
+                        ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_taste_chip_empty));
+                        return;
+                    }
+
                     Map<String, Object> eatingPref = new HashMap<>();
                     eatingPref.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, resultEating);
 

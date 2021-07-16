@@ -74,6 +74,11 @@
     <string name="error_saving_not_eat">Error saving not eat preference into the Database</string>
     <string name="err_not_eat_about_empty">"I rather not eat" field empty</string>
     <string name="err_not_talk_about_empty">"I rather not talk" field empty</string>
+    <string name="err_enjoy_eating_chip_empty">Please select at least 1 food</string>
+    <string name="err_enjoy_taste_chip_empty">Please select at least 1 taste</string>
+    <string name="err_interest_chip_empty">Please select at least 1 topic</string>
+    <string name="err_not_eat_chip_empty">Please select at least 1 food</string>
+    <string name="err_not_talk_chip_empty">Please select at least 1 topic</string>
 
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>
