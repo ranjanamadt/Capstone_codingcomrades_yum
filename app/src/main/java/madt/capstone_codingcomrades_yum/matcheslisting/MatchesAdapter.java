@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +54,19 @@ public class MatchesAdapter extends BaseAdapter {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.matches_stack_card, parent, false);
         }
         // on below line we are initializing our variables and setting data to our variables.
-/*        ((TextView) v.findViewById(R.id.idTVCourseName)).setText(matchesList.get(position).getCourseName());
-        ((TextView) v.findViewById(R.id.idTVCourseDescription)).setText(matchesList.get(position).getCourseDescription());
-        ((TextView) v.findViewById(R.id.idTVCourseDuration)).setText(matchesList.get(position).getCourseDuration());
-        ((TextView) v.findViewById(R.id.idTVCourseTracks)).setText(matchesList.get(position).getCourseTracks());
-        ((ImageView) v.findViewById(R.id.idIVCourse)).setImageResource(matchesList.get(position).getImgId());*/
+        if (matchesList.size() > 0) {
+            ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
+
+        }
+//         ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
+//         ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
+//         ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
+//         ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
+//
+//        ((TextView) v.findViewById(R.id.idTVCourseDescription)).setText(matchesList.get(position).getCourseDescription());
+//        ((TextView) v.findViewById(R.id.idTVCourseDuration)).setText(matchesList.get(position).getCourseDuration());
+//        ((TextView) v.findViewById(R.id.idTVCourseTracks)).setText(matchesList.get(position).getCourseTracks());
+//        ((ImageView) v.findViewById(R.id.idIVCourse)).setImageResource(matchesList.get(position).getImgId());*/
         return v;
     }
 }
