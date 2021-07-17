@@ -60,5 +60,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //SwipeCard StackView
     implementation 'com.daprlabs.aaron:cardstack:0.3.1-beta0'
+    // locatio service
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

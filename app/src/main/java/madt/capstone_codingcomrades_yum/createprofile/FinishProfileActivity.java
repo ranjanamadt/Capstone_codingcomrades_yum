@@ -1,25 +1,42 @@
 package madt.capstone_codingcomrades_yum.createprofile;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
@@ -37,10 +54,26 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 public class FinishProfileActivity extends BaseActivity {
     private ActivityFinishProfileBinding binding;
 
+    FusedLocationProviderClient fusedLocationProviderClient;
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+    private static final int LOCATION_REQUEST_CODE = 1;
+
+    String latitude = "";
+    String longitude = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (!hasLocationPermission())
+            requestLocationPermission();
+        else
+            startUpdateLocation();
+
         CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -76,10 +109,41 @@ public class FinishProfileActivity extends BaseActivity {
         binding.btnConfirmFinishProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
+                String aboutMe = binding.etAboutMe.getText().toString().trim();
+                if(aboutMe.isEmpty()){
+                    ySnackbar(FinishProfileActivity.this, getString(R.string.err_about_me_empty));
+                    return;
+                }
+
+                Map<String, Object> finishProfile = new HashMap<>();
+                finishProfile.put(FSConstants.USER.LATITUDE, latitude);
+                finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
+                finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
+
+                FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                        /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
+                        CommonUtils.hideProgress();
+
+                        Intent i = new Intent(FinishProfileActivity.this, HomeActivity.class);
+                        startActivity(i);*/
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                        CommonUtils.hideProgress();
+                        ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_user));
+                    }
+                });
+
+                ySnackbar(FinishProfileActivity.this, "Latitude:" + latitude + ", Longitude:" + longitude);
+                /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
-                startActivity(i);
+                startActivity(i);*/
             }
         });
     }
@@ -248,6 +312,58 @@ public class FinishProfileActivity extends BaseActivity {
         });
     }*/
 
+    private boolean hasLocationPermission() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+    }
+
+    private void startUpdateLocation() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(3000);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null) {
+                    Location location = locationResult.getLastLocation();
+                    latitude = String.valueOf(location.getLatitude());
+                    longitude = String.valueOf(location.getLongitude());
+                }
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    new AlertDialog.Builder(this)
+                            .setMessage("The permission is mandatory")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(FinishProfileActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+                                }
+                            }).create().show();
+                } else
+                    startUpdateLocation();
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -320,5 +436,4 @@ public class FinishProfileActivity extends BaseActivity {
             });
         }
     }
-
 }
