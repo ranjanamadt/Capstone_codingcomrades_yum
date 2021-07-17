@@ -8,16 +8,19 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -58,6 +61,7 @@ public class FinishProfileActivity extends BaseActivity {
     LocationRequest locationRequest;
     LocationCallback locationCallback;
     private static final int LOCATION_REQUEST_CODE = 1;
+    private static final int PROFILE_RESULT_CODE = 2;
 
     String latitude = "";
     String longitude = "";
@@ -103,6 +107,17 @@ public class FinishProfileActivity extends BaseActivity {
             public void onFailure(@NonNull Exception e) {
                 CommonUtils.hideProgress();
                 ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_not_eat));
+            }
+        });
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.with(FinishProfileActivity.this)
+                        .crop(4f, 3f)	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start(PROFILE_RESULT_CODE);
             }
         });
 
@@ -311,6 +326,14 @@ public class FinishProfileActivity extends BaseActivity {
             }
         });
     }*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Uri uri = data.getData();
+        binding.imageBtn.setImageURI(uri);
+    }
 
     private boolean hasLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
