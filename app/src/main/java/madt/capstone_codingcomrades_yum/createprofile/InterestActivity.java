@@ -101,12 +101,13 @@ public class InterestActivity extends BaseActivity {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
                 if (documentSnapshot.exists()) {
-                    resultInt = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST);
+                    List<String>  listI = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST);
                     /*Log.e("results",resultInt.toString());
                     List<String>  res=new ArrayList<>();
                     res.addAll(resultInt);*/
-                    if (resultInt != null && resultInt.size() > 0) {
-                        addInterest(resultInt);
+                    if (listI != null && listI.size() > 0) {
+                        resultInt.addAll(listI);
+                        addInterest(listI);
                     }
                 }
                 getAllInterests();

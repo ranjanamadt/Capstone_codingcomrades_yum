@@ -192,14 +192,16 @@ public class TasteActivity extends BaseActivity {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
                 if (documentSnapshot.exists()) {
-                    resultEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                    resultTastes = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                    List<String>   resultE = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                    List<String>   resultT = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
 
-                    if (resultEating != null && resultEating.size() > 0) {
-                        addEnjoyEating(resultEating);
+                    if (resultE != null && resultE.size() > 0) {
+                        resultEating.addAll(resultE);
+                        addEnjoyEating(resultT);
                     }
-                    if (resultTastes != null && resultTastes.size() > 0) {
-                        addTaste(resultTastes);
+                    if (resultT != null && resultT.size() > 0) {
+                        resultTastes.addAll(resultT);
+                        addTaste(resultT);
                     }
                 }
                 getEatingPreferences();

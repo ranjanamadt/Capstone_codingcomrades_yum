@@ -96,18 +96,18 @@ public class FoodTopicsActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
-                resultNotEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-                resultNotTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+                List<String> resultNE = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                List<String> resultNT = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
 
 
-                if (resultNotEat != null && resultNotEat.size() > 0) {
-                    addNotEat(resultNotEat);
+                if (resultNE != null && resultNE.size() > 0) {
+                    resultNotEat.addAll(resultNE);
+                    addNotEat(resultNE);
                 }
-
                 if (resultNotTalk != null && resultNotTalk.size() > 0) {
+                    resultNotTalk.addAll(resultNT);
                     addNotTalk(resultNotTalk);
                 }
-
 
                 getAllFoodTopics();
             }
