@@ -52,7 +52,7 @@ public class AboutMeActivity extends BaseActivity {
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
-
+CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -66,19 +66,20 @@ public class AboutMeActivity extends BaseActivity {
                     for (int i = 0; i < genders.length; i++) {
                         if (genders[i].equals(documentSnapshot.get(FSConstants.USER.GENDER))) {
                             binding.genderSp.setSelection(i);
-                            return;
+                            break;
                         }
                     }
                     for (int i = 0; i < preferences.length; i++) {
                         if (preferences[i].equals(documentSnapshot.get(FSConstants.USER.SEX_PREFER))) {
                             binding.sexPrefSp.setSelection(i);
-                            return;
+                           break;
                         }
                     }
                 } else {
                     isUserExist = false;
                     setDataReceivedFromFB();
                 }
+                CommonUtils.hideProgress();
 /*
                 List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
                 List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
@@ -106,6 +107,7 @@ public class AboutMeActivity extends BaseActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                CommonUtils.hideProgress();
             }
         });
 

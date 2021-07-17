@@ -3,6 +3,7 @@ package madt.capstone_codingcomrades_yum.createprofile;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +26,6 @@ import java.util.Map;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityTastesBinding;
-import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
@@ -43,54 +41,30 @@ public class TasteActivity extends BaseActivity {
         final static String[] preferences = {"Salty", "Sweet", "Sour"};*/
     private List<String> enjoyEatingList;
     private List<String> tasteList;
-    int check = 0;
+    int checkEating = 0;
+    int checkTaste = 0;
+    List<String> resultEating = new ArrayList<>();
+    List<String> resultTastes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tastes);
-        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.ENJOY_EATING).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
-                enjoyEatingList = (List<String>) documentSnapshot.get("data");
-                setEnjoyEatingDropdown(enjoyEatingList);
-                getTastesPreferences();
-
-            }
-        });
 
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.spnEatingPreferences.getSelectedItem().toString().isEmpty()) {
-                    ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_eating_name_empty));
-
-                } else if (binding.spnTastesPreferences.getSelectedItem().toString().isEmpty()) {
-                    ySnackbar(TasteActivity.this, getString(R.string.err_preferences_taste_name_empty));
+                if (resultEating.isEmpty()) {
+                    ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_eating_chip_empty));
+                } else if (resultTastes.isEmpty()) {
+                    ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_taste_chip_empty));
                 } else {
-
-                    List<String> resultEating = new ArrayList<>();
-                    for (int i = 0; i < binding.chipGroupEating.getChildCount(); i++) {
-                        Chip chip = (Chip) binding.chipGroupEating.getChildAt(i);
-                        //  if (chip.isChecked()) {
-                        resultEating.add(chip.getText().toString());
-                        // }
-                    }
-
-                    List<String>  resultTastes = new ArrayList<>();
-                    for (int i = 0; i < binding.chipGroupTastes.getChildCount(); i++) {
-                        Chip chip = (Chip) binding.chipGroupTastes.getChildAt(i);
-                       // if (chip.isChecked()) {
-                            resultTastes.add(chip.getText().toString());
-                       // }
-                    }
 
                     yLog("enjoy eating list :", "" + resultEating);
                     yLog("preference for taste list :", "" + resultTastes);
-
+/*
                     if(resultEating == null || resultEating.size() == 0){
                         ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_eating_chip_empty));
                         return;
@@ -98,24 +72,33 @@ public class TasteActivity extends BaseActivity {
                     if(resultTastes == null || resultTastes.size() == 0){
                         ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_taste_chip_empty));
                         return;
-                    }
+                    }*/
 
                     Map<String, Object> eatingPref = new HashMap<>();
                     eatingPref.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, resultEating);
-
 
                     Map<String, Object> tastePref = new HashMap<>();
                     tastePref.put(FSConstants.PREFERENCE_TYPE.TASTE, resultTastes);
 
                     addEatingPrefToDB(eatingPref, tastePref);
 
-
                 }
-
             }
         });
 
 
+    }
+
+
+    private void getEatingPreferences() {
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.ENJOY_EATING).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                enjoyEatingList = (List<String>) documentSnapshot.get("data");
+                setEnjoyEatingDropdown(enjoyEatingList);
+                getTastesPreferences();
+            }
+        });
     }
 
     private void getTastesPreferences() {
@@ -134,7 +117,12 @@ public class TasteActivity extends BaseActivity {
         binding.spnTastesPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addTastesChip(tasteList.get(position));
+                    if (resultTastes != null && !resultTastes.isEmpty()) {
+                        if (!resultTastes.contains(tasteList.get(position)))
+                            addTastesChip(tasteList.get(position));
+                    } else {
+                        addTastesChip(tasteList.get(position));
+                    }
             }
 
             @Override
@@ -151,8 +139,12 @@ public class TasteActivity extends BaseActivity {
         binding.spnEatingPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                addEatingChip(topicsList.get(position));
+                    if (resultEating != null && !resultEating.isEmpty()) {
+                        if (!resultEating.contains(enjoyEatingList.get(position)))
+                            addEatingChip(enjoyEatingList.get(position));
+                    } else {
+                        addEatingChip(enjoyEatingList.get(position));
+                    }
             }
 
             @Override
@@ -178,23 +170,6 @@ public class TasteActivity extends BaseActivity {
                 ySnackbar(TasteActivity.this, getString(R.string.error_saving_eating));
             }
         });
-
-      /*
-
-
-        FirebaseCRUD.getInstance().create(FSConstants.Collections.PREFERENCES, eatingPref).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                yLog("preference_id: ", documentReference.getId());
-                addTastePreferencesToDB(tastePref);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
-                ySnackbar(TasteActivity.this, getString(R.string.error_saving_eating));
-            }
-        });*/
     }
 
     private void addTastePreferencesToDB(Map<String, Object> tastePref) {
@@ -223,6 +198,10 @@ public class TasteActivity extends BaseActivity {
 
         binding.chipGroupEating.removeAllViews();
         binding.chipGroupTastes.removeAllViews();
+        getCurrentUserPreferences();
+    }
+
+    private void getCurrentUserPreferences() {
 
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -230,15 +209,18 @@ public class TasteActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
-                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                if (documentSnapshot.exists()) {
+                    resultEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                    resultTastes = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
 
-                if(enjoyEating != null && enjoyEating.size() > 0){
-                    addEnjoyEating(enjoyEating);
+                    if (resultEating != null && resultEating.size() > 0) {
+                        addEnjoyEating(resultEating);
+                    }
+                    if (resultTastes != null && resultTastes.size() > 0) {
+                        addTaste(resultTastes);
+                    }
                 }
-                if(taste != null && taste.size() > 0){
-                    addTaste(taste);
-                }
+                getEatingPreferences();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -246,6 +228,7 @@ public class TasteActivity extends BaseActivity {
             public void onFailure(@NonNull Exception e) {
                 CommonUtils.hideProgress();
                 ySnackbar(TasteActivity.this, getString(R.string.error_saving_not_eat));
+                getEatingPreferences();
             }
         });
 
@@ -253,14 +236,16 @@ public class TasteActivity extends BaseActivity {
 
     private void addEnjoyEating(List<String> enjoyEatingList) {
         for (String enjoyEat : enjoyEatingList) {
+
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupEating, false);
             newChip.setText(enjoyEat);
             binding.chipGroupEating.addView(newChip);
 
-            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupEating.removeView(v);
+                    resultEating.remove(((Chip) v).getText());
                 }
             });
         }
@@ -268,14 +253,17 @@ public class TasteActivity extends BaseActivity {
 
     private void addTaste(List<String> tasteList) {
         for (String taste : tasteList) {
+
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTastes, false);
             newChip.setText(taste);
             binding.chipGroupTastes.addView(newChip);
 
-            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupTastes.removeView(v);
+                    resultTastes.remove(((Chip) v).getText());
+                    yLog("remove taste", resultTastes.toString());
                 }
             });
         }
@@ -299,28 +287,33 @@ public class TasteActivity extends BaseActivity {
 
 
     private void addEatingChip(String topic) {
+        resultEating.add(topic);
+
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupEating, false);
         newChip.setText(topic);
         binding.chipGroupEating.addView(newChip);
 
-        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+        newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.chipGroupEating.removeView(v);
+                resultTastes.remove(((Chip) v).getText());
             }
         });
 
     }
 
     private void addTastesChip(String topic) {
+        resultTastes.add(topic);
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTastes, false);
         newChip.setText(topic);
         binding.chipGroupTastes.addView(newChip);
 
-        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+        newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.chipGroupTastes.removeView(v);
+                resultTastes.remove(((Chip) v).getText());
             }
         });
 
