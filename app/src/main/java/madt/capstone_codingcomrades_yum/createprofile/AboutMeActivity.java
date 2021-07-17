@@ -189,20 +189,20 @@ public class AboutMeActivity extends BaseActivity {
                                     List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
                                     List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
 
-                                    yLog("previous data enjoyEating: ", enjoyEating.toString());
-                                    yLog("previous data taste: ", taste.toString());
-                                    yLog("previous data notEat: ", notEat.toString());
-                                    yLog("previous data notTalk: ", notTalk.toString());
                                     if(enjoyEating != null && enjoyEating.size() > 0){
+                                        yLog("previous data enjoyEating: ", enjoyEating.toString());
                                         user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
                                     }
                                     if(taste != null && taste.size() > 0){
+                                        yLog("previous data taste: ", taste.toString());
                                         user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
                                     }
                                     if(notEat != null && notEat.size() > 0){
+                                        yLog("previous data notEat: ", notEat.toString());
                                         user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
                                     }
                                     if(notTalk != null && notTalk.size() > 0){
+                                        yLog("previous data notTalk: ", notTalk.toString());
                                         user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
                                     }
                                 }
