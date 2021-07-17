@@ -195,19 +195,17 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
                                 @Override
                                 public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
                                     Intent i = null;
-                                    if (task.getResult().exists()) {
+                                 /*   if (task.getResult().exists()) {
                                         i = new Intent(LoginWithPhoneNumberActivity.this,
                                                 HomeActivity.class);
-                                    } else {
+                                    } else {*/
                                         i = new Intent(LoginWithPhoneNumberActivity.this,
                                                 AboutMeActivity.class);
-                                    }
+                                 //   }
                                     startActivity(i);
                                     finish();
                                     yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
-
                                     CommonUtils.hideProgress();
-
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

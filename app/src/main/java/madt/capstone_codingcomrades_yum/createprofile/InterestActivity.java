@@ -1,19 +1,21 @@
 package madt.capstone_codingcomrades_yum.createprofile;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -27,14 +29,15 @@ import madt.capstone_codingcomrades_yum.databinding.ActivityInterestsBinding;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
-import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
 public class InterestActivity extends BaseActivity {
     private ActivityInterestsBinding binding;
-    static private List<String> interestList;
+    private List<String> interestList;
+    List<String> resultInt = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,39 +53,18 @@ public class InterestActivity extends BaseActivity {
         binding.chipInterest.removeAllViews();
 
         CommonUtils.showProgress(this);
-        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.INTEREST).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
-                interestList = (List<String>) documentSnapshot.get("data");
-                setInterestDropdown();
-                CommonUtils.hideProgress();
 
-            }
-        });
+
+        getSavedInterest();
 
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (binding.interestTopics.getSelectedItem().toString().isEmpty()) {
-                    ySnackbar(InterestActivity.this, getString(R.string.err_talk_about_empty));
+                if (resultInt.isEmpty()) {
+                    ySnackbar(InterestActivity.this, getString(R.string.err_interest_chip_empty));
                 } else {
-                    List<String> resultInt = new ArrayList<>();
-                    for (int i = 0; i < binding.chipInterest.getChildCount(); i++) {
-                        Chip chip = (Chip) binding.chipInterest.getChildAt(i);
-                        //if (chip.isChecked()) {
-                            resultInt.add(chip.getText().toString());
-                        //}
-                    }
-
-                    yLog("interest list :", "" + resultInt);
-
-                    if(resultInt == null || resultInt.size() == 0){
-                        ySnackbar(InterestActivity.this, getString(R.string.err_interest_chip_empty));
-                        return;
-                    }
 
                     Map<String, Object> interest = new HashMap<>();
                     interest.put(FSConstants.PREFERENCE_TYPE.INTEREST, resultInt);
@@ -110,18 +92,83 @@ public class InterestActivity extends BaseActivity {
         });
     }
 
+    private void getSavedInterest() {
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user id :", documentSnapshot.getId() + " ");
+
+                if (documentSnapshot.exists()) {
+                    resultInt = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST);
+                    /*Log.e("results",resultInt.toString());
+                    List<String>  res=new ArrayList<>();
+                    res.addAll(resultInt);*/
+                    if (resultInt != null && resultInt.size() > 0) {
+                        addInterest(resultInt);
+                    }
+                }
+                getAllInterests();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                CommonUtils.hideProgress();
+                getAllInterests();
+            }
+        });
+
+
+    }
+
+    private void addInterest(List<String> addInterestList) {
+        for (String interest : addInterestList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipInterest, false);
+            newChip.setText(interest);
+            binding.chipInterest.addView(newChip);
+            newChip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.chipInterest.removeView(v);
+                    resultInt.remove(((Chip) v).getText());
+                    Log.e("after remove :",resultInt.toString()+"//");
+                }
+            });
+        }
+    }
+
+    private void getAllInterests() {
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.INTEREST).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
+                interestList = (List<String>) documentSnapshot.get("data");
+                setInterestDropdown();
+                CommonUtils.hideProgress();
+            }
+        });
+
+    }
+
     private void setInterestDropdown() {
 
         binding.interestTopics.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, interestList));
         binding.interestTopics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addInterestChip(interestList.get(position));
+                Log.e("results",resultInt.toString());
+                if (resultInt != null && !resultInt.isEmpty()) {
+                    if (!resultInt.contains(interestList.get(position)))
+                        addInterestChip(interestList.get(position));
+                } else {
+                    addInterestChip(interestList.get(position));
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -145,14 +192,16 @@ public class InterestActivity extends BaseActivity {
     }
 
     private void addInterestChip(String topic) {
+        resultInt.add(topic);
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipInterest, false);
         newChip.setText(topic);
         binding.chipInterest.addView(newChip);
 
-        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+        newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.chipInterest.removeView(v);
+                resultInt.remove(((Chip) v).getText());
             }
         });
     }

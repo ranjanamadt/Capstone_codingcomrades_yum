@@ -76,11 +76,9 @@ public class TasteActivity extends BaseActivity {
 
                     Map<String, Object> eatingPref = new HashMap<>();
                     eatingPref.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, resultEating);
+                    eatingPref.put(FSConstants.PREFERENCE_TYPE.TASTE, resultTastes);
 
-                    Map<String, Object> tastePref = new HashMap<>();
-                    tastePref.put(FSConstants.PREFERENCE_TYPE.TASTE, resultTastes);
-
-                    addEatingPrefToDB(eatingPref, tastePref);
+                    addEatingPrefToDB(eatingPref, eatingPref);
 
                 }
             }
@@ -160,8 +158,10 @@ public class TasteActivity extends BaseActivity {
         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), eatingPref).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                //  yLog("preference_id: ", documentReference.getId());
-                addTastePreferencesToDB(tastePref);
+                CommonUtils.hideProgress();
+                AppSharedPreferences.getInstance().setBoolean(SharedConstants.TASTE_DONE, true);
+                Intent i = new Intent(TasteActivity.this, InterestActivity.class);
+                startActivity(i);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -172,24 +172,6 @@ public class TasteActivity extends BaseActivity {
         });
     }
 
-    private void addTastePreferencesToDB(Map<String, Object> tastePref) {
-        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), tastePref).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                CommonUtils.hideProgress();
-                AppSharedPreferences.getInstance().setBoolean(SharedConstants.TASTE_DONE, true);
-                Intent i = new Intent(TasteActivity.this, InterestActivity.class);
-                startActivity(i);
-            }
-
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
-                ySnackbar(TasteActivity.this, getString(R.string.error_saving_tastes));
-            }
-        });
-    }
 
     @Override
     protected void onResume() {

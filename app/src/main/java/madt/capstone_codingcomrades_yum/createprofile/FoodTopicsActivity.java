@@ -16,8 +16,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,8 +31,8 @@ import madt.capstone_codingcomrades_yum.databinding.ActivityFoodTopicsBinding;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
-import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -40,74 +41,39 @@ public class FoodTopicsActivity extends BaseActivity {
     /*final static String[] nofood = {"Acorn Squash","Apple","Arugula","Asparagus","Banana","Blackberries","Broccoli","Brussel Sprouts","Butternut Squash","Cabbage","Carrots","Cauliflower","Chicken","Collard Greens","Cucumber"
     ,"Garlic","Grapes","IceCream","Kale","Lemon","Lettuce","Mustard greens","Oatmeal","Onion","Orange","Papaya","Pear","Peas","Peppers","Pork","Strawberries","Vegan","Vegetarian","Zucchini","Yolk"};
     final static String[] notopics = {"Art", "Movies", "Sports", "Gym", "Politics"};*/
-    static private List<String> notEatList;
-    static private List<String> notTalkList;
+    private List<String> notEatList;
+    private List<String> notTalkList;
+
+    List<String> resultNotEat = new ArrayList<>();
+    List<String> resultNotTalk = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_food_topics);
 
-        CommonUtils.showProgress(this);
-        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.NOT_EAT).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
-                notEatList = (List<String>) documentSnapshot.get("data");
-                setNotEatDropdown();
-
-                getNotTalkListFromDB();
-
-            }
-        });
-
         binding.btnConfirmFoodTopics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.spnNoFood.getSelectedItem().toString().isEmpty()){
-                    ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_eat_about_empty));
-                } else if(binding.spnNoTopic.getSelectedItem().toString().isEmpty()){
-                    ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_talk_about_empty));
+                if (resultNotEat.isEmpty()) {
+                    ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_eat_chip_empty));
+                } else if (resultNotTalk.isEmpty()) {
+                    ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_talk_chip_empty));
                 } else {
-                    List<String> resultNotEat = new ArrayList<>();
-                    for(int i=0; i<binding.chipGroupNoFood.getChildCount(); i++){
-                        Chip chip = (Chip) binding.chipGroupNoFood.getChildAt(i);
-                        //if(chip.isChecked()){
-                            resultNotEat.add(chip.getText().toString());
-                        //}
-                    }
 
-                    List<String> resultNotTalk = new ArrayList<>();
-                    for(int i=0; i<binding.chipNotTalk.getChildCount(); i++){
-                        Chip chip = (Chip) binding.chipNotTalk.getChildAt(i);
-                        //if(chip.isChecked()){
-                            resultNotTalk.add(chip.getText().toString());
-                        //}
-                    }
-
-                    yLog("not eat list :","" + resultNotEat);
-                    yLog("not talk list :","" + resultNotTalk);
-
-                    if(resultNotEat == null || resultNotEat.size() == 0){
-                        ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_eat_chip_empty));
-                        return;
-                    }
-                    if(resultNotTalk == null || resultNotTalk.size() == 0){
-                        ySnackbar(FoodTopicsActivity.this, getString(R.string.err_not_talk_chip_empty));
-                        return;
-                    }
-
-                    Map<String, Object> notEatPreference = new HashMap<>();
-                    notEatPreference.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, resultNotEat);
-
-                    Map<String, Object> notTalkPreference = new HashMap<>();
-                    notTalkPreference.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, resultNotTalk);
+                    Map<String, Object> foodPrefer = new HashMap<>();
+                    foodPrefer.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, resultNotEat);
+                    foodPrefer.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, resultNotTalk);
 
                     CommonUtils.showProgress(FoodTopicsActivity.this);
 
-                    FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), notEatPreference).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), foodPrefer).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            updateNotTalk(notTalkPreference);
+                            CommonUtils.hideProgress();
+                            AppSharedPreferences.getInstance().setBoolean(SharedConstants.FOOD_TOPIC_DONE, true);
+                            Intent i = new Intent(FoodTopicsActivity.this, FinishProfileActivity.class);
+                            startActivity(i);
                         }
 
                     }).addOnFailureListener(new OnFailureListener() {
@@ -117,31 +83,64 @@ public class FoodTopicsActivity extends BaseActivity {
                             ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_eat));
                         }
                     });
-
-
                 }
             }
         });
     }
 
-    private void updateNotTalk(Map<String, Object> notTalkPreference) {
-        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), notTalkPreference).addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void getSavedFoodTopics() {
+        CommonUtils.showProgress(this);
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onSuccess(Void unused) {
-                CommonUtils.hideProgress();
-                AppSharedPreferences.getInstance().setBoolean(SharedConstants.FOOD_TOPIC_DONE, true);
-                Intent i = new Intent(FoodTopicsActivity.this, FinishProfileActivity.class);
-                startActivity(i);
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user id :", documentSnapshot.getId() + " ");
+
+                resultNotEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                resultNotTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+
+
+                if (resultNotEat != null && resultNotEat.size() > 0) {
+                    addNotEat(resultNotEat);
+                }
+
+                if (resultNotTalk != null && resultNotTalk.size() > 0) {
+                    addNotTalk(resultNotTalk);
+                }
+
+
+                getAllFoodTopics();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 CommonUtils.hideProgress();
-                ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_talk));
+                ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_eat));
+                getAllFoodTopics();
+            }
+        });
+    }
+
+    private void getAllFoodTopics() {
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.NOT_EAT).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                yLog("user name :", (List<String>) documentSnapshot.get("data") + "//");
+                notEatList = (List<String>) documentSnapshot.get("data");
+                setNotEatDropdown();
+                getNotTalkListFromDB();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(FoodTopicsActivity.this, e.getLocalizedMessage());
             }
         });
 
     }
+
 
     private void getNotTalkListFromDB() {
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.PREFERENCES, FSConstants.PREFERENCE_TYPE.NOT_TALK).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -151,8 +150,12 @@ public class FoodTopicsActivity extends BaseActivity {
                 notTalkList = (List<String>) documentSnapshot.get("data");
                 setNotTalkDropdown();
                 CommonUtils.hideProgress();
-
-
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(FoodTopicsActivity.this, e.getLocalizedMessage());
             }
         });
 
@@ -166,7 +169,13 @@ public class FoodTopicsActivity extends BaseActivity {
         binding.spnNoTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addNoTalkChip(notTalkList.get(position));
+                if (resultNotTalk != null && !resultNotTalk.isEmpty()) {
+                    if (!resultNotTalk.contains(notTalkList.get(position)))
+                        addNoTalkChip(notTalkList.get(position));
+                } else {
+                    addNoTalkChip(notTalkList.get(position));
+                }
+
             }
 
             @Override
@@ -183,8 +192,14 @@ public class FoodTopicsActivity extends BaseActivity {
         binding.spnNoFood.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //if(++check > 1)
-                addNoEatChip(notEatList.get(position));
+                if (resultNotEat != null && !resultNotEat.isEmpty()) {
+                    if (!resultNotEat.contains(notEatList.get(position)))
+                        addNoEatChip(notEatList.get(position));
+                } else {
+                    addNoEatChip(notEatList.get(position));
+                }
+
+
             }
 
             @Override
@@ -200,43 +215,24 @@ public class FoodTopicsActivity extends BaseActivity {
         setTopBar();
         binding.chipGroupNoFood.removeAllViews();
         binding.chipNotTalk.removeAllViews();
+        getSavedFoodTopics();
 
-        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                yLog("user id :", documentSnapshot.getId() + " ");
-
-                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
-
-                if(notEat != null && notEat.size() > 0){
-                    addNotEat(notEat);
-                }
-                if(notTalk != null && notTalk.size() > 0){
-                    addNotTalk(notTalk);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
-                ySnackbar(FoodTopicsActivity.this, getString(R.string.error_saving_not_eat));
-            }
-        });
 
     }
 
     private void addNotEat(List<String> notEatList) {
+
         for (String notEat : notEatList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupNoFood, false);
             newChip.setText(notEat);
             binding.chipGroupNoFood.addView(newChip);
 
-            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+
+            newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupNoFood.removeView(v);
+                    resultNotEat.remove(((Chip) v).getText());
                 }
             });
         }
@@ -250,10 +246,11 @@ public class FoodTopicsActivity extends BaseActivity {
             newChip.setText(notTalk);
             binding.chipNotTalk.addView(newChip);
 
-            newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     binding.chipNotTalk.removeView(v);
+                    resultNotTalk.remove(((Chip) v).getText());
                 }
             });
         }
@@ -276,27 +273,32 @@ public class FoodTopicsActivity extends BaseActivity {
     }
 
     private void addNoEatChip(String topic) {
+        resultNotEat.add(topic);
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupNoFood, false);
         newChip.setText(topic);
         binding.chipGroupNoFood.addView(newChip);
 
-        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+        newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.chipGroupNoFood.removeView(v);
+                resultNotEat.remove(((Chip) v).getText());
             }
         });
 
     }
+
     private void addNoTalkChip(String topic) {
+        resultNotTalk.add(topic);
         Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipNotTalk, false);
         newChip.setText(topic);
         binding.chipNotTalk.addView(newChip);
 
-        newChip.setOnCloseIconClickListener(new View.OnClickListener() {
+        newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.chipNotTalk.removeView(v);
+                resultNotTalk.remove(((Chip) v).getText());
             }
         });
 

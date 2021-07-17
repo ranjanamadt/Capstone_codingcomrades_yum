@@ -39,15 +39,19 @@ public class SplashActivity extends BaseActivity {
                 if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                     // If User already logged in
 
-                    yLog("in","if");
                     i = new Intent(SplashActivity.this,
                             LoginActivity.class);
 
                 } else {
-                    yLog("in","else");
+
                     // If user need to logged in
-                    i = new Intent(SplashActivity.this,
-                            AboutMeActivity.class);
+                    if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.FINISH_PROFILE_DONE)) {
+                        i = new Intent(SplashActivity.this,
+                                AboutMeActivity.class);
+                    }else {
+                        i = new Intent(SplashActivity.this,
+                                HomeActivity.class);
+                    }
                    /* if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
                         i = new Intent(SplashActivity.this,
                                 AboutMeActivity.class);
