@@ -34,7 +34,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
@@ -107,9 +109,37 @@ public class FinishProfileActivity extends BaseActivity {
         binding.btnConfirmFinishProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String aboutMe = binding.etAboutMe.getText().toString().trim();
+                if(aboutMe.isEmpty()){
+                    ySnackbar(FinishProfileActivity.this, getString(R.string.err_about_me_empty));
+                    return;
+                }
+
+                Map<String, Object> finishProfile = new HashMap<>();
+                finishProfile.put(FSConstants.USER.LATITUDE, latitude);
+                finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
+                finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
+
+                FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                        /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
+                        CommonUtils.hideProgress();
+
+                        Intent i = new Intent(FinishProfileActivity.this, HomeActivity.class);
+                        startActivity(i);*/
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                        CommonUtils.hideProgress();
+                        ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_user));
+                    }
+                });
 
                 ySnackbar(FinishProfileActivity.this, "Latitude:" + latitude + ", Longitude:" + longitude);
-                CommonUtils.hideProgress();
                 /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
@@ -303,7 +333,6 @@ public class FinishProfileActivity extends BaseActivity {
                     Location location = locationResult.getLastLocation();
                     latitude = String.valueOf(location.getLatitude());
                     longitude = String.valueOf(location.getLongitude());
-                    yLog("User location: ","Latitude:" + latitude + ", Longitude:" + longitude);
                 }
             }
         };

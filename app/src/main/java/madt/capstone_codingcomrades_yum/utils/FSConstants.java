@@ -14,6 +14,9 @@ public class FSConstants {
         String GENDER="gender";
         String SEX_PREFER="sePref";
         String DEVICE_TOKEN="deviceToken";
+        String LATITUDE="latitude";
+        String LONGITUDE="longitude";
+        String ABOUT_ME="aboutMe";
     }
 
     public interface PREFERENCE{
