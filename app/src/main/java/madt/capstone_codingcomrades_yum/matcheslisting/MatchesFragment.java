@@ -1,6 +1,5 @@
 package madt.capstone_codingcomrades_yum.matcheslisting;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -28,19 +26,19 @@ import java.util.List;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
-import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
 
 public class MatchesFragment extends Fragment {
 
-    private List<User> matchesList= new ArrayList<>();
+    private List<User> matchesList = new ArrayList<>();
+    private FragmentMatchesBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentMatchesBinding binding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matches, container, false);
 
         // on below line we are creating a variable for our adapter class and passing array list to it.
@@ -57,7 +55,7 @@ public class MatchesFragment extends Fragment {
 
     private void getMatchesList() {
 
-       // CommonUtils.showProgress(getActivity());
+        // CommonUtils.showProgress(getActivity());
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 
             @Override
@@ -68,13 +66,13 @@ public class MatchesFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                         Log.e("matches :", task.getResult().size() + "//");
-                      //  CommonUtils.hideProgress();
+                        //  CommonUtils.hideProgress();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.e("matches :", "infailure");
-                     //   CommonUtils.hideProgress();
+                        //   CommonUtils.hideProgress();
                     }
                 });
 
@@ -83,7 +81,7 @@ public class MatchesFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
+                // CommonUtils.hideProgress();
 
             }
         });
