@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -16,12 +17,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
@@ -31,8 +30,8 @@ import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
-import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -40,7 +39,7 @@ public class AboutMeActivity extends BaseActivity {
     private ActivityAboutMeBinding binding;
     public static String firstName = "", lastName = "", gender = "", sePref = "", dob = "";
     public static String stringDate = "";
-
+    public boolean isUserExist = false;
 
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight", "Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -53,8 +52,63 @@ public class AboutMeActivity extends BaseActivity {
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
-        binding.firstNameET.setText(LoginActivity.first_name);
-        binding.lastNameET.setText(LoginActivity.last_name);
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                if (documentSnapshot.exists()) {
+                    isUserExist = true;
+                    binding.firstNameET.setText(documentSnapshot.get(FSConstants.USER.FIRST_NAME).toString());
+                    binding.lastNameET.setText(documentSnapshot.get(FSConstants.USER.LAST_NAME).toString());
+                    binding.dobTV.setText(documentSnapshot.get(FSConstants.USER.DOB).toString());
+                    for (int i = 0; i < genders.length; i++) {
+                        if (genders[i].equals(documentSnapshot.get(FSConstants.USER.GENDER))) {
+                            binding.genderSp.setSelection(i);
+                            return;
+                        }
+                    }
+                    for (int i = 0; i < preferences.length; i++) {
+                        if (preferences[i].equals(documentSnapshot.get(FSConstants.USER.SEX_PREFER))) {
+                            binding.sexPrefSp.setSelection(i);
+                            return;
+                        }
+                    }
+                } else {
+                    isUserExist = false;
+                    setDataReceivedFromFB();
+                }
+/*
+                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+
+                yLog("previous data enjoyEating: ", enjoyEating.toString());
+                yLog("previous data taste: ", taste.toString());
+                yLog("previous data notEat: ", notEat.toString());
+                yLog("previous data notTalk: ", notTalk.toString());
+                if(enjoyEating != null && enjoyEating.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
+                }
+                if(taste != null && taste.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
+                }
+                if(notEat != null && notEat.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
+                }
+                if(notTalk != null && notTalk.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
+                }*/
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+            }
+        });
+
 
         // getting today's date and separating day, month and year and putting that value to array
         long millis = System.currentTimeMillis();
@@ -117,79 +171,66 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.GENDER, gender);
                     user.put(FSConstants.USER.SEX_PREFER, sePref);
                     user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
-
-                    //yLog("ABOUT_DONE: ", String.valueOf(AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)));
-                    if(AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)){
-                        //yLog("ABOUT_DONE: ", String.valueOf(AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)));
-                        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
+                    Log.e("is exist :",isUserExist+"//");
+                    if (isUserExist) {
+                        CommonUtils.showProgress(AboutMeActivity.this);
+                        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            public void onSuccess(Void unused) {
 
-                                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
-                                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-                                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+                                AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
+                                CommonUtils.hideProgress();
 
-                                yLog("previous data enjoyEating: ", enjoyEating.toString());
-                                yLog("previous data taste: ", taste.toString());
-                                yLog("previous data notEat: ", notEat.toString());
-                                yLog("previous data notTalk: ", notTalk.toString());
-                                if(enjoyEating != null && enjoyEating.size() > 0){
-                                    user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
-                                }
-                                if(taste != null && taste.size() > 0){
-                                    user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
-                                }
-                                if(notEat != null && notEat.size() > 0){
-                                    user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
-                                }
-                                if(notTalk != null && notTalk.size() > 0){
-                                    user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
-                                }
+                                yLog("user id about me:", FirebaseAuth.getInstance().getUid());
+                                Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
+                                startActivity(i);
                             }
+
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onFailure(@NonNull Exception e) {
+                            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                                CommonUtils.hideProgress();
+                                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                            }
+                        });
+                    } else {
+                        CommonUtils.showProgress(AboutMeActivity.this);
+                        FirebaseCRUD.getInstance().set(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+
+                                AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
+                                CommonUtils.hideProgress();
+
+                                yLog("user id about me:", FirebaseAuth.getInstance().getUid());
+                                Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
+                                startActivity(i);
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                                CommonUtils.hideProgress();
                                 ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
                             }
                         });
                     }
-
-                 /*   FirebaseCRUD.getInstance().create(FirebaseConstants.Collections.USERS, user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
-                        }
-                    });*/
-                    CommonUtils.showProgress(AboutMeActivity.this);
-                    FirebaseCRUD.getInstance().set(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-
-                            AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
-                            CommonUtils.hideProgress();
-
-                            yLog("user id about me:", FirebaseAuth.getInstance().getUid());
-                            Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
-                            startActivity(i);
-                        }
-
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
-                            CommonUtils.hideProgress();
-                            ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
-                        }
-                    });
                 }
             }
         });
+    }
+
+    private void setDataReceivedFromFB() {
+        binding.firstNameET.setText(LoginActivity.first_name);
+        binding.lastNameET.setText(LoginActivity.last_name);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoginActivity.first_name = "";
+        LoginActivity.last_name = "";
     }
 
     @Override

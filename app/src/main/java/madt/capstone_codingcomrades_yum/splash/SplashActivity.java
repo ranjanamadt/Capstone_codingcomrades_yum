@@ -38,13 +38,17 @@ public class SplashActivity extends BaseActivity {
                 Intent i;
                 if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                     // If User already logged in
+
+                    yLog("in","if");
                     i = new Intent(SplashActivity.this,
                             LoginActivity.class);
 
                 } else {
-
+                    yLog("in","else");
                     // If user need to logged in
-                    if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
+                    i = new Intent(SplashActivity.this,
+                            AboutMeActivity.class);
+                   /* if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
                         i = new Intent(SplashActivity.this,
                                 AboutMeActivity.class);
                     } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.TASTE_DONE)) {
@@ -62,7 +66,7 @@ public class SplashActivity extends BaseActivity {
                     } else {
                         i = new Intent(SplashActivity.this,
                                 HomeActivity.class);
-                    }
+                    }*/
                 }
 
                 startActivity(i);
