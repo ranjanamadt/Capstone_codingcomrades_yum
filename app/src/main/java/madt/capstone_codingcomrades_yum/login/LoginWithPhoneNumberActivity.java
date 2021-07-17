@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -19,9 +20,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
+import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
@@ -29,6 +34,8 @@ import madt.capstone_codingcomrades_yum.databinding.ActivityLoginWithPhoneNumber
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
+import madt.capstone_codingcomrades_yum.utils.FSConstants;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class LoginWithPhoneNumberActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
@@ -55,7 +62,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
             if (binding.txtPhnEntry.getText().toString().isEmpty()) {
                 ySnackbar(this, getString(R.string.err_enter_phone_number));
             } else {
-                startPhoneNumberVerification(selectedCountryCode + " "+binding.txtPhnEntry.getText().toString());
+                startPhoneNumberVerification(selectedCountryCode + " " + binding.txtPhnEntry.getText().toString());
             }
         });
 
@@ -157,7 +164,7 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
 
 
     private void startPhoneNumberVerification(String phoneNumber) {
-        yLog("phone number :",phoneNumber);
+        yLog("phone number :", phoneNumber);
         // [START start_phone_auth]
         CommonUtils.showProgress(LoginWithPhoneNumberActivity.this);
         PhoneAuthOptions options =
@@ -184,12 +191,33 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
 
                             AppSharedPreferences.getInstance().setString(SharedConstants.FS_AUTH_ID, user.getUid());
 
-                            CommonUtils.hideProgress();
-                            Intent i = new Intent(LoginWithPhoneNumberActivity.this,
-                                    AboutMeActivity.class);
-                            startActivity(i);
-                            finish();
-                            yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
+                            FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, user.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                                    Intent i = null;
+                                    if (task.getResult().exists()) {
+                                        i = new Intent(LoginWithPhoneNumberActivity.this,
+                                                HomeActivity.class);
+                                    } else {
+                                        i = new Intent(LoginWithPhoneNumberActivity.this,
+                                                AboutMeActivity.class);
+                                    }
+                                    startActivity(i);
+                                    finish();
+                                    yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
+
+                                    CommonUtils.hideProgress();
+
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull @NotNull Exception e) {
+                                    ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
+                                    CommonUtils.hideProgress();
+                                }
+                            });
+
 
                         } else {
                             ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());

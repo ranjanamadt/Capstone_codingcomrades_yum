@@ -7,17 +7,16 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
-import madt.capstone_codingcomrades_yum.databinding.ChatsBinding;
+import madt.capstone_codingcomrades_yum.databinding.ActivityMessagesBinding;
 
-public class ChatsActivity extends BaseActivity {
+public class MessagesActivity extends BaseActivity {
 
-    private ChatsBinding binding;
+    private ActivityMessagesBinding binding;
 
     @Override
-    public void onCreate(@Nullable  Bundle savedInstanceState, @Nullable  PersistableBundle persistentState) {
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        binding= DataBindingUtil.setContentView(this,R.layout.chats);
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_messages);
 
     }
 
