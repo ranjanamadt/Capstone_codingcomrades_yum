@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
@@ -52,7 +53,7 @@ public class AboutMeActivity extends BaseActivity {
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
-CommonUtils.showProgress(this);
+        CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -176,6 +177,44 @@ CommonUtils.showProgress(this);
                     Log.e("is exist :",isUserExist+"//");
                     if (isUserExist) {
                         CommonUtils.showProgress(AboutMeActivity.this);
+
+                        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                if (documentSnapshot.exists()) {
+                                    List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                                    List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                                    List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                                    List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+
+                                    yLog("previous data enjoyEating: ", enjoyEating.toString());
+                                    yLog("previous data taste: ", taste.toString());
+                                    yLog("previous data notEat: ", notEat.toString());
+                                    yLog("previous data notTalk: ", notTalk.toString());
+                                    if(enjoyEating != null && enjoyEating.size() > 0){
+                                        user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
+                                    }
+                                    if(taste != null && taste.size() > 0){
+                                        user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
+                                    }
+                                    if(notEat != null && notEat.size() > 0){
+                                        user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
+                                    }
+                                    if(notTalk != null && notTalk.size() > 0){
+                                        user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                                CommonUtils.hideProgress();
+                            }
+                        });
+
                         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -258,6 +297,26 @@ CommonUtils.showProgress(this);
         } else {
             binding.sexPrefSp.setSelection(0);
         }
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                if (documentSnapshot.exists()) {
+                    isUserExist = true;
+                } else {
+                    isUserExist = false;
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                CommonUtils.hideProgress();
+            }
+        });
+
     }
 
     @Override
