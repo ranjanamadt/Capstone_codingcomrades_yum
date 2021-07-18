@@ -33,8 +33,8 @@
                     android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/name"
                     android:textColor="@color/black"
@@ -218,12 +218,24 @@
                 <ImageView
                     android:id="@+id/image_btn"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="@dimen/_200sdp"
+                    android:layout_height="@dimen/_187sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_imageicon" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_38sdp"
+                    android:layout_marginBottom="@dimen/_115sdp"
+                    android:clickable="true"
+                    app:layout_constraintBottom_toTopOf="@+id/etAboutMe"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
