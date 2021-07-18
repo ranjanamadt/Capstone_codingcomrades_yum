@@ -186,13 +186,13 @@ public class MatchesFragment extends Fragment {
         //      ((ImageView) v.findViewById(R.id.imageView)).setImageResource(matchesList.get(position).getImgId());*/
                 ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
                 ((TextView) v.findViewById(R.id.mtcBio)).setText(matchesList.get(position).getAboutMe());
-                v.findViewById(R.id.acept).setOnClickListener(new View.OnClickListener() {
+                v.findViewById(R.id.accept_btn2).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         binding.swipeDeck.swipeTopCardRight(1000);
                     }
                 });
-                v.findViewById(R.id.reject).setOnClickListener(new View.OnClickListener() {
+                v.findViewById(R.id.reject_btn2).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         binding.swipeDeck.swipeTopCardLeft(1000);
