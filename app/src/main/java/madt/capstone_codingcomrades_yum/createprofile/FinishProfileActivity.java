@@ -65,6 +65,7 @@ public class FinishProfileActivity extends BaseActivity {
 
     String latitude = "";
     String longitude = "";
+    Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,12 +129,16 @@ public class FinishProfileActivity extends BaseActivity {
                 if(aboutMe.isEmpty()){
                     ySnackbar(FinishProfileActivity.this, getString(R.string.err_about_me_empty));
                     return;
+                } else if(uri == null){
+                    ySnackbar(FinishProfileActivity.this, getString(R.string.err_profile_image_empty));
+                    return;
                 }
 
                 Map<String, Object> finishProfile = new HashMap<>();
                 finishProfile.put(FSConstants.USER.LATITUDE, latitude);
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
+                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, uri.toString());
 
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -331,8 +336,10 @@ public class FinishProfileActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri uri = data.getData();
-        binding.imageBtn.setImageURI(uri);
+        if(requestCode == PROFILE_RESULT_CODE){
+            uri = data.getData();
+            binding.imageBtn.setImageURI(uri);
+        }
     }
 
     private boolean hasLocationPermission() {

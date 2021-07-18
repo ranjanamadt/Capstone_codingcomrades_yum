@@ -81,6 +81,7 @@
     <string name="err_not_eat_chip_empty">Please select at least 1 food</string>
     <string name="err_not_talk_chip_empty">Please select at least 1 topic</string>
     <string name="err_about_me_empty">"About me" field empty</string>
+    <string name="err_profile_image_empty">Profile image not uploaded</string>
 
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>

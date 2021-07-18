@@ -17,6 +17,7 @@ public class FSConstants {
         String LATITUDE="latitude";
         String LONGITUDE="longitude";
         String ABOUT_ME="aboutMe";
+        String PROFILE_IMAGE="profileImage";
     }
 
     public interface PREFERENCE{
