@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".MatchDetail">
 
     <data></data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        android:background="@color/white"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
-
-        <madt.capstone_codingcomrades_yum.utils.YumTopBar
-            android:id="@+id/topBar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/_6sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 tools:context=".splash.SplashActivity">
+
+
                 <ImageView
                     android:id="@+id/image_btn"
                     android:layout_width="@dimen/_250sdp"
@@ -52,6 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="Kamila Papoulous"
                     android:textColor="@color/black"
@@ -59,6 +48,7 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image_btn" />
+
                 <TextView
                     android:id="@+id/mdAge"
                     android:layout_width="wrap_content"
@@ -67,120 +57,191 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="28"
-                    android:textColor="@color/paragraph_gray"
-                    android:textSize="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mdUserName" />
+                    app:layout_constraintStart_toEndOf="@+id/mdUserName"
+                    app:layout_constraintTop_toBottomOf="@+id/image_btn" />
+
                 <TextView
                     android:id="@+id/mdBio"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="Looking for a partner fon!"
-                    android:textColor="@color/paragraph_gray"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mdAge" />
+                    app:layout_constraintStart_toStartOf="@+id/mdUserName"
+                    app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
                 <TextView
                     android:id="@+id/mdLikes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="Likes"
+                    android:text="@string/likes"
                     android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/mdBio" />
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipLikes"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mdLikes"/>
+                    app:layout_constraintEnd_toEndOf="@+id/mdBio"
+                    app:layout_constraintStart_toStartOf="@+id/mdBio"
+                    app:layout_constraintTop_toBottomOf="@+id/mdLikes" />
+
                 <TextView
                     android:id="@+id/mdTopics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="Topics"
+                    android:text="@string/topics"
                     android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chipLikes" />
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipTopics"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mdTopics"/>
+                    app:layout_constraintEnd_toEndOf="@+id/mdBio"
+                    app:layout_constraintStart_toStartOf="@+id/mdBio"
+                    app:layout_constraintTop_toBottomOf="@+id/mdTopics" />
+
                 <TextView
                     android:id="@+id/mdDontEat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="Don't Eat"
+                    android:text="@string/don_t_eat"
                     android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chipTopics" />
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipDontEat"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mdDontEat"/>
+                    app:layout_constraintEnd_toEndOf="@+id/mdBio"
+                    app:layout_constraintStart_toStartOf="@+id/mdBio"
+                    app:layout_constraintTop_toBottomOf="@+id/mdDontEat" />
+
                 <TextView
                     android:id="@+id/mdDontTalk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="Don't enjoy talking about"
+                    android:text="@string/don_t_enjoy_talking_about"
                     android:textColor="@color/paragraph_gray"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chipDontEat" />
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipDontTalk"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/mdBio"
+                    app:layout_constraintStart_toStartOf="@+id/mdBio"
+                    app:layout_constraintTop_toBottomOf="@+id/mdDontTalk" />
+
+                <TextView
+                    android:id="@+id/report_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_35sdp"
+                    android:fontFamily="@font/segoe_ui"
+                    android:text="@string/report_user"
+                    android:textColor="@color/paragraph_gray"
+                    android:textSize="@dimen/_15sdp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mdDontTalk"/>
+                    app:layout_constraintTop_toBottomOf="@+id/chipDontTalk" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/about_me"
+                    app:layout_constraintStart_toStartOf="@+id/mdUserName"
+                    app:layout_constraintTop_toBottomOf="@+id/mdUserName" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </LinearLayout>
-</layout>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/accept_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_60sdp"
+        android:layout_marginBottom="@dimen/_25sdp"
+        android:backgroundTint="#FBFBFB"
+        android:elevation="1dp"
+        android:src="@drawable/ic_accept_letter"
+        app:backgroundTint="#00FFFFFF"
+        app:fabCustomSize="@dimen/_60sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="@dimen/_30sdp"
+        app:useCompatPadding="false" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/reject_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:layout_marginBottom="@dimen/_25sdp"
+        android:backgroundTint="@color/white"
+        android:elevation="1dp"
+        android:src="@drawable/ic_reject_letter"
+        app:backgroundTint="#00FFFFFF"
+        app:fabCustomSize="@dimen/_60sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="@dimen/_30sdp"
+        app:useCompatPadding="false" />
+</RelativeLayout>

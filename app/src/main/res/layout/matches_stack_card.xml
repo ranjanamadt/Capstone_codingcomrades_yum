@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="@dimen/_8sdp"
@@ -25,47 +26,66 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/mtcTasteChip"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/mtcUserName"
             app:layout_constraintTop_toBottomOf="@+id/mtcUserName" />
 
         <TextView
             android:id="@+id/mtcBio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/segoe_ui"
-            android:text="Looking for a partner fon!"
+            android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
             app:layout_constraintEnd_toEndOf="@+id/mtcTasteChip"
             app:layout_constraintStart_toStartOf="@+id/mtcUserName"
             app:layout_constraintTop_toBottomOf="@+id/mtcTasteChip" />
 
 
-        <Button
-            android:id="@+id/reject"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:background="@drawable/reject_btn"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/reject_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_25sdp"
+            android:backgroundTint="@color/white"
+            android:elevation="1dp"
+            android:src="@drawable/ic_reject_letter"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="@dimen/_60sdp"
+            app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/acept"
+            app:layout_constraintEnd_toStartOf="@+id/accept_btn2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:maxImageSize="@dimen/_30sdp"
+            app:useCompatPadding="false" />
 
-        <Button
-            android:id="@+id/acept"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:background="@drawable/acept_btn"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/accept_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_25sdp"
+            android:backgroundTint="@color/white"
+            android:elevation="1dp"
+            android:src="@drawable/ic_accept_letter"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="@dimen/_60sdp"
+            app:fabSize="auto"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/reject" />
+            app:layout_constraintStart_toEndOf="@+id/reject_btn2"
+            app:maxImageSize="@dimen/_30sdp"
+            app:useCompatPadding="false" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -83,6 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
+            android:clickable="true"
             android:fontFamily="@font/segoe_ui"
             android:text="@string/info_btn"
             android:textColor="@color/black"
@@ -91,6 +112,22 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mtcBio" />
+
+        <TextView
+            android:id="@+id/mtdAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/segoe_ui"
+            android:text="28"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            app:layout_constraintHorizontal_bias="0.58"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mtcUserName"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

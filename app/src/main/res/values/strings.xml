@@ -100,6 +100,11 @@
     <string name="pro_preference">Preference</string>
     <string name="pro_add_image">Add picture</string>
     <string name="pro_Settings">Settings</string>
+    <string name="likes">Likes</string>
+    <string name="topics">Topics</string>
+    <string name="don_t_eat">Don\'t Eat</string>
+    <string name="don_t_enjoy_talking_about">Don\'t enjoy talking about</string>
+    <string name="report_user">Report user</string>
 
 
 </resources>
