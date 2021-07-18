@@ -53,65 +53,6 @@ public class AboutMeActivity extends BaseActivity {
         binding.sexPrefSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, preferences));
         binding.genderSp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
-        CommonUtils.showProgress(this);
-        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                if (documentSnapshot.exists()) {
-                    isUserExist = true;
-                    binding.firstNameET.setText(documentSnapshot.get(FSConstants.USER.FIRST_NAME).toString());
-                    binding.lastNameET.setText(documentSnapshot.get(FSConstants.USER.LAST_NAME).toString());
-                    binding.dobTV.setText(documentSnapshot.get(FSConstants.USER.DOB).toString());
-                    for (int i = 0; i < genders.length; i++) {
-                        if (genders[i].equals(documentSnapshot.get(FSConstants.USER.GENDER))) {
-                            binding.genderSp.setSelection(i);
-                            break;
-                        }
-                    }
-                    for (int i = 0; i < preferences.length; i++) {
-                        if (preferences[i].equals(documentSnapshot.get(FSConstants.USER.SEX_PREFER))) {
-                            binding.sexPrefSp.setSelection(i);
-                           break;
-                        }
-                    }
-                } else {
-                    isUserExist = false;
-                    setDataReceivedFromFB();
-                }
-                CommonUtils.hideProgress();
-/*
-                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
-                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
-
-                yLog("previous data enjoyEating: ", enjoyEating.toString());
-                yLog("previous data taste: ", taste.toString());
-                yLog("previous data notEat: ", notEat.toString());
-                yLog("previous data notTalk: ", notTalk.toString());
-                if(enjoyEating != null && enjoyEating.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
-                }
-                if(taste != null && taste.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
-                }
-                if(notEat != null && notEat.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
-                }
-                if(notTalk != null && notTalk.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
-                }*/
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
-                CommonUtils.hideProgress();
-            }
-        });
-
 
         // getting today's date and separating day, month and year and putting that value to array
         long millis = System.currentTimeMillis();
@@ -177,7 +118,7 @@ public class AboutMeActivity extends BaseActivity {
                     Log.e("is exist :",isUserExist+"//");
                     if (isUserExist) {
                         CommonUtils.showProgress(AboutMeActivity.this);
-
+/*
                         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
@@ -213,7 +154,7 @@ public class AboutMeActivity extends BaseActivity {
                                 ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
                                 CommonUtils.hideProgress();
                             }
-                        });
+                        });*/
 
                         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -278,6 +219,7 @@ public class AboutMeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
+        getsExistingUserDetails();
         if (!firstName.isEmpty()) {
             binding.firstNameET.setText(firstName);
         }
@@ -298,6 +240,11 @@ public class AboutMeActivity extends BaseActivity {
             binding.sexPrefSp.setSelection(0);
         }
 
+    }
+
+    private void getsExistingUserDetails() {
+
+        CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -305,9 +252,48 @@ public class AboutMeActivity extends BaseActivity {
 
                 if (documentSnapshot.exists()) {
                     isUserExist = true;
+                    binding.firstNameET.setText(documentSnapshot.get(FSConstants.USER.FIRST_NAME).toString());
+                    binding.lastNameET.setText(documentSnapshot.get(FSConstants.USER.LAST_NAME).toString());
+                    binding.dobTV.setText(documentSnapshot.get(FSConstants.USER.DOB).toString());
+                    for (int i = 0; i < genders.length; i++) {
+                        if (genders[i].equals(documentSnapshot.get(FSConstants.USER.GENDER))) {
+                            binding.genderSp.setSelection(i);
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < preferences.length; i++) {
+                        if (preferences[i].equals(documentSnapshot.get(FSConstants.USER.SEX_PREFER))) {
+                            binding.sexPrefSp.setSelection(i);
+                            break;
+                        }
+                    }
                 } else {
                     isUserExist = false;
+                    setDataReceivedFromFB();
                 }
+                CommonUtils.hideProgress();
+/*
+                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+
+                yLog("previous data enjoyEating: ", enjoyEating.toString());
+                yLog("previous data taste: ", taste.toString());
+                yLog("previous data notEat: ", notEat.toString());
+                yLog("previous data notTalk: ", notTalk.toString());
+                if(enjoyEating != null && enjoyEating.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
+                }
+                if(taste != null && taste.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
+                }
+                if(notEat != null && notEat.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
+                }
+                if(notTalk != null && notTalk.size() > 0){
+                    user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
+                }*/
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

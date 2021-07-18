@@ -158,7 +158,7 @@ public class MatchesFragment extends Fragment {
         @Override
         public int getCount() {
             // in get count method we are returning the size of our array list.
-            return 10;
+            return matchesList.size();
         }
 
         @Override
