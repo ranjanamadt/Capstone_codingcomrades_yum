@@ -8,21 +8,21 @@ public class User {
     String dob;
     String gender;
     String sePref;
-    String bio;
+    String aboutMe;
     Object[] interest;
     Object[] not_eat;
     Object[] not_talk;
     Object[] taste;
     Object[] enjoy_eating;
 
-    public User(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String bio, Object[] interest, Object[] not_eat, Object[] not_talk, Object[] taste, Object[] enjoy_eating) {
+    public User(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, Object[] interest, Object[] not_eat, Object[] not_talk, Object[] taste, Object[] enjoy_eating) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.gender = gender;
         this.sePref = sePref;
-        this.bio = bio;
+        this.aboutMe = aboutMe;
         this.interest = interest;
         this.not_eat = not_eat;
         this.not_talk = not_talk;
@@ -38,12 +38,12 @@ public class User {
         this.uuid = uuid;
     }
 
-    public String getBio() {
-        return bio;
+    public String getAboutMe() {
+        return aboutMe;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
 
     public Object[] getInterest() {

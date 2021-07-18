@@ -21,16 +21,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
@@ -107,7 +104,7 @@ public class MatchesFragment extends Fragment {
                                     document.get("dob").toString(),
                                     document.get("gender").toString(),
                                     document.get("sePref").toString(),
-                                    document.get("bio") != null ? document.get("bio").toString() : "",
+                                    document.get("aboutMe") != null ? document.get("aboutMe").toString() : "",
                                     Arrays.asList(document.get("interest")).toArray() ,
                                     Arrays.asList(document.get("not_eat")).toArray() ,
                                     Arrays.asList(document.get("not_talk")).toArray() ,
@@ -188,7 +185,7 @@ public class MatchesFragment extends Fragment {
             if (matchesList.size() > 0 && position < matchesList.size()) {
         //      ((ImageView) v.findViewById(R.id.imageView)).setImageResource(matchesList.get(position).getImgId());*/
                 ((TextView) v.findViewById(R.id.mtcUserName)).setText(matchesList.get(position).getFullName());
-                ((TextView) v.findViewById(R.id.mtcBio)).setText(matchesList.get(position).getBio());
+                ((TextView) v.findViewById(R.id.mtcBio)).setText(matchesList.get(position).getAboutMe());
                 v.findViewById(R.id.acept).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
