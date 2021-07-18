@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -35,12 +38,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.LatLng;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.grpc.Compressor;
 import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
@@ -66,6 +73,7 @@ public class FinishProfileActivity extends BaseActivity {
     String latitude = "";
     String longitude = "";
     Uri uri;
+    byte[] profileImageByte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,16 +142,26 @@ public class FinishProfileActivity extends BaseActivity {
                     return;
                 }
 
+                yLog("image uri", uri.toString());
+
+                Bitmap bitmap = ((BitmapDrawable)binding.imageBtn.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                profileImageByte = baos.toByteArray();
+
+                String profileImageString = new String(profileImageByte);
+                yLog("profileImageString", profileImageString);
+
                 Map<String, Object> finishProfile = new HashMap<>();
                 finishProfile.put(FSConstants.USER.LATITUDE, latitude);
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
-                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, uri.toString());
+                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImageString);
 
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
+                        ySnackbar(FinishProfileActivity.this, "data saved successfully");
                         /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                         CommonUtils.hideProgress();
 
@@ -159,7 +177,7 @@ public class FinishProfileActivity extends BaseActivity {
                     }
                 });
 
-                ySnackbar(FinishProfileActivity.this, "Latitude:" + latitude + ", Longitude:" + longitude);
+                //ySnackbar(FinishProfileActivity.this, "Latitude:" + latitude + ", Longitude:" + longitude);
                 /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                 Intent i = new Intent(FinishProfileActivity.this,
                         HomeActivity.class);
