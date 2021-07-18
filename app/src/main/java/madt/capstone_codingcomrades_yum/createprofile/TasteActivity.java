@@ -197,7 +197,7 @@ public class TasteActivity extends BaseActivity {
 
                     if (resultE != null && resultE.size() > 0) {
                         resultEating.addAll(resultE);
-                        addEnjoyEating(resultT);
+                        addEnjoyEating(resultE);
                     }
                     if (resultT != null && resultT.size() > 0) {
                         resultTastes.addAll(resultT);
