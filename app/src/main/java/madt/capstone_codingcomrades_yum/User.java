@@ -1,12 +1,28 @@
 package madt.capstone_codingcomrades_yum;
 
 public class User {
-    public User(String firstName, String lastName, String dob, String gender, String sePref, Object[] interest, Object[] not_eat, Object[] not_talk, Object[] taste, Object[] enjoy_eating) {
+
+    String uuid;
+    String firstName;
+    String lastName;
+    String dob;
+    String gender;
+    String sePref;
+    String bio;
+    Object[] interest;
+    Object[] not_eat;
+    Object[] not_talk;
+    Object[] taste;
+    Object[] enjoy_eating;
+
+    public User(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String bio, Object[] interest, Object[] not_eat, Object[] not_talk, Object[] taste, Object[] enjoy_eating) {
+        this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.gender = gender;
         this.sePref = sePref;
+        this.bio = bio;
         this.interest = interest;
         this.not_eat = not_eat;
         this.not_talk = not_talk;
@@ -14,16 +30,21 @@ public class User {
         this.enjoy_eating = enjoy_eating;
     }
 
-    String firstName;
-    String lastName;
-    String dob;
-    String gender;
-    String sePref;
-    Object[] interest;
-    Object[] not_eat;
-    Object[] not_talk;
-    Object[] taste;
-    Object[] enjoy_eating;
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public Object[] getInterest() {
         return interest;
