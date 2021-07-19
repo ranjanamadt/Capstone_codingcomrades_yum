@@ -38,6 +38,7 @@ public class InterestActivity extends BaseActivity {
     private ActivityInterestsBinding binding;
     private List<String> interestList;
     List<String> resultInt = new ArrayList<>();
+    Boolean checkInterest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,16 @@ public class InterestActivity extends BaseActivity {
         setTopBar();
         binding.chipInterest.removeAllViews();
 
-        CommonUtils.showProgress(this);
 
 
-        getSavedInterest();
+        checkInterest=false;
+        if( resultInt.isEmpty()) {
+            getSavedInterest();
+        } else{
+            addInterest(resultInt);
+        }
+
+
 
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +100,7 @@ public class InterestActivity extends BaseActivity {
     }
 
     private void getSavedInterest() {
-
+        CommonUtils.showProgress(this);
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -102,15 +109,14 @@ public class InterestActivity extends BaseActivity {
 
                 if (documentSnapshot.exists()) {
                     List<String>  listI = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST);
-                    /*Log.e("results",resultInt.toString());
-                    List<String>  res=new ArrayList<>();
-                    res.addAll(resultInt);*/
+
                     if (listI != null && listI.size() > 0) {
                         resultInt.addAll(listI);
                         addInterest(listI);
                     }
                 }
                 getAllInterests();
+                CommonUtils.hideProgress();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -160,11 +166,15 @@ public class InterestActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("results",resultInt.toString());
-                if (resultInt != null && !resultInt.isEmpty()) {
-                    if (!resultInt.contains(interestList.get(position)))
+                if(checkInterest) {
+                    if (resultInt != null && !resultInt.isEmpty()) {
+                        if (!resultInt.contains(interestList.get(position)))
+                            addInterestChip(interestList.get(position));
+                    } else {
                         addInterestChip(interestList.get(position));
-                } else {
-                    addInterestChip(interestList.get(position));
+                    }
+                }else{
+                    checkInterest=true;
                 }
             }
 

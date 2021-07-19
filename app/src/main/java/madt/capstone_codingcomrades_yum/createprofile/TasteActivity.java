@@ -3,7 +3,6 @@ package madt.capstone_codingcomrades_yum.createprofile;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,10 +38,10 @@ public class TasteActivity extends BaseActivity {
 
     /*    static String[] topics = {"Sushi", "Ramen", "Halal", "Dessert", "Coffee", "Italian", "Ceviche"};
         final static String[] preferences = {"Salty", "Sweet", "Sour"};*/
-    private List<String> enjoyEatingList;
-    private List<String> tasteList;
-    int checkEating = 0;
-    int checkTaste = 0;
+    private List<String> enjoyEatingList ;
+    private List<String> tasteList ;
+    Boolean checkEating = false;
+    Boolean checkTaste = false;
     List<String> resultEating = new ArrayList<>();
     List<String> resultTastes = new ArrayList<>();
 
@@ -51,7 +50,6 @@ public class TasteActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tastes);
-
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,15 +62,6 @@ public class TasteActivity extends BaseActivity {
 
                     yLog("enjoy eating list :", "" + resultEating);
                     yLog("preference for taste list :", "" + resultTastes);
-/*
-                    if(resultEating == null || resultEating.size() == 0){
-                        ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_eating_chip_empty));
-                        return;
-                    }
-                    if(resultTastes == null || resultTastes.size() == 0){
-                        ySnackbar(TasteActivity.this, getString(R.string.err_enjoy_taste_chip_empty));
-                        return;
-                    }*/
 
                     Map<String, Object> eatingPref = new HashMap<>();
                     eatingPref.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, resultEating);
@@ -94,6 +83,7 @@ public class TasteActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 enjoyEatingList = (List<String>) documentSnapshot.get("data");
                 setEnjoyEatingDropdown(enjoyEatingList);
+
                 getTastesPreferences();
             }
         });
@@ -105,6 +95,7 @@ public class TasteActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 tasteList = (List<String>) documentSnapshot.get("data");
                 setTastesDropdown(tasteList);
+
             }
         });
     }
@@ -112,15 +103,20 @@ public class TasteActivity extends BaseActivity {
     private void setTastesDropdown(List<String> tasteList) {
         binding.spnTastesPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
                 tasteList));
+
         binding.spnTastesPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (checkTaste) {
                     if (resultTastes != null && !resultTastes.isEmpty()) {
                         if (!resultTastes.contains(tasteList.get(position)))
                             addTastesChip(tasteList.get(position));
                     } else {
                         addTastesChip(tasteList.get(position));
                     }
+                } else {
+                    checkTaste = true;
+                }
             }
 
             @Override
@@ -133,16 +129,19 @@ public class TasteActivity extends BaseActivity {
     private void setEnjoyEatingDropdown(List<String> topicsList) {
         binding.spnEatingPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, topicsList));
 
-
         binding.spnEatingPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (checkEating) {
                     if (resultEating != null && !resultEating.isEmpty()) {
                         if (!resultEating.contains(enjoyEatingList.get(position)))
                             addEatingChip(enjoyEatingList.get(position));
                     } else {
                         addEatingChip(enjoyEatingList.get(position));
                     }
+                } else {
+                    checkEating = true;
+                }
             }
 
             @Override
@@ -177,10 +176,19 @@ public class TasteActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setTopBar();
-
+        checkEating = false;
+        checkTaste = false;
         binding.chipGroupEating.removeAllViews();
         binding.chipGroupTastes.removeAllViews();
-        getCurrentUserPreferences();
+
+        if( resultEating.isEmpty()||resultTastes.isEmpty()) {
+            resultEating.clear();
+            resultTastes.clear();
+            getCurrentUserPreferences();
+        } else{
+            addEnjoyEating(resultEating);
+            addTaste(resultTastes);
+        }
     }
 
     private void getCurrentUserPreferences() {
@@ -192,8 +200,8 @@ public class TasteActivity extends BaseActivity {
                 yLog("user id :", documentSnapshot.getId() + " ");
 
                 if (documentSnapshot.exists()) {
-                    List<String>   resultE = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                    List<String>   resultT = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                    List<String> resultE = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                    List<String> resultT = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
 
                     if (resultE != null && resultE.size() > 0) {
                         resultEating.addAll(resultE);
@@ -220,7 +228,6 @@ public class TasteActivity extends BaseActivity {
 
     private void addEnjoyEating(List<String> enjoyEatingList) {
         for (String enjoyEat : enjoyEatingList) {
-
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupEating, false);
             newChip.setText(enjoyEat);
             binding.chipGroupEating.addView(newChip);
@@ -281,7 +288,7 @@ public class TasteActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 binding.chipGroupEating.removeView(v);
-                resultTastes.remove(((Chip) v).getText());
+                resultEating.remove(((Chip) v).getText());
             }
         });
 

@@ -129,7 +129,7 @@
                         android:ems="10"
                         android:fontFamily="@font/segoe_ui"
                         android:padding="@dimen/_8sdp"
-                        android:text=""
+android:hint=""
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imgCalender"

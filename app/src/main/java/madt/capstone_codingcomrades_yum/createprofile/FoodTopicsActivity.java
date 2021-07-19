@@ -46,6 +46,8 @@ public class FoodTopicsActivity extends BaseActivity {
 
     List<String> resultNotEat = new ArrayList<>();
     List<String> resultNotTalk = new ArrayList<>();
+    Boolean checkNotEat = false;
+    Boolean checkNotTalk = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +106,9 @@ public class FoodTopicsActivity extends BaseActivity {
                     resultNotEat.addAll(resultNE);
                     addNotEat(resultNE);
                 }
-                if (resultNotTalk != null && resultNotTalk.size() > 0) {
+                if (resultNT != null && resultNT.size() > 0) {
                     resultNotTalk.addAll(resultNT);
-                    addNotTalk(resultNotTalk);
+                    addNotTalk(resultNT);
                 }
 
                 getAllFoodTopics();
@@ -169,11 +171,15 @@ public class FoodTopicsActivity extends BaseActivity {
         binding.spnNoTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (resultNotTalk != null && !resultNotTalk.isEmpty()) {
-                    if (!resultNotTalk.contains(notTalkList.get(position)))
+                if(checkNotTalk) {
+                    if (resultNotTalk != null && !resultNotTalk.isEmpty()) {
+                        if (!resultNotTalk.contains(notTalkList.get(position)))
+                            addNoTalkChip(notTalkList.get(position));
+                    } else {
                         addNoTalkChip(notTalkList.get(position));
-                } else {
-                    addNoTalkChip(notTalkList.get(position));
+                    }
+                }else{
+                    checkNotTalk=true;
                 }
 
             }
@@ -192,11 +198,15 @@ public class FoodTopicsActivity extends BaseActivity {
         binding.spnNoFood.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (resultNotEat != null && !resultNotEat.isEmpty()) {
-                    if (!resultNotEat.contains(notEatList.get(position)))
+                if(checkNotEat) {
+                    if (resultNotEat != null && !resultNotEat.isEmpty()) {
+                        if (!resultNotEat.contains(notEatList.get(position)))
+                            addNoEatChip(notEatList.get(position));
+                    } else {
                         addNoEatChip(notEatList.get(position));
-                } else {
-                    addNoEatChip(notEatList.get(position));
+                    }
+                }else {
+                    checkNotEat=true;
                 }
 
 
@@ -215,7 +225,16 @@ public class FoodTopicsActivity extends BaseActivity {
         setTopBar();
         binding.chipGroupNoFood.removeAllViews();
         binding.chipNotTalk.removeAllViews();
-        getSavedFoodTopics();
+        checkNotEat = false;
+        checkNotTalk = false;
+        if (resultNotEat.isEmpty() || resultNotTalk.isEmpty()) {
+            resultNotEat.clear();
+            resultNotTalk.clear();
+            getSavedFoodTopics();
+        } else {
+            addNotEat(resultNotEat);
+            addNotTalk(resultNotTalk);
+        }
 
 
     }

@@ -118,51 +118,11 @@ public class AboutMeActivity extends BaseActivity {
                     Log.e("is exist :",isUserExist+"//");
                     if (isUserExist) {
                         CommonUtils.showProgress(AboutMeActivity.this);
-/*
-                        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                                if (documentSnapshot.exists()) {
-                                    List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                                    List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
-                                    List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-                                    List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
-
-                                    if(enjoyEating != null && enjoyEating.size() > 0){
-                                        yLog("previous data enjoyEating: ", enjoyEating.toString());
-                                        user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
-                                    }
-                                    if(taste != null && taste.size() > 0){
-                                        yLog("previous data taste: ", taste.toString());
-                                        user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
-                                    }
-                                    if(notEat != null && notEat.size() > 0){
-                                        yLog("previous data notEat: ", notEat.toString());
-                                        user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
-                                    }
-                                    if(notTalk != null && notTalk.size() > 0){
-                                        yLog("previous data notTalk: ", notTalk.toString());
-                                        user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
-                                    }
-                                }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
-                                CommonUtils.hideProgress();
-                            }
-                        });*/
-
                         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-
                                 AppSharedPreferences.getInstance().setBoolean(SharedConstants.ABOUT_DONE, true);
                                 CommonUtils.hideProgress();
-
                                 yLog("user id about me:", FirebaseAuth.getInstance().getUid());
                                 Intent i = new Intent(AboutMeActivity.this, TasteActivity.class);
                                 startActivity(i);
@@ -272,28 +232,6 @@ public class AboutMeActivity extends BaseActivity {
                     setDataReceivedFromFB();
                 }
                 CommonUtils.hideProgress();
-/*
-                List<String> enjoyEating = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-                List<String> taste = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE);
-                List<String> notEat = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-                List<String> notTalk = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
-
-                yLog("previous data enjoyEating: ", enjoyEating.toString());
-                yLog("previous data taste: ", taste.toString());
-                yLog("previous data notEat: ", notEat.toString());
-                yLog("previous data notTalk: ", notTalk.toString());
-                if(enjoyEating != null && enjoyEating.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, enjoyEating);
-                }
-                if(taste != null && taste.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.TASTE, taste);
-                }
-                if(notEat != null && notEat.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, notEat);
-                }
-                if(notTalk != null && notTalk.size() > 0){
-                    user.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, notTalk);
-                }*/
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
