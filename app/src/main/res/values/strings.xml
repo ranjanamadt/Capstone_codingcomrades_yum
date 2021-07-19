@@ -57,9 +57,9 @@
     <string name="i_enjoy_eating">I enjoy eating</string>
     <string name="confirm">Confirm</string>
     <string name="about_me">About me</string>
-    <string name="name">name</string>
-    <string name="age">age</string>
-    <string name="gender">gender</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
     <string name="err_first_name_empty">First name field empty</string>
     <string name="err_last_name_empty">Last name field empty</string>
     <string name="err_dob_name_empty">Date of Birth field empty</string>
@@ -105,6 +105,18 @@
     <string name="don_t_eat">Don\'t Eat</string>
     <string name="don_t_enjoy_talking_about">Don\'t enjoy talking about</string>
     <string name="report_user">Report user</string>
-
+    <string name="payment_plan">Payment Plans: Subscription</string>
+    <string name="acc_settings">Account Settings</string>
+    <string name="ph_no">Phone Number</string>
+    <string name="disc_settings">Discovery Settings</string>
+    <string name="location">Location</string>
+    <string name="my_location">My Location</string>
+    <string name="add_new_loc">Add a new location</string>
+    <string name="similar_taste">Similar Taste</string>
+    <string name="similar_topics">Similar Topics</string>
+    <string name="at_least">At least</string>
+    <string name="between">Between</string>
+    <string name="i_am_looking">I am looking for</string>
+    <string name="distance">Maximum Distance</string>
 
 </resources>
