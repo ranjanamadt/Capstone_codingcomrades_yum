@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -40,7 +41,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -73,7 +76,7 @@ public class FinishProfileActivity extends BaseActivity {
     String latitude = "";
     String longitude = "";
     Uri uri;
-    byte[] profileImageByte;
+    String profileImgString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,20 +146,13 @@ public class FinishProfileActivity extends BaseActivity {
                 }
 
                 yLog("image uri", uri.toString());
-
-                Bitmap bitmap = ((BitmapDrawable)binding.imageBtn.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
-                profileImageByte = baos.toByteArray();
-
-                String profileImageString = new String(profileImageByte);
-                yLog("profileImageString", profileImageString);
+                yLog("profileImageString", profileImgString);
 
                 Map<String, Object> finishProfile = new HashMap<>();
                 finishProfile.put(FSConstants.USER.LATITUDE, latitude);
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
-                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImageString);
+                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgString);
 
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -357,6 +353,18 @@ public class FinishProfileActivity extends BaseActivity {
         if(requestCode == PROFILE_RESULT_CODE){
             uri = data.getData();
             binding.imageBtn.setImageURI(uri);
+
+            InputStream imageStream = null;
+            try {
+                imageStream = getContentResolver().openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap profileImgBitmap = BitmapFactory.decodeStream(imageStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            profileImgBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            byte[] profileImgByte = baos.toByteArray();
+            profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
         }
     }
 
