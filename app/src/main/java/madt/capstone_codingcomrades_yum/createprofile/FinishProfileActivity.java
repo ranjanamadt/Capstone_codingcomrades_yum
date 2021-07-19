@@ -157,12 +157,12 @@ public class FinishProfileActivity extends BaseActivity {
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        ySnackbar(FinishProfileActivity.this, "data saved successfully");
-                        /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
+                        //ySnackbar(FinishProfileActivity.this, "data saved successfully");
+                        AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                         CommonUtils.hideProgress();
 
                         Intent i = new Intent(FinishProfileActivity.this, HomeActivity.class);
-                        startActivity(i);*/
+                        startActivity(i);
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
