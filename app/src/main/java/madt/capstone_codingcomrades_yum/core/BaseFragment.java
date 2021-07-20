@@ -26,26 +26,9 @@ import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 
 public abstract class BaseFragment extends Fragment {
-    protected LoginUserDetail mLoginDetail;
-
-    {
-        mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL).toLowerCase(), LoginUserDetail.class);
-    }
-
-    @Nullable
-    @org.jetbrains.annotations.Nullable
-    @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
 
-    }
+
 
     protected void yLog(String tag, String message) {
         Log.e(tag, message);

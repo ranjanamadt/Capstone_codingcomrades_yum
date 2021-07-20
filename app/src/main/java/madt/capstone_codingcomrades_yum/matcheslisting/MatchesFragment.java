@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +53,7 @@ public class MatchesFragment extends BaseFragment {
     private MatchesAdapter mAdapter;
     private String currentUserName = "";
     private String currentUserId = "";
-
-
+    protected LoginUserDetail mLoginDetail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +61,9 @@ public class MatchesFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matches, container, false);
 
+        mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
+        yLog("user name :", mLoginDetail.getFirstName()+
+                mLoginDetail.getLastName());
         binding.swipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {

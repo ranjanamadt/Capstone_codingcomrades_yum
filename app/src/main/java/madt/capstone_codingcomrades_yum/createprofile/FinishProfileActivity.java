@@ -66,6 +66,7 @@ public class FinishProfileActivity extends BaseActivity {
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int PROFILE_RESULT_CODE = 2;
 
+
     String latitude = "";
     String longitude = "";
     Uri uri;
@@ -77,6 +78,7 @@ public class FinishProfileActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         if (!hasLocationPermission())
             requestLocationPermission();
@@ -178,7 +180,10 @@ public class FinishProfileActivity extends BaseActivity {
 
                 if (documentSnapshot.exists()) {
 
+
                     User user = new User(documentSnapshot);
+                    yLog("user name :", user.getFirstName()+
+                            user.getLastName());
                     LoginUserDetail loginUserDetail = new LoginUserDetail(
                             user.getUuid(),
                             user.getFirstName(),
