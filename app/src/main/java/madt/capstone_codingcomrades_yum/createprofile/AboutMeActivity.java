@@ -21,7 +21,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
@@ -115,7 +114,7 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.GENDER, gender);
                     user.put(FSConstants.USER.SEX_PREFER, sePref);
                     user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
-                    Log.e("is exist :",isUserExist+"//");
+                    Log.e("is exist :", isUserExist + "//");
                     if (isUserExist) {
                         CommonUtils.showProgress(AboutMeActivity.this);
                         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -229,14 +228,17 @@ public class AboutMeActivity extends BaseActivity {
                     }
                 } else {
                     isUserExist = false;
-                    setDataReceivedFromFB();
+                    if (!LoginActivity.first_name.isEmpty())
+                        setDataReceivedFromFB();
+                    else
+                        CommonUtils.logoutNow(AboutMeActivity.this);
                 }
                 CommonUtils.hideProgress();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                ySnackbar(AboutMeActivity.this, getString(R.string.error_saving_user));
+                ySnackbar(AboutMeActivity.this, getString(R.string.err_db));
                 CommonUtils.hideProgress();
             }
         });

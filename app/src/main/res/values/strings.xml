@@ -118,5 +118,6 @@
     <string name="between">Between</string>
     <string name="i_am_looking">I am looking for</string>
     <string name="distance">Maximum Distance</string>
+    <string name="err_db">Database error</string>
 
 </resources>

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import madt.capstone_codingcomrades_yum.databinding.FragmentProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
@@ -54,12 +55,7 @@ public class ProfileFragment extends Fragment {
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppSharedPreferences.getInstance().clearAll();
-                FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(getActivity(),
-                        LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
+                CommonUtils.logoutNow(getActivity());
 
             }
         });

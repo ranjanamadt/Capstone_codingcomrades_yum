@@ -2,6 +2,12 @@ package madt.capstone_codingcomrades_yum.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 
 public class CommonUtils {
     static ProgressDialog progress;
@@ -30,5 +36,13 @@ public class CommonUtils {
         }
     }
 
+    public  static  void logoutNow(Activity activity){
+        AppSharedPreferences.getInstance().clearAll();
+        FirebaseAuth.getInstance().signOut();
+        Intent i = new Intent(activity,
+                LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+       activity.startActivity(i);
+    }
 
 }
