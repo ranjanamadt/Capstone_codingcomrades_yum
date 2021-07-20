@@ -62,7 +62,9 @@ dependencies {
     implementation 'com.daprlabs.aaron:cardstack:0.3.1-beta0'
     // location service
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-
+    // for image picker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+    // for autoimage slider
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 }
 apply plugin: 'com.google.gms.google-services'
