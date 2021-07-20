@@ -228,10 +228,8 @@ public class AboutMeActivity extends BaseActivity {
                     }
                 } else {
                     isUserExist = false;
-                    if (!LoginActivity.first_name.isEmpty())
-                        setDataReceivedFromFB();
-                    else
-                        CommonUtils.logoutNow(AboutMeActivity.this);
+                    setDataReceivedFromFB();
+
                 }
                 CommonUtils.hideProgress();
             }

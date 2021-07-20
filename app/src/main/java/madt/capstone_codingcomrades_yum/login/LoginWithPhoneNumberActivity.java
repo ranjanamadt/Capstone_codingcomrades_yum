@@ -199,9 +199,10 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
                                         i = new Intent(LoginWithPhoneNumberActivity.this,
                                                 HomeActivity.class);
                                     } else {*/
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                                         i = new Intent(LoginWithPhoneNumberActivity.this,
                                                 AboutMeActivity.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                  //   }
                                     startActivity(i);
                                     finish();
