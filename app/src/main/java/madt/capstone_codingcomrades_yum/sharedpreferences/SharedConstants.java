@@ -16,4 +16,5 @@ public class SharedConstants {
     public static final String INTEREST_DONE = "interest_done";
     public static final String FOOD_TOPIC_DONE = "food_topic_done";
     public static final String FINISH_PROFILE_DONE = "finish_profile_done";
+    public static final String USER_DETAIL = "user_detail";
 }

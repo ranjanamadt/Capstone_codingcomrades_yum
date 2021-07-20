@@ -1,4 +1,4 @@
-package madt.capstone_codingcomrades_yum;
+package madt.capstone_codingcomrades_yum.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.databinding.FragmentChatBinding;
 
 

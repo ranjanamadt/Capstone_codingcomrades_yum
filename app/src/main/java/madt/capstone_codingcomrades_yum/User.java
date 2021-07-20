@@ -3,7 +3,6 @@ package madt.capstone_codingcomrades_yum;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.widget.ImageView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -38,6 +37,9 @@ public class User {
         this.profileImage = profileImage;
     }
 
+    public User() {
+
+    }
 
     public User(DocumentSnapshot document) {
         this.document = document;
@@ -50,10 +52,10 @@ public class User {
         this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
         this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
         this.profileImage = document.get(FSConstants.USER.PROFILE_IMAGE) != null ? document.get(FSConstants.USER.PROFILE_IMAGE).toString() : null;
-        this.interest = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.INTEREST)).toArray() ;
-        this.not_eat = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT)).toArray() ;
-        this.not_talk = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK)).toArray() ;
-        this.taste = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.TASTE)).toArray() ;
+        this.interest = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.INTEREST)).toArray();
+        this.not_eat = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT)).toArray();
+        this.not_talk = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK)).toArray();
+        this.taste = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.TASTE)).toArray();
         this.enjoy_eating = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING)).toArray();
     }
 
@@ -117,15 +119,15 @@ public class User {
         return firstName;
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 
-    public long getAge()  {
+    public long getAge() {
         Date dobObj = null;
         try {
             dobObj = new SimpleDateFormat("MMM d, yyyy").parse(this.getDob());
-            Date today =  new Date();
+            Date today = new Date();
             long difference_In_Time = today.getTime() - dobObj.getTime();
             return (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
         } catch (ParseException e) {
@@ -138,6 +140,7 @@ public class User {
         byte[] decodedString = Base64.decode(this.getProfileImage(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

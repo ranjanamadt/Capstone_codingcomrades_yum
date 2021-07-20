@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,24 +26,37 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
-import madt.capstone_codingcomrades_yum.MatchDetail;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
+import madt.capstone_codingcomrades_yum.chat.Message;
+import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
 
-public class MatchesFragment extends Fragment {
+public class MatchesFragment extends BaseFragment {
 
     private List<User> matchesList = new ArrayList<>();
     private FragmentMatchesBinding binding;
-    MatchesAdapter mAdapter;
+    private MatchesAdapter mAdapter;
+    private String currentUserName = "";
+    private String currentUserId = "";
+    public static User user;
+    protected User mLoginDetail;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,8 +95,21 @@ public class MatchesFragment extends Fragment {
         });
         getMatchesList();
 
+        if (user != null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(user));
+                }
+            },30000);
+
+            mLoginDetail = user;
+        } else {
+            mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL).toLowerCase(), User.class);
+        }
         return binding.getRoot();
     }
+
 
     private void getMatchesList() {
 
@@ -171,7 +197,7 @@ public class MatchesFragment extends Fragment {
             // on below line we are initializing our variables and setting data to our variables.
             if (matchesList.size() > 0 && position < matchesList.size()) {
                 User shownUser = matchesList.get(position);
-                if(shownUser.getProfileImage() != null){
+                if (shownUser.getProfileImage() != null) {
                     ((ImageView) v.findViewById(R.id.imageView)).setImageBitmap(shownUser.getProfileBitmapImage());
                 }
 
@@ -182,6 +208,49 @@ public class MatchesFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         binding.swipeDeck.swipeTopCardRight(1000);
+                        Map<String, Object> chatList = new HashMap<>();
+                        Message firstMessage = new Message(mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
+                                mLoginDetail.getUuid(),
+                                "67.7",
+                                "Hello");
+                        List<Message> messageList = new ArrayList<Message>();
+                        messageList.add(firstMessage);
+                        chatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
+
+                        FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
+
+                                FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
+                                matchesList.get(position).getFirstName(),
+                                chatList
+                        ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+
+                            }
+                        });
+                        FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
+
+                                FSConstants.Collections.CHATROOM, matchesList.get(position).getUuid(),
+
+                                mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
+                                chatList
+                        ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+
+                            }
+                        });
+
+                      /*  binding.swipeDeck.swipeTopCardRight(1000);
+                        Map<String, Object> chatList1 = new HashMap<>();
+                        chatList.put(FSConstants.CHAT_List.USER_NAME, currentUserName);
+
+                        FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
+                                matchesList.get(position).getUuid(),
+                                FSConstants.Collections.CHATROOM, chatList1
+                        );
+
+*/
                     }
                 });
                 v.findViewById(R.id.reject_btn2).setOnClickListener(new View.OnClickListener() {
@@ -193,7 +262,7 @@ public class MatchesFragment extends Fragment {
                 v.findViewById(R.id.info_btn).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(getActivity() , MatchDetail.class);
+                        Intent i = new Intent(getActivity(), MatchDetail.class);
                         i.putExtra(FSConstants.MATCHES_DETAIL.OTHER_USER_ID, shownUser.getUuid());
                         launcher.launch(i);
                     }
@@ -206,19 +275,21 @@ public class MatchesFragment extends Fragment {
             return v;
         }
     }
+
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     String action = data.getStringExtra(FSConstants.MATCHES_DETAIL.ACTION);
-                    if(action.equals("Accept")){
+                    if (action.equals("Accept")) {
                         binding.swipeDeck.swipeTopCardRight(4000);
-                    }else if(action.equals("Reject")){
+                    } else if (action.equals("Reject")) {
                         binding.swipeDeck.swipeTopCardLeft(4000);
                     }
                 }
             });
+
     @Override
     public void onResume() {
         super.onResume();

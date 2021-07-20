@@ -9,10 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
 
+import madt.capstone_codingcomrades_yum.chat.ChatFragment;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.HomescreenBinding;
 import madt.capstone_codingcomrades_yum.matcheslisting.MatchesFragment;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -20,25 +24,16 @@ public class HomeActivity extends BaseActivity {
     private HomescreenBinding binding;
     String screenTitle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.homescreen);
 
-        //   BottomNavigationView navView = findViewById(R.id.bottomNav_view);
-/*
-        //Pass the ID's of Different destinations
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_profile, R.id.navigation_chat, R.id.navigation_matches )
-                .build();
-
-        //Initialize NavController.
-
-        NavController navController = Navigation.findNavController(this, R.id.navHostFragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);*/
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().add(R.id.navHostFragment, new MatchesFragment()).commit();
+
+
 
         screenTitle = getString(R.string.title_matches);
         setTopBar();

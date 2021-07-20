@@ -5,6 +5,7 @@ public class FSConstants {
     public interface Collections{
         String USERS="users";
         String PREFERENCES="preferences";
+        String CHATROOM="chatroom";
     }
 
     public interface USER{
@@ -31,6 +32,13 @@ public class FSConstants {
         String INTEREST="interest";
         String NOT_EAT="not_eat";
         String NOT_TALK="not_talk";
+    }
+
+    public  interface  CHAT_List{
+        String USER_NAME= "user_name";
+        String USER_IMAGE= "user_image";
+        String MESSAGES="messages";
+
     }
 
     public interface MATCHES_DETAIL{

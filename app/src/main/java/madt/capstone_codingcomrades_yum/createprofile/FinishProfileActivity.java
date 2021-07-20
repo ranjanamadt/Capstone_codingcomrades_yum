@@ -1,16 +1,12 @@
 package madt.capstone_codingcomrades_yum.createprofile;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,32 +31,28 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.LatLng;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.grpc.Compressor;
 import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
+import madt.capstone_codingcomrades_yum.User;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.matcheslisting.MatchesFragment;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
-import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
+import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
@@ -111,7 +103,7 @@ public class FinishProfileActivity extends BaseActivity {
                 if (!LoginActivity.profile_image.isEmpty())
                     Picasso.get().load(LoginActivity.profile_image).into(binding.imageBtn);
 
-               // getEnjoyEating(FirebaseAuth.getInstance().getUid());
+                // getEnjoyEating(FirebaseAuth.getInstance().getUid());
                 CommonUtils.hideProgress();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -126,9 +118,9 @@ public class FinishProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ImagePicker.with(FinishProfileActivity.this)
-                        .crop(4f, 3f)	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .crop(4f, 3f)                    //Crop image(Optional), Check Customization for more option
+                        .compress(1024)            //Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
                         .start(PROFILE_RESULT_CODE);
             }
         });
@@ -137,10 +129,10 @@ public class FinishProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String aboutMe = binding.etAboutMe.getText().toString().trim();
-                if(aboutMe.isEmpty()){
+                if (aboutMe.isEmpty()) {
                     ySnackbar(FinishProfileActivity.this, getString(R.string.err_about_me_empty));
                     return;
-                } else if(uri == null){
+                } else if (uri == null) {
                     ySnackbar(FinishProfileActivity.this, getString(R.string.err_profile_image_empty));
                     return;
                 }
@@ -154,15 +146,14 @@ public class FinishProfileActivity extends BaseActivity {
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
                 finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgString);
 
+                CommonUtils.showProgress(FinishProfileActivity.this);
+
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), finishProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         //ySnackbar(FinishProfileActivity.this, "data saved successfully");
-                        AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
-                        CommonUtils.hideProgress();
 
-                        Intent i = new Intent(FinishProfileActivity.this, HomeActivity.class);
-                        startActivity(i);
+                        getCurrentUser();
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
@@ -173,184 +164,49 @@ public class FinishProfileActivity extends BaseActivity {
                     }
                 });
 
-                //ySnackbar(FinishProfileActivity.this, "Latitude:" + latitude + ", Longitude:" + longitude);
-                /*AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
-                Intent i = new Intent(FinishProfileActivity.this,
-                        HomeActivity.class);
-                startActivity(i);*/
             }
         });
     }
 
-/*    private void getEnjoyEating(String userId) {
-        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+    private void getCurrentUser() {
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                    List<String> enjoyEatingList = new ArrayList<String>();
-                    String document_userId = "";
-                    String document_prefType = "";
-                    String document_prefName = "";
-                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
+                if (documentSnapshot.exists()) {
+                    Gson gson= new Gson();
+                    User user = new User(documentSnapshot);
 
-                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.ENJOY_EATING)) {
-                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
-                            if (document_prefName != null && document_prefName.length() > 0) {
-                                enjoyEatingList = Arrays.asList(document_prefName.split(","));
-                            }
-                        }
+                    MatchesFragment.user=new User(documentSnapshot);
 
-                    }
+                    AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
+                    Intent i = new Intent(FinishProfileActivity.this,
+                            HomeActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
 
-                    yLog("user id :", userId);
-                    yLog("document_userId :", document_userId);
-                    yLog("document_prefType :", document_prefType);
-                    yLog("document_prefName :", document_prefName);
-                    addEnjoyEating(enjoyEatingList);
                 }
+
+                CommonUtils.hideProgress();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_user));
                 CommonUtils.hideProgress();
-                ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_not_eat));
             }
         });
     }
 
-    private void getTaste(String userId) {
-        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
 
-                    List<String> tasteList = new ArrayList<String>();
-                    String document_userId = "";
-                    String document_prefType = "";
-                    String document_prefName = "";
-                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
-
-                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.TASTE)) {
-                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
-                            if (document_prefName != null && document_prefName.length() > 0) {
-                                tasteList = Arrays.asList(document_prefName.split(","));
-                            }
-                        }
-
-                    }
-
-                    yLog("user id :", userId);
-                    yLog("document_userId :", document_userId);
-                    yLog("document_prefType :", document_prefType);
-                    yLog("document_prefName :", document_prefName);
-                    addTaste(tasteList);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
-                ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_not_eat));
-            }
-        });
-    }
-
-    private void getNotEat(String userId) {
-        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
-
-                    List<String> notEatList = new ArrayList<String>();
-                    String document_userId = "";
-                    String document_prefType = "";
-                    String document_prefName = "";
-                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
-
-                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.NOT_EAT)) {
-                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
-                            if (document_prefName != null && document_prefName.length() > 0) {
-                                notEatList = Arrays.asList(document_prefName.split(","));
-                            }
-                        }
-
-                    }
-
-                    yLog("user id :", userId);
-                    yLog("document_userId :", document_userId);
-                    yLog("document_prefType :", document_prefType);
-                    yLog("document_prefName :", document_prefName);
-                    addNotEat(notEatList);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
-                ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_not_eat));
-            }
-        });
-    }
-
-    private void getNotTalk(String userId) {
-        FirebaseCRUD.getInstance().getAll(FSConstants.Collections.PREFERENCES).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> documentSnapshotList = queryDocumentSnapshots.getDocuments();
-
-                    List<String> notTalkList = new ArrayList<String>();
-                    String document_userId = "";
-                    String document_prefType = "";
-                    String document_prefName = "";
-                    for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
-                        document_userId = documentSnapshot.getString(FSConstants.PREFERENCE.USER_UID);
-                        document_prefType = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_TYPE);
-
-                        if (document_userId.equals(userId) && document_prefType.equals(FSConstants.PREFERENCE_TYPE.NOT_TALK)) {
-                            document_prefName = documentSnapshot.getString(FSConstants.PREFERENCE.PREFERENCE_NAME);
-                            if (document_prefName != null && document_prefName.length() > 0) {
-                                notTalkList = Arrays.asList(document_prefName.split(","));
-                            }
-                        }
-
-                    }
-
-                    yLog("user id :", userId);
-                    yLog("document_userId :", document_userId);
-                    yLog("document_prefType :", document_prefType);
-                    yLog("document_prefName :", document_prefName);
-                    addNotTalk(notTalkList);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                CommonUtils.hideProgress();
-                ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_not_eat));
-            }
-        });
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PROFILE_RESULT_CODE){
+        if (requestCode == PROFILE_RESULT_CODE) {
             uri = data.getData();
             binding.imageBtn.setImageURI(uri);
 
@@ -362,7 +218,7 @@ public class FinishProfileActivity extends BaseActivity {
             }
             Bitmap profileImgBitmap = BitmapFactory.decodeStream(imageStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            profileImgBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+            profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] profileImgByte = baos.toByteArray();
             profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
         }
@@ -449,7 +305,7 @@ public class FinishProfileActivity extends BaseActivity {
             binding.chipGroupEnjoyEat.addView(newChip);
         }
 
-       // getTaste(FirebaseAuth.getInstance().getUid());
+        // getTaste(FirebaseAuth.getInstance().getUid());
     }
 
     private void addTaste(List<String> tasteList) {
@@ -475,7 +331,7 @@ public class FinishProfileActivity extends BaseActivity {
             binding.chipGroupNotEat.addView(newChip);
         }
 
-       // getNotTalk(FirebaseAuth.getInstance().getUid());
+        // getNotTalk(FirebaseAuth.getInstance().getUid());
     }
 
     private void addNotTalk(List<String> notTalkList) {

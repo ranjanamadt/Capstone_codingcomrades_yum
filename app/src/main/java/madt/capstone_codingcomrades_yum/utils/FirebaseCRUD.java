@@ -29,15 +29,22 @@ public class FirebaseCRUD {
         // Add a new document with a generated ID
         return db.collection(collection).add(document);
     }
+    public Task<Void> createSubCollection(String collection, String subCollection, String docId,String userName,Map<String, Object> document) {
+Log.e("path :",collection+"/"+docId+"/"+subCollection);
+        // Add a new document with a generated ID
+        return db.collection(collection+"/"+docId+"/"+subCollection).document(userName).set(document);
+    }
 
     public Task<Void> set(String collection, String docId, Map<String, Object> document) {
         // Add a new document with a generated ID
         return db.collection(collection).document(docId).set(document);
 
-    }  public Task<Void> updateDoc(String collection, String docId, Map<String, Object> updatedData) {
+    }
+    public Task<Void> updateDoc(String collection, String docId, Map<String, Object> updatedData) {
         // Add a new document with a generated ID
         return db.collection(collection).document(docId).update(updatedData);
     }
+
 
     public Task<QuerySnapshot> getAll(String collection) {
         // gets all the documents in a collection
