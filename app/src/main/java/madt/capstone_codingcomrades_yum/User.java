@@ -1,7 +1,21 @@
 package madt.capstone_codingcomrades_yum;
 
-public class User {
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.widget.ImageView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+import madt.capstone_codingcomrades_yum.utils.FSConstants;
+
+public class User {
+    DocumentSnapshot document;
     String uuid;
     String firstName;
     String lastName;
@@ -9,25 +23,38 @@ public class User {
     String gender;
     String sePref;
     String aboutMe;
+    String profileImage;
     Object[] interest;
     Object[] not_eat;
     Object[] not_talk;
     Object[] taste;
     Object[] enjoy_eating;
 
-    public User(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, Object[] interest, Object[] not_eat, Object[] not_talk, Object[] taste, Object[] enjoy_eating) {
-        this.uuid = uuid;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dob = dob;
-        this.gender = gender;
-        this.sePref = sePref;
-        this.aboutMe = aboutMe;
-        this.interest = interest;
-        this.not_eat = not_eat;
-        this.not_talk = not_talk;
-        this.taste = taste;
-        this.enjoy_eating = enjoy_eating;
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+
+    public User(DocumentSnapshot document) {
+        this.document = document;
+
+        this.uuid = document.getId();
+        this.firstName = document.get(FSConstants.USER.FIRST_NAME).toString();
+        this.lastName = document.get(FSConstants.USER.LAST_NAME).toString();
+        this.dob = document.get(FSConstants.USER.DOB).toString();
+        this.gender = document.get(FSConstants.USER.GENDER).toString();
+        this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
+        this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
+        this.profileImage = document.get(FSConstants.USER.PROFILE_IMAGE) != null ? document.get(FSConstants.USER.PROFILE_IMAGE).toString() : null;
+        this.interest = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.INTEREST)).toArray() ;
+        this.not_eat = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT)).toArray() ;
+        this.not_talk = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK)).toArray() ;
+        this.taste = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.TASTE)).toArray() ;
+        this.enjoy_eating = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING)).toArray();
     }
 
     public String getUuid() {
@@ -94,6 +121,23 @@ public class User {
         return firstName + " " + lastName;
     }
 
+    public long getAge()  {
+        Date dobObj = null;
+        try {
+            dobObj = new SimpleDateFormat("MMM d, yyyy").parse(this.getDob());
+            Date today =  new Date();
+            long difference_In_Time = today.getTime() - dobObj.getTime();
+            return (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public Bitmap getProfileBitmapImage() {
+        byte[] decodedString = Base64.decode(this.getProfileImage(), Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

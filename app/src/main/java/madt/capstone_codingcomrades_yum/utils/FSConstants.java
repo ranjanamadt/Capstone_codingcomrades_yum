@@ -33,6 +33,10 @@ public class FSConstants {
         String NOT_TALK="not_talk";
     }
 
+    public interface MATCHES_DETAIL{
+        String OTHER_USER_ID="otherUserID";
+        String ACTION="Action";
 
+    }
 
 }
