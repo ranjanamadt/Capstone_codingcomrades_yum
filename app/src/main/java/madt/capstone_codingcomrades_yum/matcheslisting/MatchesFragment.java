@@ -221,7 +221,7 @@ public class MatchesFragment extends BaseFragment {
                         FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
 
                                 FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
-                                matchesList.get(position).getFirstName(),
+                                FirebaseAuth.getInstance().getUid()+"@"+matchesList.get(position).getFirstName()+matchesList,
                                 chatList
                         ).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -233,7 +233,7 @@ public class MatchesFragment extends BaseFragment {
 
                                 FSConstants.Collections.CHATROOM, matchesList.get(position).getUuid(),
 
-                                mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
+                                matchesList.get(position).getUuid()+"@"+mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
                                 chatList
                         ).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
