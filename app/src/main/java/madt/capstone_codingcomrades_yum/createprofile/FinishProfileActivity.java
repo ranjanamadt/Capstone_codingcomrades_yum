@@ -47,6 +47,7 @@ import madt.capstone_codingcomrades_yum.User;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityFinishProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.matcheslisting.MatchesFragment;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
@@ -176,11 +177,25 @@ public class FinishProfileActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
                 if (documentSnapshot.exists()) {
-                    Gson gson= new Gson();
+
                     User user = new User(documentSnapshot);
+                    LoginUserDetail loginUserDetail = new LoginUserDetail(
+                            user.getUuid(),
+                            user.getFirstName(),
+                            user.getLastName(),
+                            user.getDob(),
+                            user.getGender(),
+                            user.getSePref(),
+                            user.getAboutMe(),
+                            user.getProfileImage(),
+                            user.getInterest(),
+                            user.getNot_eat(),
+                            user.getNot_talk(),
+                            user.getTaste(),
+                            user.getEnjoy_eating()
+                    );
 
-                    MatchesFragment.user=new User(documentSnapshot);
-
+                    AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(loginUserDetail));
                     AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                     Intent i = new Intent(FinishProfileActivity.this,
                             HomeActivity.class);
@@ -199,7 +214,6 @@ public class FinishProfileActivity extends BaseActivity {
             }
         });
     }
-
 
 
     @Override

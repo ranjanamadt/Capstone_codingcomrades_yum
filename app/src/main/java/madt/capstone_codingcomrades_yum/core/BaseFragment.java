@@ -21,12 +21,16 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import madt.capstone_codingcomrades_yum.User;
+import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 
 public abstract class BaseFragment extends Fragment {
+    protected LoginUserDetail mLoginDetail;
 
-
+    {
+        mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL).toLowerCase(), LoginUserDetail.class);
+    }
 
     @Nullable
     @org.jetbrains.annotations.Nullable

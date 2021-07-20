@@ -40,6 +40,7 @@ import madt.capstone_codingcomrades_yum.User;
 import madt.capstone_codingcomrades_yum.chat.Message;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
+import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
@@ -53,8 +54,7 @@ public class MatchesFragment extends BaseFragment {
     private MatchesAdapter mAdapter;
     private String currentUserName = "";
     private String currentUserId = "";
-    public static User user;
-    protected User mLoginDetail;
+
 
 
     @Override
@@ -95,18 +95,18 @@ public class MatchesFragment extends BaseFragment {
         });
         getMatchesList();
 
-        if (user != null) {
+     /*   if (user != null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(user));
+
                 }
             },30000);
 
             mLoginDetail = user;
         } else {
-            mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL).toLowerCase(), User.class);
-        }
+
+        }*/
         return binding.getRoot();
     }
 
