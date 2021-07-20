@@ -39,7 +39,6 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
-    String
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
