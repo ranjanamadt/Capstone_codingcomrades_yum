@@ -28,18 +28,15 @@
                     android:layout_width="@dimen/_300sdp"
                     android:layout_height="@dimen/_250sdp"
                     android:src="@drawable/ic_imageicon"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    tools:layout_editor_absoluteX="11dp" />
 
 
                 <TextView
                     android:id="@+id/proUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_25sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
@@ -50,27 +47,24 @@
                     android:id="@+id/proAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/segoe_ui_bold"
+                    android:fontFamily="@font/segoe_ui"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
                     app:layout_constraintStart_toEndOf="@+id/proUserName"
-                    app:layout_constraintTop_toBottomOf="@id/proImageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/proImageView" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab2"
+                    android:id="@+id/addPictures"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_70sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_115sdp"
                     android:backgroundTint="@color/white"
                     android:clickable="true"
                     app:backgroundTint="@color/white"
                     app:fabCustomSize="@dimen/_50sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/fab3"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/proUserName"
                     app:maxImageSize="@dimen/_30sdp"
@@ -81,29 +75,27 @@
                     android:id="@+id/pro_addPicture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
                     android:text="@string/pro_add_image"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/fab2"
-                    app:layout_constraintStart_toStartOf="@+id/fab2"
-                    app:layout_constraintTop_toBottomOf="@+id/fab2" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addPictures" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/profileSetting"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_115sdp"
+                    android:layout_marginRight="@dimen/_70sdp"
                     android:backgroundTint="@color/white"
                     android:clickable="true"
                     app:backgroundTint="@color/white"
                     app:fabCustomSize="@dimen/_50sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fab2"
                     app:layout_constraintTop_toBottomOf="@+id/proUserName"
                     app:maxImageSize="@dimen/_30sdp"
                     app:srcCompat="@drawable/ic_baseline_settings_24" />
@@ -113,22 +105,26 @@
                     android:id="@+id/pro_Settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_70sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:gravity="center"
                     android:text="@string/pro_Settings"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/fab3"
-                    app:layout_constraintStart_toStartOf="@+id/fab3"
-                    app:layout_constraintTop_toBottomOf="@+id/fab3" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileSetting" />
 
                 <TextView
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:text="Logout"
-                    tools:layout_editor_absoluteX="173dp"
-                    tools:layout_editor_absoluteY="623dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pro_addPicture" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

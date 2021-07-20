@@ -37,6 +37,9 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +99,18 @@ public class FinishProfileActivity extends BaseActivity {
 
                 binding.tvUserName.setText(username);
                 binding.tvGender.setText(documentSnapshot.getString(FSConstants.USER.GENDER));
-                binding.tvAge.setText(documentSnapshot.getString(FSConstants.USER.DOB));
+
+                Date dobObj = null;
+                long age = 0;
+                try {
+                    dobObj = new SimpleDateFormat("MMM d, yyyy").parse(documentSnapshot.getString(FSConstants.USER.DOB));
+                    Date today = new Date();
+                    long difference_In_Time = today.getTime() - dobObj.getTime();
+                    age = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                binding.tvAge.setText(String.valueOf(age) + " years");
 
                 addEnjoyEating((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING));
                 addTaste((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE));
@@ -200,7 +214,8 @@ public class FinishProfileActivity extends BaseActivity {
                             user.getEnjoy_eating()
                     );
 
-                    AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(loginUserDetail));
+                    yLog("loginUserDetail: ", new Gson().toJson(loginUserDetail));
+                    AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(loginUserDetail).toString());
                     AppSharedPreferences.getInstance().setBoolean(SharedConstants.FINISH_PROFILE_DONE, true);
                     Intent i = new Intent(FinishProfileActivity.this,
                             HomeActivity.class);
