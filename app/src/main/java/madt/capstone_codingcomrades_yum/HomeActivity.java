@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.gson.Gson;
@@ -30,6 +33,7 @@ public class HomeActivity extends BaseActivity {
     {
         return contextOfApplication;
     }
+    NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,8 @@ public class HomeActivity extends BaseActivity {
 
        // manager.beginTransaction().add(R.id.navHostFragment, new MatchesFragment()).commit();
 
-
+        navController = Navigation.findNavController(this, R.id.navHostFragment);
+        NavigationUI.setupWithNavController(binding.bottomNavView, navController);
 
         screenTitle = getString(R.string.title_matches);
         setTopBar();
@@ -51,15 +56,15 @@ public class HomeActivity extends BaseActivity {
 
                 switch (item.getItemId()) {
                     case R.id.navigation_matches:
-                        switchToFragment(manager, new MatchesFragment());
+                        navController.navigate(R.id.navigation_matches);
                         screenTitle = getString(R.string.title_matches);
                         break;
                     case R.id.navigation_chat:
-                        switchToFragment(manager, new ChatFragment());
+                        navController.navigate(R.id.navigation_chat);
                         screenTitle = getString(R.string.title_chat);
                         break;
                     case R.id.navigation_profile:
-                        switchToFragment(manager, new ProfileFragment());
+                        navController.navigate(R.id.navigation_profile);
                         screenTitle = getString(R.string.title_profile);
                         break;
 
@@ -71,11 +76,6 @@ public class HomeActivity extends BaseActivity {
         });
 
 
-    }
-
-    public void switchToFragment(FragmentManager manager, Fragment fragment) {
-
-        manager.beginTransaction().replace(R.id.navHostFragment, fragment).commit();
     }
 
     @Override
