@@ -92,8 +92,10 @@ public class ChatFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull @NotNull ChatFragment.ChatElementAdapter.ChatViewHolder holder, int position) {
             ChatUserDetail chatEl = chatList.get(position);
             holder.usernameTV.setText(chatEl.getFirstName() + " " + chatEl.getLastName());
-           /* holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
-            holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));*/
+            holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
+            holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));
+            yLog("profile image :",chatEl.getProfileImage()+"//");
+            if(chatEl.getProfileImage()!=null && !chatEl.getProfileImage().isEmpty())
             holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
             holder.lastMessageTV.setText(chatList.get(position).getLastMessage());
 

@@ -7,20 +7,22 @@
     <data></data>
 <FrameLayout
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@color/background_white"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         tools:context=".chat.ChatFragment">
 
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchview"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="@+id/recycler_list"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,9 +31,10 @@
             android:id="@+id/recycler_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/background_white"
             android:text="@string/title_chat"
-            android:textColor="@color/black"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/searchview"

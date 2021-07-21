@@ -24,6 +24,8 @@ public class ChatUserDetail {
 
     String firstName;
 
+    String lastMessage;
+    String profileImage;
     public ChatUserDetail(String firstName, String lastName, String lastMessageTimeStamp, String lastMessage, String profileImage) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,12 +61,13 @@ public class ChatUserDetail {
         this.profileImage = profileImage;
     }
 
-    String lastMessage;
-    String profileImage;
 
     public ChatUserDetail(HashMap<String, Object> userDetail) {
         this.firstName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
         this.lastName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
+        this.lastMessageTimeStamp = userDetail.get(FSConstants.USER.LAST_MESSAGE_TIMESTAMP).toString();
+        this.lastMessage = userDetail.get(FSConstants.USER.LAST_MESSAGE).toString();
+        this.profileImage = userDetail.get(FSConstants.USER.PROFILE_IMAGE).toString();
 
     }
 
