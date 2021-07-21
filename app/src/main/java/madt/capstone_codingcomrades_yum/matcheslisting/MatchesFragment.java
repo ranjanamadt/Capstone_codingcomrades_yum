@@ -198,7 +198,7 @@ public class MatchesFragment extends BaseFragment {
             if (matchesList.size() > 0 && position < matchesList.size()) {
                 User shownUser = matchesList.get(position);
                 if (shownUser.getProfileImage() != null) {
-                    ((ImageView) v.findViewById(R.id.imageView)).setImageBitmap(shownUser.getProfileBitmapImage());
+                  //  ((ImageView) v.findViewById(R.id.imageView)).setImageBitmap(shownUser.getProfileBitmapImage());
                 }
 
                 ((TextView) v.findViewById(R.id.mtdAge)).setText(String.valueOf(shownUser.getAge()));
@@ -220,7 +220,7 @@ public class MatchesFragment extends BaseFragment {
                         FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
 
                                 FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
-                                FirebaseAuth.getInstance().getUid()+"@"+matchesList.get(position).getFirstName()+matchesList,
+                                matchesList.get(position).getUuid()+"@"+matchesList.get(position).getFullName(),
                                 chatList
                         ).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -232,7 +232,7 @@ public class MatchesFragment extends BaseFragment {
 
                                 FSConstants.Collections.CHATROOM, matchesList.get(position).getUuid(),
 
-                                matchesList.get(position).getUuid()+"@"+mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
+                                FirebaseAuth.getInstance().getUid()+"@"+mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
                                 chatList
                         ).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

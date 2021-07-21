@@ -56,6 +56,8 @@ Log.e("path :",collection+"/"+docId+"/"+subCollection);
         return db.collection(collection);
     }
 
+
+
     public Task<DocumentSnapshot> getDocument(String collection, String documentId) {
         // get a document
         Log.e("doc id ", documentId + "//");

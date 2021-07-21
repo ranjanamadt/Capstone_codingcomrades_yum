@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="message"
-            type="com.zxconnect.android.demo.model.Message" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +19,7 @@
             android:fontFamily="@font/segoe_ui"
             android:maxWidth="250dp"
             android:padding="16dp"
-            android:text="@{message.text}"
+
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintEnd_toEndOf="parent"
