@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ProfileSettings">
+    tools:context=".ProfileSettingActivity">
     <data></data>
 
     <LinearLayout
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/facebook_blue"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/payment_plan"
                     android:textColor="@color/white"
@@ -133,14 +133,14 @@
                     android:id="@+id/myLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/my_location"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_location" />
+                    app:layout_constraintStart_toEndOf="@+id/settings_location"
+                    app:layout_constraintTop_toBottomOf="@+id/discovery_settings" />
 
                 <TextView
                     android:id="@+id/new_location"
@@ -161,61 +161,131 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="@string/similar_taste"
+                    android:text="Eating Preference"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="@+id/new_location"
                     app:layout_constraintTop_toBottomOf="@+id/new_location" />
 
-                <TextView
-                    android:id="@+id/Atleast_taste"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
+                <Spinner
+                    android:id="@+id/spnEatingPref"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/segoe_ui"
-                    android:text="@string/at_least"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eatingPreference" />
 
                 <TextView
-                    android:id="@+id/similar_topics"
+                    android:id="@+id/tastePreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/segoe_ui_bold"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:text="@string/similar_topics"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="@+id/Atleast_taste"
-                    app:layout_constraintTop_toBottomOf="@+id/Atleast_taste" />
-
-                <TextView
-                    android:id="@+id/atleast_topics"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/segoe_ui"
-                    android:text="@string/at_least"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="Taste Preference"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/similar_topics" />
+                    app:layout_constraintTop_toBottomOf="@+id/spnEatingPref" />
+
+                <Spinner
+                    android:id="@+id/spnTastePref"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tastePreference" />
+
+                <TextView
+                    android:id="@+id/talkPreference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="Talk Preference"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnTastePref" />
+
+                <Spinner
+                    android:id="@+id/spnTalkPref"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/talkPreference" />
+
+                <TextView
+                    android:id="@+id/noEatPreference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="No Eat Preference"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnTalkPref" />
+
+                <Spinner
+                    android:id="@+id/spnNoEatPref"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/noEatPreference" />
+
+                <TextView
+                    android:id="@+id/noTalkPreference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="No Talk Preference"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoEatPref" />
+
+                <Spinner
+                    android:id="@+id/spnNoTalkPref"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/noTalkPreference" />
 
                 <TextView
                     android:id="@+id/settings_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/segoe_ui_bold"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/age"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="@+id/atleast_topics"
-                    app:layout_constraintTop_toBottomOf="@+id/atleast_topics" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoTalkPref" />
 
                 <TextView
                     android:id="@+id/age_between"
@@ -272,24 +342,6 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     app:layout_constraintStart_toStartOf="@+id/age_between"
                     app:layout_constraintTop_toBottomOf="@+id/settings_bio" />
-
-                <Spinner
-                    android:id="@+id/topics_no"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    app:layout_constraintStart_toEndOf="@+id/atleast_topics"
-                    app:layout_constraintTop_toBottomOf="@+id/similar_topics" />
-
-                <Spinner
-                    android:id="@+id/taste_no"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    app:layout_constraintStart_toEndOf="@+id/Atleast_taste"
-                    app:layout_constraintTop_toBottomOf="@+id/eatingPreference" />
 
                 <SeekBar
                     android:id="@+id/seekbar_distance"

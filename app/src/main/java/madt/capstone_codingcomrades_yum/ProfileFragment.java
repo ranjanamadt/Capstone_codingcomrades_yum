@@ -38,6 +38,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.ProfileSettings;
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
@@ -95,15 +97,18 @@ public class ProfileFragment extends Fragment {
                 }
                 binding.proAge.setText(String.valueOf(age) + " years");
 
-                /*Drawable profileImgDrawable = null;
-                if(userDetailJson.getString("profileImage") != null){
+                /*if(userDetailJson.getString("profileImage") != null){
 
-                    ByteArrayInputStream bais = new ByteArrayInputStream(
-                            Base64.decode(userDetailJson.getString("profileImage").getBytes(), Base64.DEFAULT));
-                    profileImgDrawable = Drawable.createFromResourceStream(getResources(),
-                            null, bais, null, null);
+                    byte[] previousImg = userDetailJson.getString("profileImage").getBytes();
+                    String previousStr = new String(previousImg, "UTF-8");
+                    Uri previousUri = Uri.parse(previousStr);
+                    profileImagesUriList.add(previousUri);
 
-                    binding.proImageView.setImageDrawable(profileImgDrawable);
+                    SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                    binding.imageSlider.setSliderAdapter(sliderAdapter);
+                    binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                    //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                    binding.imageSlider.startAutoCycle();
                 }*/
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -177,6 +182,14 @@ public class ProfileFragment extends Fragment {
                         });
                     }
                 });
+
+        binding.profileSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ProfileSettingActivity.class);
+                startActivity(i);
+            }
+        });
 
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
