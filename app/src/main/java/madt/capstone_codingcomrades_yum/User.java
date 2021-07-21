@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ public class User {
     List<String> not_talk;
     List<String> taste;
     List<String> enjoy_eating;
+    List<String> report_list;
 
     public String getProfileImage() {
         return profileImage;
@@ -58,10 +60,19 @@ public class User {
         this.not_talk =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
         this.taste =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.TASTE);
         this.enjoy_eating = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+        this.report_list =  (List<String>)document.get(FSConstants.USER.REPORT_LIST) != null  ? (List<String>)document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
     }
 
     public String getUuid() {
         return uuid;
+    }
+
+    public List<String> getReport_list() {
+        return report_list;
+    }
+
+    public void setReport_list(List<String> report_list) {
+        this.report_list = report_list;
     }
 
     public void setUuid(String uuid) {

@@ -6,6 +6,7 @@ public class FSConstants {
         String USERS="users";
         String PREFERENCES="preferences";
         String CHATROOM="chatroom";
+        String REPORTLIST="reportlist";
     }
 
     public interface USER{
@@ -21,6 +22,7 @@ public class FSConstants {
         String PROFILE_IMAGE="profileImage";
         String LAST_MESSAGE="lastMessage";
         String LAST_MESSAGE_TIMESTAMP="lastMessageTimeStamp";
+        String REPORT_LIST = "report_list";
     }
 
     public interface PREFERENCE{

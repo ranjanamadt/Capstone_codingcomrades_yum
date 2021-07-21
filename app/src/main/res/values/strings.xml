@@ -122,5 +122,9 @@
     <string name="send">send</string>
     <string name="type_your_message">Type your message</string>
     <string name="initial_chat_message">Hello</string>
-
+    <string name="report_user_dialog_title">Report ##Username##</string>
+    <string name="report_user_dialog_message">Do you really want to Report this user?</string>
+    <string name="report_user_action">Report</string>
+    <string name="cancel_action">Cancel</string>
+    <string name="report_confirmation">The user was reported and will not appear on you match screen again</string>
 </resources>

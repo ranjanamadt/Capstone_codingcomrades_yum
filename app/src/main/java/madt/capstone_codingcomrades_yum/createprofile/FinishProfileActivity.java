@@ -217,7 +217,8 @@ public class FinishProfileActivity extends BaseActivity {
                             user.getNot_eat(),
                             user.getNot_talk(),
                             user.getTaste(),
-                            user.getEnjoy_eating()
+                            user.getEnjoy_eating(),
+                            user.getReport_list()
                     );
 
                     yLog("loginUserDetail: ", new Gson().toJson(loginUserDetail));

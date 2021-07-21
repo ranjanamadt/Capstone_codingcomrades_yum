@@ -2,6 +2,7 @@ package madt.capstone_codingcomrades_yum.matcheslisting;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,34 +15,47 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
+import com.google.common.base.Strings;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
+import madt.capstone_codingcomrades_yum.chat.ChatUserDetail;
+import madt.capstone_codingcomrades_yum.chat.Message;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.MatchDetailBinding;
+import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class MatchDetail extends BaseActivity {
     private MatchDetailBinding binding;
+    protected LoginUserDetail mLoginDetail;
     User matchUser;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.match_detail);
+        mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
 
         if (getIntent().hasExtra(FSConstants.MATCHES_DETAIL.OTHER_USER_ID)) {
             FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, getIntent().getStringExtra(FSConstants.MATCHES_DETAIL.OTHER_USER_ID)).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot document) {
-                     matchUser = new User(document);
+                    matchUser = new User(document);
                     binding.mdUserName.setText(matchUser.getFullName());
                     binding.mdAge.setText(String.valueOf(matchUser.getAge()));
                     binding.mdBio.setText( matchUser.getAboutMe() );
@@ -86,35 +100,40 @@ public class MatchDetail extends BaseActivity {
         binding.reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO : REPORT DIALOG
                 AlertDialog.Builder builder = new AlertDialog.Builder(MatchDetail.this);
-                LayoutInflater layoutInflater = LayoutInflater.from(MatchDetail.this);
-//                View view = layoutInflater.inflate(R.layout.dialog_create_category, null);
-//                builder.setView(view);
-//
-//                final AlertDialog alertDialog = builder.create();
-//                alertDialog.show();
-//
-//                EditText categoryNameET = view.findViewById(R.id.categoryNameET);
-//                Button btnCreate = view.findViewById(R.id.btnCreateCategory);
-//
-//                btnCreate.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        String categoryName = categoryNameET.getText().toString().trim();
-//                        if (categoryName.isEmpty()) {
-//                            alertBox("Please enter value for Category name");
-//                            return;
-//                        }
-//                        if (categoryList.contains(categoryName)) {
-//                            alertBox("Category name already exist!");
-//                            return;
-//                        }
-//
-//                        noteAppViewModel.insertCategory(new Category(categoryName));
-//                        alertDialog.dismiss();
-//                    }
-//                });
+                builder.setTitle(getString(R.string.report_user_dialog_title).replace("##Username##" , matchUser.getFullName()));
+                builder.setMessage(getString(R.string.report_user_dialog_message));
+
+                builder.setCancelable(true);
+                builder.setPositiveButton(getString(R.string.report_user_action), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        List<String> reportList = mLoginDetail.getReport_list();
+                        reportList.add(matchUser.getUuid());
+
+                        Map<String, Object> mapReportList = new HashMap<>();
+                        mapReportList.put(FSConstants.USER.REPORT_LIST, reportList);
+
+                        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS,mLoginDetail.getUuid(),mapReportList).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(mLoginDetail).toString());
+
+                                ySnackbar(MatchDetail.this, getString(R.string.report_confirmation));
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.cancel_action), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
             }
         });
     }

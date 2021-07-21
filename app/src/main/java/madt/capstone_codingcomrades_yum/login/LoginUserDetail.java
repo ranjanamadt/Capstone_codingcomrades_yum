@@ -1,5 +1,6 @@
 package madt.capstone_codingcomrades_yum.login;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class LoginUserDetail {
     String lastName;
     String dob;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating) {
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,6 +24,7 @@ public class LoginUserDetail {
         this.not_talk = not_talk;
         this.taste = taste;
         this.enjoy_eating = enjoy_eating;
+        this.report_list = report_list != null ? report_list : new ArrayList<>();
     }
 
     public String getUuid() {
@@ -77,6 +79,14 @@ public class LoginUserDetail {
         return enjoy_eating;
     }
 
+    public List<String> getReport_list() {
+        return report_list != null ? report_list : new ArrayList<>();
+    }
+
+    public void setReport_list(List<String> report_list) {
+        this.report_list = report_list;
+    }
+
     String gender;
     String sePref;
     String aboutMe;
@@ -86,4 +96,5 @@ public class LoginUserDetail {
     List<String> not_talk;
     List<String> taste;
     List<String> enjoy_eating;
+    List<String> report_list;
 }
