@@ -121,5 +121,6 @@
     <string name="err_db">Database error</string>
     <string name="send">send</string>
     <string name="type_your_message">Type your message</string>
+    <string name="initial_chat_message">Hello</string>
 
 </resources>

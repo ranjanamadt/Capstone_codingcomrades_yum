@@ -134,7 +134,7 @@ public class MatchesFragment extends BaseFragment {
                         // on below line we are setting adapter to our card stack.
                         binding.swipeDeck.setAdapter(mAdapter);
 
-                       CommonUtils.hideProgress();
+                        CommonUtils.hideProgress();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -198,7 +198,7 @@ public class MatchesFragment extends BaseFragment {
             // on below line we are initializing our variables and setting data to our variables.
             if (matchesList.size() > 0 && position < matchesList.size()) {
                 User shownUser = matchesList.get(position);
-                if (shownUser.getProfileImage() != null  && !shownUser.getProfileImage().isEmpty()) {
+                if (shownUser.getProfileImage() != null && !shownUser.getProfileImage().isEmpty()) {
                     ((ImageView) v.findViewById(R.id.imageView)).setImageBitmap(shownUser.getProfileBitmapImage());
                 }
 
@@ -212,58 +212,43 @@ public class MatchesFragment extends BaseFragment {
 
                         Message firstMessage = new Message(mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
                                 mLoginDetail.getUuid(),
-                                System.currentTimeMillis()+"",
+                                System.currentTimeMillis() + "",
                                 "Hello",
-                        mLoginDetail.getProfileImage());
-
-                        Map<String, Object> chatList = new HashMap<>();
+                                mLoginDetail.getProfileImage());
                         List<Message> messageList = new ArrayList<Message>();
                         messageList.add(firstMessage);
 
+                        Map<String, Object> currentChatList = new HashMap<>();
+
                         Map<String, Object> userDetail = new HashMap<>();
-                        chatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
-                        userDetail.put(FSConstants.USER.FIRST_NAME, matchesList.get(position).getFullName());
-                        userDetail.put(FSConstants.USER.LAST_NAME, matchesList.get(position).getFullName());
-                        userDetail.put(FSConstants.USER.PROFILE_IMAGE, mLoginDetail.getProfileImage());
-                        userDetail.put(FSConstants.USER.LAST_MESSAGE, "Hello");
-                        userDetail.put(FSConstants.USER.LAST_MESSAGE_TIMESTAMP,System.currentTimeMillis());
+                        userDetail.put(FSConstants.USER.FIRST_NAME, matchesList.get(position).getFirstName());
+                        userDetail.put(FSConstants.USER.LAST_NAME, matchesList.get(position).getLastName());
+                        userDetail.put(FSConstants.USER.PROFILE_IMAGE, matchesList.get(position).getProfileImage());
+                        userDetail.put(FSConstants.USER.LAST_MESSAGE, getString(R.string.initial_chat_message));
+                        userDetail.put(FSConstants.USER.LAST_MESSAGE_TIMESTAMP, System.currentTimeMillis());
 
-                        chatList.put(FSConstants.CHAT_List.USER_DETAIL, userDetail);
+                        currentChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
+                        currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, userDetail);
+
+                        // Method to create chat room for Logged In User
+                        createCurrentUserChatRoom(currentChatList);
 
 
-                        FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
-                                FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
-                                "",
-                                chatList
-                        ).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        Map<String, Object> likedChatList = new HashMap<>();
 
-                            }
-                        });
-                        FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
+                        Map<String, Object> likedUserDetail = new HashMap<>();
+                        likedUserDetail.put(FSConstants.USER.FIRST_NAME, mLoginDetail.getFirstName());
+                        likedUserDetail.put(FSConstants.USER.LAST_NAME, mLoginDetail.getLastName());
+                        likedUserDetail.put(FSConstants.USER.PROFILE_IMAGE, mLoginDetail.getProfileImage());
+                        likedUserDetail.put(FSConstants.USER.LAST_MESSAGE, getString(R.string.initial_chat_message));
+                        likedUserDetail.put(FSConstants.USER.LAST_MESSAGE_TIMESTAMP, System.currentTimeMillis());
 
-                                FSConstants.Collections.CHATROOM, matchesList.get(position).getUuid(),
+                        likedChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
+                        likedChatList.put(FSConstants.CHAT_List.USER_DETAIL, likedUserDetail);
 
-                                FirebaseAuth.getInstance().getUid()+"@"+mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
-                                chatList
-                        ).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        // Method to create chat room for Liked User
+                        createLikedUserChatRoom(matchesList.get(position).getUuid(),likedChatList);
 
-                            }
-                        });
-
-                      /*  binding.swipeDeck.swipeTopCardRight(1000);
-                        Map<String, Object> chatList1 = new HashMap<>();
-                        chatList.put(FSConstants.CHAT_List.USER_NAME, currentUserName);
-
-                        FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
-                                matchesList.get(position).getUuid(),
-                                FSConstants.Collections.CHATROOM, chatList1
-                        );
-
-*/
                     }
                 });
                 v.findViewById(R.id.reject_btn2).setOnClickListener(new View.OnClickListener() {
@@ -286,6 +271,26 @@ public class MatchesFragment extends BaseFragment {
 
 
             return v;
+        }
+
+        private void createLikedUserChatRoom(String uuid, Map<String, Object> likedChatList) {
+            FirebaseCRUD.getInstance().createChatRoomSubCollection(FSConstants.Collections.USERS,
+                    FSConstants.Collections.CHATROOM, uuid,
+                    likedChatList
+            ).addOnCompleteListener(task -> {
+
+            });
+        }
+
+        private void createCurrentUserChatRoom(Map<String, Object> currentChatList) {
+            FirebaseCRUD.getInstance().createChatRoomSubCollection(FSConstants.Collections.USERS,
+                    FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
+                    currentChatList
+            ).addOnCompleteListener(task -> {
+
+            });
+
+
         }
     }
 

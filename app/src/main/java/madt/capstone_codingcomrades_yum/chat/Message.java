@@ -12,17 +12,6 @@ public class Message {
     String messageText;
     String senderId;
 
-    public UserDetail getUserDetails() {
-        return userDetail;
-    }
-
-    public void setUserDetails(UserDetail userDetail) {
-        this.userDetail = userDetail;
-    }
-
-    UserDetail userDetail;
-
-
     public String getUserImage() {
         return userImage;
     }

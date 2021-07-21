@@ -29,10 +29,11 @@ public class FirebaseCRUD {
         // Add a new document with a generated ID
         return db.collection(collection).add(document);
     }
-    public Task<Void> createSubCollection(String collection, String subCollection, String docId,String userName,Map<String, Object> document) {
-Log.e("path :",collection+"/"+docId+"/"+subCollection);
+
+    public Task<DocumentReference> createChatRoomSubCollection(String collection, String subCollection, String docId,Map<String, Object> document) {
+        Log.e("path :", collection + "/" + docId + "/" + subCollection);
         // Add a new document with a generated ID
-        return db.collection(collection+"/"+docId+"/"+subCollection).document(userName).set(document);
+        return db.collection(collection + "/" + docId + "/" + subCollection).add(document);
     }
 
     public Task<Void> set(String collection, String docId, Map<String, Object> document) {
@@ -40,6 +41,7 @@ Log.e("path :",collection+"/"+docId+"/"+subCollection);
         return db.collection(collection).document(docId).set(document);
 
     }
+
     public Task<Void> updateDoc(String collection, String docId, Map<String, Object> updatedData) {
         // Add a new document with a generated ID
         return db.collection(collection).document(docId).update(updatedData);
@@ -57,7 +59,6 @@ Log.e("path :",collection+"/"+docId+"/"+subCollection);
     }
 
 
-
     public Task<DocumentSnapshot> getDocument(String collection, String documentId) {
         // get a document
         Log.e("doc id ", documentId + "//");
@@ -68,13 +69,14 @@ Log.e("path :",collection+"/"+docId+"/"+subCollection);
         // deletes a document
         return db.collection(collection).document(documentId).delete();
     }
-   public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer){
-       return db.collection(FSConstants.Collections.USERS)
-               .whereArrayContainsAny(FSConstants.PREFERENCE_TYPE.TASTE,eatingPrefer)
 
-               .get();
+    public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer) {
+        return db.collection(FSConstants.Collections.USERS)
+                .whereArrayContainsAny(FSConstants.PREFERENCE_TYPE.TASTE, eatingPrefer)
+
+                .get();
 
 
-   }
+    }
 
 }
