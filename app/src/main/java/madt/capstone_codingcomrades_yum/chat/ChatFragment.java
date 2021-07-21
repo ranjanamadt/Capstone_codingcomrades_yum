@@ -84,7 +84,12 @@ public class ChatFragment extends BaseFragment {
         @Override
         public ChatFragment.ChatElementAdapter.ChatViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_chatlist, parent, false);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
             return new ChatViewHolder(view);
         }
 
@@ -94,7 +99,7 @@ public class ChatFragment extends BaseFragment {
             holder.usernameTV.setText(chatEl.getFirstName() + " " + chatEl.getLastName());
             holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
             holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));
-            yLog("profile image :",chatEl.getProfileImage()+"//");
+//            yLog("profile image :",chatEl.getProfileImage()+"//");
             if(chatEl.getProfileImage()!=null && !chatEl.getProfileImage().isEmpty())
             holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
             holder.lastMessageTV.setText(chatList.get(position).getLastMessage());

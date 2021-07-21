@@ -28,8 +28,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,15 +117,8 @@ public class MatchesFragment extends BaseFragment {
 
 
     private void getMatchesList() {
-
-        CommonUtils.showProgress(getActivity());
-        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                FirebaseCRUD.getInstance().
-                        findMatches(FSConstants.Collections.USERS, (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE)).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                List<Object> tastes = new ArrayList(Arrays.asList(mLoginDetail.getTaste()));
+                FirebaseCRUD.getInstance().findMatches(FSConstants.Collections.USERS,  tastes).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
@@ -146,14 +142,8 @@ public class MatchesFragment extends BaseFragment {
                 });
 
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // CommonUtils.hideProgress();
 
-            }
-        });
+
 
     }
 
@@ -307,8 +297,4 @@ public class MatchesFragment extends BaseFragment {
                 }
             });
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }
