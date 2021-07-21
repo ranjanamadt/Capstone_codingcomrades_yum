@@ -178,6 +178,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/eatingPreference" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupEatingPref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnEatingPref">
+                </com.google.android.material.chip.ChipGroup>
+
                 <TextView
                     android:id="@+id/tastePreference"
                     android:layout_width="wrap_content"
@@ -189,7 +199,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnEatingPref" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupEatingPref" />
 
                 <Spinner
                     android:id="@+id/spnTastePref"
@@ -202,6 +212,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tastePreference" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTastePref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnTastePref">
+                </com.google.android.material.chip.ChipGroup>
+
                 <TextView
                     android:id="@+id/talkPreference"
                     android:layout_width="wrap_content"
@@ -213,7 +233,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnTastePref" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupTastePref" />
 
                 <Spinner
                     android:id="@+id/spnTalkPref"
@@ -226,6 +246,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/talkPreference" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTalkPref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnTalkPref">
+                </com.google.android.material.chip.ChipGroup>
+
                 <TextView
                     android:id="@+id/noEatPreference"
                     android:layout_width="wrap_content"
@@ -237,7 +267,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnTalkPref" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupTalkPref" />
 
                 <Spinner
                     android:id="@+id/spnNoEatPref"
@@ -250,6 +280,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/noEatPreference" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupNoEatPref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoEatPref">
+                </com.google.android.material.chip.ChipGroup>
+
                 <TextView
                     android:id="@+id/noTalkPreference"
                     android:layout_width="wrap_content"
@@ -261,7 +301,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnNoEatPref" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNoEatPref" />
 
                 <Spinner
                     android:id="@+id/spnNoTalkPref"
@@ -274,6 +314,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/noTalkPreference" />
 
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupNoTalkPref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoTalkPref">
+                </com.google.android.material.chip.ChipGroup>
+
                 <TextView
                     android:id="@+id/settings_age"
                     android:layout_width="wrap_content"
@@ -285,7 +335,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnNoTalkPref" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNoTalkPref" />
 
                 <TextView
                     android:id="@+id/age_between"
