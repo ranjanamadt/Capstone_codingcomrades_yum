@@ -156,7 +156,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/myLocation" />
 
                 <TextView
-                    android:id="@+id/similarTaste"
+                    android:id="@+id/eatingPreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
@@ -178,7 +178,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/similarTaste" />
+                    app:layout_constraintTop_toBottomOf="@+id/eatingPreference" />
 
                 <TextView
                     android:id="@+id/similar_topics"
@@ -289,7 +289,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     app:layout_constraintStart_toEndOf="@+id/Atleast_taste"
-                    app:layout_constraintTop_toBottomOf="@+id/similarTaste" />
+                    app:layout_constraintTop_toBottomOf="@+id/eatingPreference" />
 
                 <SeekBar
                     android:id="@+id/seekbar_distance"
