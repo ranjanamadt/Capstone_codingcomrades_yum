@@ -39,12 +39,12 @@ public class HomeActivity extends BaseActivity {
         FragmentManager manager = getSupportFragmentManager();
         contextOfApplication = getApplicationContext();
 
-      /*  manager.beginTransaction().add(R.id.navHostFragment, new MatchesFragment()).commit();
+       // manager.beginTransaction().add(R.id.navHostFragment, new MatchesFragment()).commit();
 
 
 
         screenTitle = getString(R.string.title_matches);
-        setTopBar();*/
+        setTopBar();
         binding.bottomNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

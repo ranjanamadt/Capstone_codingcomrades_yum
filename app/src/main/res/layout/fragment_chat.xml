@@ -5,26 +5,15 @@
     tools:context=".chat.ChatFragment">
 
     <data></data>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:background="@color/white"
-        android:orientation="vertical">
-
-    <madt.capstone_codingcomrades_yum.utils.YumTopBar
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/_6sdp" />
-
-    <FrameLayout
+<FrameLayout
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+
         tools:context=".chat.ChatFragment">
 
 
@@ -32,23 +21,23 @@
             android:id="@+id/searchview"
             android:layout_width="@dimen/_300sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginBottom="@dimen/_1sdp"
-            app:layout_constraintBottom_toTopOf="@id/recycler_list"
             app:layout_constraintEnd_toEndOf="@+id/recycler_list"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_list"
-            android:layout_width="@dimen/_300sdp"
-            android:layout_height="@dimen/_550sdp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:background="@color/background_white"
             android:text="@string/title_chat"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/searchview" />
+            app:layout_constraintStart_toStartOf="@+id/searchview"
+            app:layout_constraintTop_toBottomOf="@+id/searchview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>
-    </LinearLayout>
 </layout>
