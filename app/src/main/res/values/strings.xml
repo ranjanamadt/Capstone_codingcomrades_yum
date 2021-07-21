@@ -119,5 +119,7 @@
     <string name="i_am_looking">I am looking for</string>
     <string name="distance">Maximum Distance</string>
     <string name="err_db">Database error</string>
+    <string name="send">send</string>
+    <string name="type_your_message">Type your message</string>
 
 </resources>
