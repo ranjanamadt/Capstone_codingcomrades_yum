@@ -23,12 +23,30 @@
                 android:layout_height="match_parent"
                 tools:context=".ProfileFragment">
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/proImageView"
                     android:layout_width="@dimen/_300sdp"
                     android:layout_height="@dimen/_250sdp"
                     android:src="@drawable/ic_imageicon"
-                    tools:layout_editor_absoluteX="11dp" />
+                    tools:layout_editor_absoluteX="11dp" />-->
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="@dimen/_15sdp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="@dimen/_3sdp"
+                    app:sliderIndicatorRadius="@dimen/_2sdp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="2"
+                    app:sliderStartAutoCycle="true"
+                    tools:ignore="MissingConstraints"/>
 
 
                 <TextView
@@ -41,7 +59,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/proImageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageSlider" />
 
                 <TextView
                     android:id="@+id/proAge"
@@ -53,7 +71,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
                     app:layout_constraintStart_toEndOf="@+id/proUserName"
-                    app:layout_constraintTop_toBottomOf="@+id/proImageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageSlider" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/addPictures"

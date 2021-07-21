@@ -79,10 +79,7 @@ public class FinishProfileActivity extends BaseActivity {
     String latitude = "";
     String longitude = "";
     Uri uri;
-    List<String> profileImgStringList = new ArrayList<>();
-
-    SliderView sliderView;
-    List<Uri> profileImagesUriList = new ArrayList<>();
+    String profileImgString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +87,6 @@ public class FinishProfileActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_profile);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        sliderView = findViewById(R.id.image_btn);
 
         if (!hasLocationPermission())
             requestLocationPermission();
@@ -127,16 +122,8 @@ public class FinishProfileActivity extends BaseActivity {
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
 
-                if (!LoginActivity.profile_image.isEmpty()) {
-                    Uri profileUri = Uri.parse(LoginActivity.profile_image);
-                    profileImagesUriList.add(profileUri);
-
-                    SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                    sliderView.setSliderAdapter(sliderAdapter);
-                    sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                    //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                    sliderView.startAutoCycle();
-                }
+                if (!LoginActivity.profile_image.isEmpty())
+                    Picasso.get().load(LoginActivity.profile_image).into(binding.imageBtn);
 
 
                 // getEnjoyEating(FirebaseAuth.getInstance().getUid());
@@ -174,13 +161,13 @@ public class FinishProfileActivity extends BaseActivity {
                 }
 
                 yLog("image uri", uri.toString());
-                yLog("profileImageString", profileImgStringList.toString());
+                yLog("profileImageString", profileImgString);
 
                 Map<String, Object> finishProfile = new HashMap<>();
                 finishProfile.put(FSConstants.USER.LATITUDE, latitude);
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
-                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgStringList.get(0));
+                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgString);
 
                 CommonUtils.showProgress(FinishProfileActivity.this);
 
@@ -261,14 +248,7 @@ public class FinishProfileActivity extends BaseActivity {
 
         if (requestCode == PROFILE_RESULT_CODE) {
             uri = data.getData();
-            profileImagesUriList.add(uri);
-            //binding.imageBtn.setImageURI(uri);
-
-            SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-            sliderView.setSliderAdapter(sliderAdapter);
-            sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-            //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-            sliderView.startAutoCycle();
+            binding.imageBtn.setImageURI(uri);
 
             InputStream imageStream = null;
             try {
@@ -280,8 +260,7 @@ public class FinishProfileActivity extends BaseActivity {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] profileImgByte = baos.toByteArray();
-            String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
-            profileImgStringList.add(profileImgString);
+            profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
         }
     }
 

@@ -215,7 +215,7 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
-                <!--<ImageView
+                <ImageView
                     android:id="@+id/image_btn"
                     android:layout_width="@dimen/_250sdp"
                     android:layout_height="@dimen/_187sdp"
@@ -224,26 +224,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_imageicon" />-->
-
-                <com.smarteist.autoimageslider.SliderView
-                    android:id="@+id/image_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    app:sliderAnimationDuration="600"
-                    app:sliderAutoCycleDirection="back_and_forth"
-                    app:sliderAutoCycleEnabled="true"
-                    app:sliderIndicatorAnimationDuration="600"
-                    app:sliderIndicatorGravity="center_horizontal|bottom"
-                    app:sliderIndicatorMargin="@dimen/_15sdp"
-                    app:sliderIndicatorOrientation="horizontal"
-                    app:sliderIndicatorPadding="@dimen/_3sdp"
-                    app:sliderIndicatorRadius="@dimen/_2sdp"
-                    app:sliderIndicatorSelectedColor="#5A5A5A"
-                    app:sliderIndicatorUnselectedColor="#FFF"
-                    app:sliderScrollTimeInSec="2"
-                    app:sliderStartAutoCycle="true"
-                    tools:ignore="MissingConstraints"/>
+                    app:srcCompat="@drawable/ic_imageicon" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"

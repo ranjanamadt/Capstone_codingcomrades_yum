@@ -50,6 +50,10 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
 
+    SliderView sliderView;
+    List<Uri> profileImagesUriList = new ArrayList<>();
+    ActivityResultLauncher<Intent> someActivityResultLauncher;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class ProfileFragment extends Fragment {
                 }
                 binding.proAge.setText(String.valueOf(age) + " years");
 
-                Drawable profileImgDrawable = null;
+                /*Drawable profileImgDrawable = null;
                 if(userDetailJson.getString("profileImage") != null){
 
                     ByteArrayInputStream bais = new ByteArrayInputStream(
@@ -90,7 +94,7 @@ public class ProfileFragment extends Fragment {
                             null, bais, null, null);
 
                     binding.proImageView.setImageDrawable(profileImgDrawable);
-                }
+                }*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -99,13 +103,34 @@ public class ProfileFragment extends Fragment {
         binding.addPictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePicker.with(ProfileFragment.this)
+                /*ImagePicker.with(ProfileFragment.this)
                         .crop(4f, 3f)                    //Crop image(Optional), Check Customization for more option
                         .compress(1024)            //Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
+                        .start();*/
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                someActivityResultLauncher.launch(intent);
             }
         });
+
+        someActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+
+                            // There are no request codes
+                            Intent data = result.getData();
+                            profileImagesUriList.add(data.getData());
+
+                            SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                            binding.imageSlider.setSliderAdapter(sliderAdapter);
+                            binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                            //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                            binding.imageSlider.startAutoCycle();
+                    }
+                });
 
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
