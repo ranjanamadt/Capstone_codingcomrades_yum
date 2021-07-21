@@ -62,8 +62,7 @@ public class MatchesFragment extends BaseFragment {
                 inflater, R.layout.fragment_matches, container, false);
 
         mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
-        yLog("user name :", mLoginDetail.getFirstName()+
-                mLoginDetail.getLastName());
+
         binding.swipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
             public void cardSwipedLeft(int position) {
