@@ -3,6 +3,9 @@ package madt.capstone_codingcomrades_yum.utils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -43,6 +46,10 @@ public class CommonUtils {
                 LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
        activity.startActivity(i);
+    }
+    public static Bitmap getBitmapImage(String imgString){
+        byte[] decodedString = Base64.decode(imgString, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
 }

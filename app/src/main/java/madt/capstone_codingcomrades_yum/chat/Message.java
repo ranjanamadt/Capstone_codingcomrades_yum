@@ -1,14 +1,5 @@
 package madt.capstone_codingcomrades_yum.chat;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +12,17 @@ public class Message {
     String messageText;
     String senderId;
 
+    public UserDetail getUserDetails() {
+        return userDetail;
+    }
+
+    public void setUserDetails(UserDetail userDetail) {
+        this.userDetail = userDetail;
+    }
+
+    UserDetail userDetail;
+
+
     public String getUserImage() {
         return userImage;
     }
@@ -31,14 +33,15 @@ public class Message {
 
     String userImage;
 
-    public Message(String sendBy, String senderId, String timestamp, String messageText,String userImage) {
+    public Message(String sendBy, String senderId, String timestamp, String messageText, String userImage) {
         this.sendBy = sendBy;
         this.senderId = senderId;
         this.timestamp = timestamp;
         this.messageText = messageText;
-        this.userImage=userImage;
+        this.userImage = userImage;
     }
-    public Message(HashMap<String,Object> document ) {
+
+    public Message(HashMap<String, Object> document) {
         this.sendBy = document.get(FSConstants.MESSAGE_DETAIL.TEXT).toString();
         this.senderId = document.get(FSConstants.MESSAGE_DETAIL.SEND_BY).toString();
         this.timestamp = document.get(FSConstants.MESSAGE_DETAIL.TIMESTAMP).toString();
@@ -78,23 +81,20 @@ public class Message {
         this.messageText = messageText;
     }
 
-    public String getDateFromTimeStamp(){
+    public String getDateFromTimeStamp() {
         long myLong = Long.parseLong(this.timestamp);
         Date itemDate = new Date(myLong);
         return new SimpleDateFormat("dd/MM/yyyy").format(itemDate);
 
     }
-    public Bitmap getProfileBitmapImage() {
-        byte[] decodedString = Base64.decode(this.getUserImage(), Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
 
-    public String getTimeFromTimeStamp(){
+
+    public String getTimeFromTimeStamp() {
         long myLong = Long.parseLong(this.timestamp);
         Date itemDate = new Date(myLong);
         return new SimpleDateFormat("HH:mm").format(itemDate);
     }
 
 
-
 }
+

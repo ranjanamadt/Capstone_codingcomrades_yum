@@ -19,6 +19,8 @@ public class FSConstants {
         String LONGITUDE="longitude";
         String ABOUT_ME="aboutMe";
         String PROFILE_IMAGE="profileImage";
+        String LAST_MESSAGE="lastMessage";
+        String LAST_MESSAGE_TIMESTAMP="lastMessageTimeStamp";
     }
 
     public interface PREFERENCE{
@@ -35,9 +37,10 @@ public class FSConstants {
     }
 
     public  interface  CHAT_List{
-        String USER_NAME= "user_name";
-        String USER_IMAGE= "user_image";
+        String USER_NAME= "userName";
+        String USER_IMAGE= "userImage";
         String MESSAGES="messages";
+        String USER_DETAIL="userDetail";
 
     }
 

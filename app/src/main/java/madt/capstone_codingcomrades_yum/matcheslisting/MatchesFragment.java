@@ -209,22 +209,31 @@ public class MatchesFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         binding.swipeDeck.swipeTopCardRight(1000);
-                        Map<String, Object> chatList = new HashMap<>();
+
                         Message firstMessage = new Message(mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
                                 mLoginDetail.getUuid(),
                                 System.currentTimeMillis()+"",
                                 "Hello",
                         mLoginDetail.getProfileImage());
 
-
+                        Map<String, Object> chatList = new HashMap<>();
                         List<Message> messageList = new ArrayList<Message>();
                         messageList.add(firstMessage);
+
+                        Map<String, Object> userDetail = new HashMap<>();
                         chatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
+                        userDetail.put(FSConstants.USER.FIRST_NAME, matchesList.get(position).getFullName());
+                        userDetail.put(FSConstants.USER.LAST_NAME, matchesList.get(position).getFullName());
+                        userDetail.put(FSConstants.USER.PROFILE_IMAGE, mLoginDetail.getProfileImage());
+                        userDetail.put(FSConstants.USER.LAST_MESSAGE, "Hello");
+                        userDetail.put(FSConstants.USER.LAST_MESSAGE_TIMESTAMP,System.currentTimeMillis());
+
+                        chatList.put(FSConstants.CHAT_List.USER_DETAIL, userDetail);
+
 
                         FirebaseCRUD.getInstance().createSubCollection(FSConstants.Collections.USERS,
-
                                 FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
-                                matchesList.get(position).getUuid()+"@"+matchesList.get(position).getFullName(),
+                                "",
                                 chatList
                         ).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
