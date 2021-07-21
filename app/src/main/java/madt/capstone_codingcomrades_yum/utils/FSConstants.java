@@ -52,6 +52,7 @@ public class FSConstants {
         String SEND_BY = "sendBy";
         String SENDER_ID = "senderId";
         String TIMESTAMP = "timestamp";
+        String IMAGE = "userImage";
     }
 
 }

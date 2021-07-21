@@ -42,6 +42,7 @@ import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
+import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
@@ -113,7 +114,7 @@ public class MatchesFragment extends BaseFragment {
 
     private void getMatchesList() {
 
-        // CommonUtils.showProgress(getActivity());
+        CommonUtils.showProgress(getActivity());
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 
             @Override
@@ -133,13 +134,13 @@ public class MatchesFragment extends BaseFragment {
                         // on below line we are setting adapter to our card stack.
                         binding.swipeDeck.setAdapter(mAdapter);
 
-                        //  CommonUtils.hideProgress();
+                       CommonUtils.hideProgress();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
                         Log.e("matches :", "infailure");
-                        //   CommonUtils.hideProgress();
+                        CommonUtils.hideProgress();
                     }
                 });
 
@@ -197,8 +198,8 @@ public class MatchesFragment extends BaseFragment {
             // on below line we are initializing our variables and setting data to our variables.
             if (matchesList.size() > 0 && position < matchesList.size()) {
                 User shownUser = matchesList.get(position);
-                if (shownUser.getProfileImage() != null) {
-                  //  ((ImageView) v.findViewById(R.id.imageView)).setImageBitmap(shownUser.getProfileBitmapImage());
+                if (shownUser.getProfileImage() != null  && !shownUser.getProfileImage().isEmpty()) {
+                    ((ImageView) v.findViewById(R.id.imageView)).setImageBitmap(shownUser.getProfileBitmapImage());
                 }
 
                 ((TextView) v.findViewById(R.id.mtdAge)).setText(String.valueOf(shownUser.getAge()));
@@ -211,8 +212,11 @@ public class MatchesFragment extends BaseFragment {
                         Map<String, Object> chatList = new HashMap<>();
                         Message firstMessage = new Message(mLoginDetail.getFirstName() + " " + mLoginDetail.getLastName(),
                                 mLoginDetail.getUuid(),
-                                "67.7",
-                                "Hello");
+                                System.currentTimeMillis()+"",
+                                "Hello",
+                        mLoginDetail.getProfileImage());
+
+
                         List<Message> messageList = new ArrayList<Message>();
                         messageList.add(firstMessage);
                         chatList.put(FSConstants.CHAT_List.MESSAGES, messageList);

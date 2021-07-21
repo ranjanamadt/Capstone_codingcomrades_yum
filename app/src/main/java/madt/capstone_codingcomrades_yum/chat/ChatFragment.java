@@ -100,17 +100,18 @@ public class ChatFragment extends BaseFragment {
         public void onBindViewHolder(@NonNull @NotNull ChatFragment.ChatElementAdapter.ChatViewHolder holder, int position) {
           Message chatEl = chatList.get(position);
             holder.usernameTV.setText(chatEl.getSendBy());
-            holder.timeTV.setText(chatEl.getTimeFromTimeStamp());
-            holder.dateTV.setText(chatList.get(position).getDateFromTimeStamp());
+         //   holder.timeTV.setText(chatEl.getTimeFromTimeStamp());
+          //  holder.dateTV.setText(chatList.get(position).getDateFromTimeStamp());
+            holder.chatPicture.setImageBitmap(chatEl.getProfileBitmapImage());
             holder.lastMessageTV.setText(chatList.get(position).messageText);
-            FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS , chatEl.getSenderId()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+          /*  FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS , chatEl.getSenderId()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     byte[] decodedString = Base64.decode(documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE).toString(), Base64.DEFAULT);
                     Bitmap img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     holder.chatPicture.setImageBitmap(img);
                 }
-            });
+            });*/
         }
 
         @Override

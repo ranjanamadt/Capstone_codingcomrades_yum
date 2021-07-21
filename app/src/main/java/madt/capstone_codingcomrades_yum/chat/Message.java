@@ -1,5 +1,9 @@
 package madt.capstone_codingcomrades_yum.chat;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -17,17 +21,29 @@ public class Message {
     String messageText;
     String senderId;
 
-    public Message(String sendBy, String senderId, String timestamp, String messageText) {
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    String userImage;
+
+    public Message(String sendBy, String senderId, String timestamp, String messageText,String userImage) {
         this.sendBy = sendBy;
         this.senderId = senderId;
         this.timestamp = timestamp;
         this.messageText = messageText;
+        this.userImage=userImage;
     }
     public Message(HashMap<String,Object> document ) {
         this.sendBy = document.get(FSConstants.MESSAGE_DETAIL.TEXT).toString();
         this.senderId = document.get(FSConstants.MESSAGE_DETAIL.SEND_BY).toString();
-        this.timestamp = document.get(FSConstants.MESSAGE_DETAIL.SENDER_ID).toString();
-        this.messageText = document.get(FSConstants.MESSAGE_DETAIL.TIMESTAMP).toString();
+        this.timestamp = document.get(FSConstants.MESSAGE_DETAIL.TIMESTAMP).toString();
+        this.messageText = document.get(FSConstants.MESSAGE_DETAIL.TEXT).toString();
+        this.userImage = document.get(FSConstants.MESSAGE_DETAIL.IMAGE).toString();
     }
 
     public String getSenderId() {
@@ -67,6 +83,10 @@ public class Message {
         Date itemDate = new Date(myLong);
         return new SimpleDateFormat("dd/MM/yyyy").format(itemDate);
 
+    }
+    public Bitmap getProfileBitmapImage() {
+        byte[] decodedString = Base64.decode(this.getUserImage(), Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
     public String getTimeFromTimeStamp(){
