@@ -20,7 +20,6 @@ import androidx.databinding.DataBindingUtil;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,7 +29,6 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +52,7 @@ public class MatchesFragment extends BaseFragment {
     private List<User> matchesList = new ArrayList<>();
     private FragmentMatchesBinding binding;
     private MatchesAdapter mAdapter;
-    private String currentUserName = "";
-    private String currentUserId = "";
+
     protected LoginUserDetail mLoginDetail;
 
     @Override
@@ -64,7 +61,7 @@ public class MatchesFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matches, container, false);
 
-       mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
+        mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
 
         binding.swipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
@@ -118,34 +115,29 @@ public class MatchesFragment extends BaseFragment {
 
         CommonUtils.showProgress(getActivity());
 
-//mLoginDetail.getTaste();
-
-List<String> tastes= new ArrayList<>();
-tastes.add("Sweet");
-                FirebaseCRUD.getInstance().
-                        findMatches(FSConstants.Collections.USERS, mLoginDetail.getTaste()).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+        FirebaseCRUD.getInstance().
+                findMatches(FSConstants.Collections.USERS, mLoginDetail.getTaste()).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
-                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                            matchesList.add(new User(document));
-                        }
-                        // on below line we are creating a variable for our adapter class and passing array list to it.
-                        mAdapter = new MatchesAdapter(matchesList, getContext());
+                for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                    matchesList.add(new User(document));
+                }
+                // on below line we are creating a variable for our adapter class and passing array list to it.
+                mAdapter = new MatchesAdapter(matchesList, getContext());
 
-                        // on below line we are setting adapter to our card stack.
-                        binding.swipeDeck.setAdapter(mAdapter);
+                // on below line we are setting adapter to our card stack.
+                binding.swipeDeck.setAdapter(mAdapter);
 
-                        CommonUtils.hideProgress();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.e("matches :", "infailure");
-                        CommonUtils.hideProgress();
-                    }
-                });
-
+                CommonUtils.hideProgress();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.e("matches :", "infailure");
+                CommonUtils.hideProgress();
+            }
+        });
 
 
     }
