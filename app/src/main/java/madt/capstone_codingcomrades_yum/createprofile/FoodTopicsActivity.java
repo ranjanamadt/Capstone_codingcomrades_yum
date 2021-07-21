@@ -140,7 +140,6 @@ public class FoodTopicsActivity extends BaseActivity {
                 ySnackbar(FoodTopicsActivity.this, e.getLocalizedMessage());
             }
         });
-
     }
 
 
