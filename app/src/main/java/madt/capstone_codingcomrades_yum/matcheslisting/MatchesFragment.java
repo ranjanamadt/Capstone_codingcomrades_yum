@@ -36,6 +36,7 @@ import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
+import madt.capstone_codingcomrades_yum.chat.ChatUserDetail;
 import madt.capstone_codingcomrades_yum.chat.Message;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
@@ -220,15 +221,14 @@ public class MatchesFragment extends BaseFragment {
 
                         Map<String, Object> currentChatList = new HashMap<>();
 
-                        Map<String, Object> userDetail = new HashMap<>();
-                        userDetail.put(FSConstants.USER.FIRST_NAME, matchesList.get(position).getFirstName());
-                        userDetail.put(FSConstants.USER.LAST_NAME, matchesList.get(position).getLastName());
-                        userDetail.put(FSConstants.USER.PROFILE_IMAGE, matchesList.get(position).getProfileImage());
-                        userDetail.put(FSConstants.USER.LAST_MESSAGE, getString(R.string.initial_chat_message));
-                        userDetail.put(FSConstants.USER.LAST_MESSAGE_TIMESTAMP, System.currentTimeMillis());
-
                         currentChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
-                        currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, userDetail);
+                        currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatUserDetail(
+                                matchesList.get(position).getFirstName(),
+                                matchesList.get(position).getLastName(),
+                                System.currentTimeMillis() + "",
+                                getString(R.string.initial_chat_message),
+                                matchesList.get(position).getProfileImage()
+                        ));
 
                         // Method to create chat room for Logged In User
                         createCurrentUserChatRoom(currentChatList);
@@ -236,18 +236,17 @@ public class MatchesFragment extends BaseFragment {
 
                         Map<String, Object> likedChatList = new HashMap<>();
 
-                        Map<String, Object> likedUserDetail = new HashMap<>();
-                        likedUserDetail.put(FSConstants.USER.FIRST_NAME, mLoginDetail.getFirstName());
-                        likedUserDetail.put(FSConstants.USER.LAST_NAME, mLoginDetail.getLastName());
-                        likedUserDetail.put(FSConstants.USER.PROFILE_IMAGE, mLoginDetail.getProfileImage());
-                        likedUserDetail.put(FSConstants.USER.LAST_MESSAGE, getString(R.string.initial_chat_message));
-                        likedUserDetail.put(FSConstants.USER.LAST_MESSAGE_TIMESTAMP, System.currentTimeMillis());
-
                         likedChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
-                        likedChatList.put(FSConstants.CHAT_List.USER_DETAIL, likedUserDetail);
+                        likedChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatUserDetail(
+                                mLoginDetail.getFirstName(),
+                                mLoginDetail.getLastName(),
+                                System.currentTimeMillis() + "",
+                                getString(R.string.initial_chat_message),
+                                mLoginDetail.getProfileImage()
+                        ));
 
                         // Method to create chat room for Liked User
-                        createLikedUserChatRoom(matchesList.get(position).getUuid(),likedChatList);
+                        createLikedUserChatRoom(matchesList.get(position).getUuid(), likedChatList);
 
                     }
                 });

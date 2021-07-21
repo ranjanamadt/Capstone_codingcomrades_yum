@@ -104,12 +104,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:clickable="true"
-            android:fontFamily="@font/segoe_ui"
+            android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/info_btn"
-            android:textColor="@color/black"
+            android:textColor="@color/facebook_blue"
             android:textSize="@dimen/_14sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@+id/mtcBio"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mtcBio" />
 

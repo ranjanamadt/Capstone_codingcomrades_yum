@@ -23,13 +23,15 @@ import java.util.List;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
+import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.MatchDetailBinding;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
-public class MatchDetail extends Activity {
+public class MatchDetail extends BaseActivity {
     private MatchDetailBinding binding;
-
+    User matchUser;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MatchDetail extends Activity {
             FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, getIntent().getStringExtra(FSConstants.MATCHES_DETAIL.OTHER_USER_ID)).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot document) {
-                    User matchUser = new User(document);
+                     matchUser = new User(document);
                     binding.mdUserName.setText(matchUser.getFullName());
                     binding.mdAge.setText(String.valueOf(matchUser.getAge()));
                     binding.mdBio.setText( matchUser.getAboutMe() );
@@ -51,6 +53,7 @@ public class MatchDetail extends Activity {
                     if(matchUser.getProfileImage() != null){
                         binding.imageBtn.setImageBitmap(matchUser.getProfileBitmapImage());
                     }
+                    setTopBar();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -149,5 +152,21 @@ public class MatchDetail extends Activity {
             binding.chipDontTalk.addView(newChip);
 
         }
+    }
+
+    @Override
+    protected void setTopBar() {
+        YumTopBar.setToolbar(
+                binding.topBar,
+                R.drawable.ic_back_arrow,
+                matchUser.getFullName(),
+                true,
+                false,
+                new YumTopBar.OnToolbarClickListener() {
+                    @Override
+                    public void onLeftIconClick() {
+                        finish();
+                    }
+                });
     }
 }

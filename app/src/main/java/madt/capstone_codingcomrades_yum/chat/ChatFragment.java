@@ -27,6 +27,7 @@ import java.util.HashMap;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentChatBinding;
+import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
@@ -34,7 +35,7 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 public class ChatFragment extends BaseFragment {
     private FragmentChatBinding binding;
     private ChatElementAdapter chatAdapter;
-    private ArrayList<UserDetail> chatList = new ArrayList<>();
+    private ArrayList<ChatUserDetail> chatList = new ArrayList<>();
     ;
 
     @Override
@@ -45,6 +46,8 @@ public class ChatFragment extends BaseFragment {
 
         String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" +
                 FSConstants.Collections.CHATROOM;
+
+        CommonUtils.showProgress(getActivity());
         FirebaseCRUD.getInstance()
                 .getAll(collectionID).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -52,14 +55,14 @@ public class ChatFragment extends BaseFragment {
                 if (task.isSuccessful()) {
                     int i = task.getResult().getDocuments().size();
 
-
                     for (DocumentSnapshot document : task.getResult()) {
-                        UserDetail userDetail = new UserDetail((HashMap<String, Object>) document.get(FSConstants.CHAT_List.USER_DETAIL));
+                        ChatUserDetail userDetail = new ChatUserDetail((HashMap<String, Object>) document.get(FSConstants.CHAT_List.USER_DETAIL));
                         chatList.add(userDetail);
                     }
                     yLog("chats", chatList.size() + "");
 
                     binding.recyclerList.setAdapter(new ChatElementAdapter(getActivity(), chatList));
+                    CommonUtils.hideProgress();
                 }
             }
         });
@@ -69,9 +72,9 @@ public class ChatFragment extends BaseFragment {
 
     class ChatElementAdapter extends RecyclerView.Adapter<ChatElementAdapter.ChatViewHolder> {
         private Activity activity;
-        private ArrayList<UserDetail> chatList;
+        private ArrayList<ChatUserDetail> chatList;
 
-        ChatElementAdapter(Activity activity, ArrayList<UserDetail> chatList) {
+        ChatElementAdapter(Activity activity, ArrayList<ChatUserDetail> chatList) {
             this.activity = activity;
             this.chatList = chatList;
         }
@@ -87,20 +90,13 @@ public class ChatFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(@NonNull @NotNull ChatFragment.ChatElementAdapter.ChatViewHolder holder, int position) {
-            UserDetail chatEl = chatList.get(position);
+            ChatUserDetail chatEl = chatList.get(position);
             holder.usernameTV.setText(chatEl.getFirstName() + " " + chatEl.getLastName());
-            //   holder.timeTV.setText(chatEl.getTimeFromTimeStamp());
-            //  holder.dateTV.setText(chatList.get(position).getDateFromTimeStamp());
-          /*  holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.get()));
-            holder.lastMessageTV.setText(chatList.get(position).messageText);*/
-          /*  FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS , chatEl.getSenderId()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    byte[] decodedString = Base64.decode(documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE).toString(), Base64.DEFAULT);
-                    Bitmap img = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    holder.chatPicture.setImageBitmap(img);
-                }
-            });*/
+           /* holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
+            holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));*/
+            holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
+            holder.lastMessageTV.setText(chatList.get(position).getLastMessage());
+
         }
 
         @Override
