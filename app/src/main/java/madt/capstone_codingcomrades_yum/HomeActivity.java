@@ -1,5 +1,6 @@
 package madt.capstone_codingcomrades_yum;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -24,6 +25,11 @@ public class HomeActivity extends BaseActivity {
     private HomescreenBinding binding;
     String screenTitle;
 
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication()
+    {
+        return contextOfApplication;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class HomeActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.homescreen);
 
         FragmentManager manager = getSupportFragmentManager();
+        contextOfApplication = getApplicationContext();
+
       /*  manager.beginTransaction().add(R.id.navHostFragment, new MatchesFragment()).commit();
 
 

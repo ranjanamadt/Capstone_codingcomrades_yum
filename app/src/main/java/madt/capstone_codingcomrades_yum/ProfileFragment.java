@@ -1,10 +1,14 @@
 package madt.capstone_codingcomrades_yum;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +35,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
 import madt.capstone_codingcomrades_yum.databinding.FragmentProfileBinding;
@@ -52,6 +61,7 @@ public class ProfileFragment extends Fragment {
 
     SliderView sliderView;
     List<Uri> profileImagesUriList = new ArrayList<>();
+    List<String> profileImagesStringList = new ArrayList<>();
     ActivityResultLauncher<Intent> someActivityResultLauncher;
 
     @Override
@@ -120,15 +130,51 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onActivityResult(ActivityResult result) {
 
-                            // There are no request codes
-                            Intent data = result.getData();
-                            profileImagesUriList.add(data.getData());
+                        // There are no request codes
+                        Intent data = result.getData();
+                        profileImagesUriList.add(data.getData());
 
-                            SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                            binding.imageSlider.setSliderAdapter(sliderAdapter);
-                            binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                            //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                            binding.imageSlider.startAutoCycle();
+                        SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                        binding.imageSlider.setSliderAdapter(sliderAdapter);
+                        binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                        //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                        binding.imageSlider.startAutoCycle();
+
+                        Context applicationContext = HomeActivity.getContextOfApplication();
+                        InputStream imageStream = null;
+                        try {
+                            imageStream = applicationContext.getContentResolver().openInputStream(data.getData());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        Bitmap profileImgBitmap = BitmapFactory.decodeStream(imageStream);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] profileImgByte = baos.toByteArray();
+                        String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
+                        profileImagesStringList.add(profileImgString);
+
+                        Map<String, Object> addImages = new HashMap<>();
+                        addImages.put(FSConstants.USER.PROFILE_IMAGE, profileImagesStringList);
+
+
+                        //CommonUtils.showProgress(FinishProfileActivity.this);
+
+                        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), addImages).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                //ySnackbar(FinishProfileActivity.this, "data saved successfully");
+
+                                //getCurrentUser();
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                                //CommonUtils.hideProgress();
+                                //ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_user));
+                            }
+                        });
                     }
                 });
 
