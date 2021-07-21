@@ -28,8 +28,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +64,7 @@ public class MatchesFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matches, container, false);
 
-        mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
+       mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
 
         binding.swipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             @Override
@@ -117,8 +115,15 @@ public class MatchesFragment extends BaseFragment {
 
 
     private void getMatchesList() {
-                List<Object> tastes = new ArrayList(Arrays.asList(mLoginDetail.getTaste()));
-                FirebaseCRUD.getInstance().findMatches(FSConstants.Collections.USERS,  tastes).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        CommonUtils.showProgress(getActivity());
+
+//mLoginDetail.getTaste();
+
+List<String> tastes= new ArrayList<>();
+tastes.add("Sweet");
+                FirebaseCRUD.getInstance().
+                        findMatches(FSConstants.Collections.USERS, mLoginDetail.getTaste()).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
@@ -140,8 +145,6 @@ public class MatchesFragment extends BaseFragment {
                         CommonUtils.hideProgress();
                     }
                 });
-
-
 
 
 
@@ -297,4 +300,8 @@ public class MatchesFragment extends BaseFragment {
                 }
             });
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

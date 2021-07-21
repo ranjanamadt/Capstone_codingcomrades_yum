@@ -1,12 +1,15 @@
 package madt.capstone_codingcomrades_yum.login;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class LoginUserDetail {
     String uuid;
     String firstName;
     String lastName;
     String dob;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, Object[] interest, Object[] not_eat, Object[] not_talk, Object[] taste, Object[] enjoy_eating) {
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -54,23 +57,23 @@ public class LoginUserDetail {
         return profileImage;
     }
 
-    public Object[] getInterest() {
+    public List<String> getInterest() {
         return interest;
     }
 
-    public Object[] getNot_eat() {
+    public List<String> getNot_eat() {
         return not_eat;
     }
 
-    public Object[] getNot_talk() {
+    public List<String> getNot_talk() {
         return not_talk;
     }
 
-    public Object[] getTaste() {
+    public List<? extends Object> getTaste() {
         return taste;
     }
 
-    public Object[] getEnjoy_eating() {
+    public List<String> getEnjoy_eating() {
         return enjoy_eating;
     }
 
@@ -78,9 +81,9 @@ public class LoginUserDetail {
     String sePref;
     String aboutMe;
     String profileImage;
-    Object[] interest;
-    Object[] not_eat;
-    Object[] not_talk;
-    Object[] taste;
-    Object[] enjoy_eating;
+    List<String> interest;
+    List<String> not_eat;
+    List<String> not_talk;
+    List<String> taste;
+    List<String> enjoy_eating;
 }

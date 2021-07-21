@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 
@@ -23,11 +24,11 @@ public class User {
     String sePref;
     String aboutMe;
     String profileImage;
-    Object[] interest;
-    Object[] not_eat;
-    Object[] not_talk;
-    Object[] taste;
-    Object[] enjoy_eating;
+    List<String> interest;
+    List<String> not_eat;
+    List<String> not_talk;
+    List<String> taste;
+    List<String> enjoy_eating;
 
     public String getProfileImage() {
         return profileImage;
@@ -52,11 +53,11 @@ public class User {
         this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
         this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
         this.profileImage = document.get(FSConstants.USER.PROFILE_IMAGE) != null ? document.get(FSConstants.USER.PROFILE_IMAGE).toString() : null;
-        this.interest = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.INTEREST)).toArray();
-        this.not_eat = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT)).toArray();
-        this.not_talk = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK)).toArray();
-        this.taste = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.TASTE)).toArray();
-        this.enjoy_eating = Arrays.asList(document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING)).toArray();
+        this.interest =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.INTEREST);
+        this.not_eat = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+        this.not_talk =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+        this.taste =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.TASTE);
+        this.enjoy_eating = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
     }
 
     public String getUuid() {
@@ -75,43 +76,43 @@ public class User {
         this.aboutMe = aboutMe;
     }
 
-    public Object[] getInterest() {
+    public List<String> getInterest() {
         return interest;
     }
 
-    public void setInterest(Object[] interest) {
+    public void setInterest(List<String> interest) {
         this.interest = interest;
     }
 
-    public Object[] getNot_eat() {
+    public List<String> getNot_eat() {
         return not_eat;
     }
 
-    public void setNot_eat(Object[] not_eat) {
+    public void setNot_eat(List<String> not_eat) {
         this.not_eat = not_eat;
     }
 
-    public Object[] getNot_talk() {
+    public List<String> getNot_talk() {
         return not_talk;
     }
 
-    public void setNot_talk(Object[] not_talk) {
+    public void setNot_talk(List<String> not_talk) {
         this.not_talk = not_talk;
     }
 
-    public Object[] getTaste() {
+    public List<String> getTaste() {
         return taste;
     }
 
-    public void setTaste(Object[] taste) {
+    public void setTaste(List<String> taste) {
         this.taste = taste;
     }
 
-    public Object[] getEnjoy_eating() {
+    public List<String> getEnjoy_eating() {
         return enjoy_eating;
     }
 
-    public void setEnjoy_eating(Object[] enjoy_eating) {
+    public void setEnjoy_eating(List<String> enjoy_eating) {
         this.enjoy_eating = enjoy_eating;
     }
 
