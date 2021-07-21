@@ -293,6 +293,5 @@ public class MatchesFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 }

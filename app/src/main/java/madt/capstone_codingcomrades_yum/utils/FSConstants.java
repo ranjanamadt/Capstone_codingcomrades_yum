@@ -47,4 +47,11 @@ public class FSConstants {
 
     }
 
+    public interface MESSAGE_DETAIL{
+        String TEXT = "messageText";
+        String SEND_BY = "sendBy";
+        String SENDER_ID = "senderId";
+        String TIMESTAMP = "timestamp";
+    }
+
 }
