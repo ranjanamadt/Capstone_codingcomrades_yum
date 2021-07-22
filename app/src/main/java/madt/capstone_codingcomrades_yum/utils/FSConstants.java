@@ -13,6 +13,7 @@ public class FSConstants {
         String FIRST_NAME="firstName";
         String LAST_NAME="lastName";
         String DOB="dob";
+        String AGE="age";
         String GENDER="gender";
         String SEX_PREFER="sePref";
         String DEVICE_TOKEN="deviceToken";

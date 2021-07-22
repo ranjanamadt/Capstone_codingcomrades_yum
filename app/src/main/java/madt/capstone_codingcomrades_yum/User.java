@@ -25,6 +25,16 @@ public class User {
     String sePref;
     String aboutMe;
     String profileImage;
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
+    String deviceToken;
     List<String> interest;
     List<String> not_eat;
     List<String> not_talk;
@@ -53,6 +63,7 @@ public class User {
         this.dob = document.get(FSConstants.USER.DOB).toString();
         this.gender = document.get(FSConstants.USER.GENDER).toString();
         this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
+        this.deviceToken=document.get(FSConstants.USER.DEVICE_TOKEN).toString();
         this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
         this.profileImage = document.get(FSConstants.USER.PROFILE_IMAGE) != null ? document.get(FSConstants.USER.PROFILE_IMAGE).toString() : null;
         this.interest =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.INTEREST);

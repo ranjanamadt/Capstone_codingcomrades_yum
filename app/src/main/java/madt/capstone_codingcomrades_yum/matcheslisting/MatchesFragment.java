@@ -17,6 +17,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,6 +32,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,12 +46,16 @@ import madt.capstone_codingcomrades_yum.chat.ChatDetail;
 import madt.capstone_codingcomrades_yum.chat.Message;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
+import madt.capstone_codingcomrades_yum.fcm.SendPushHelper;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
+import madt.capstone_codingcomrades_yum.networking.VolleySingleton;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class MatchesFragment extends BaseFragment {
@@ -107,6 +118,11 @@ public class MatchesFragment extends BaseFragment {
                         mLoginDetail.getProfileImage()
                 ));
 
+                SendPushHelper.sendPush(getActivity(),matchesList.get(position).getDeviceToken(),getString(R.string.new_like)
+                ,mLoginDetail.getFullName()+" liked your profile!");
+
+
+
                 // Method to create chat room for Liked User
                 createLikedUserChatRoom(matchesList.get(position).getUuid(), likedChatList);
             }
@@ -117,10 +133,12 @@ public class MatchesFragment extends BaseFragment {
             }
 
             @Override
-            public void cardActionDown() {}
+            public void cardActionDown() {
+            }
 
             @Override
-            public void cardActionUp() {}
+            public void cardActionUp() {
+            }
 
         });
         getMatchesList();
@@ -269,6 +287,7 @@ public class MatchesFragment extends BaseFragment {
                     }
                 }
             });
+
     private void createLikedUserChatRoom(String uuid, Map<String, Object> likedChatList) {
         FirebaseCRUD.getInstance().createChatRoomSubCollection(FSConstants.Collections.USERS,
                 FSConstants.Collections.CHATROOM, uuid,
@@ -288,6 +307,7 @@ public class MatchesFragment extends BaseFragment {
 
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
