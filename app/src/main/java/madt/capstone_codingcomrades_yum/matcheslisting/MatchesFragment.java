@@ -73,8 +73,8 @@ public class MatchesFragment extends BaseFragment {
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
 
-                Message firstMessage = new Message(mLoginDetail.getFullName(),
-                        mLoginDetail.getUuid(),
+                Message firstMessage = new Message(mLoginDetail.getUuid(),
+                        mLoginDetail.getFullName(),
                         System.currentTimeMillis() + "",
                         "Hello",
                         mLoginDetail.getProfileImage());

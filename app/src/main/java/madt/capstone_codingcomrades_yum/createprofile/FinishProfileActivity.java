@@ -202,8 +202,7 @@ public class FinishProfileActivity extends BaseActivity {
 
 
                     User user = new User(documentSnapshot);
-                    yLog("user name :", user.getFirstName()+
-                            user.getLastName());
+
                     LoginUserDetail loginUserDetail = new LoginUserDetail(
                             user.getUuid(),
                             user.getFirstName(),

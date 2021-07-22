@@ -68,8 +68,8 @@ public class MessageChatActivity extends BaseActivity {
             public void onClick(View v) {
                 String messageText = binding.editText.getText().toString();
                 if(!messageText.isEmpty()){
-                    Message newMsg = new Message(mLoginDetail.getFullName(),
-                            mLoginDetail.getUuid(),
+                    Message newMsg = new Message(mLoginDetail.getUuid(),
+                            mLoginDetail.getFullName(),
                             System.currentTimeMillis() + "",
                             messageText,
                             mLoginDetail.getProfileImage());
@@ -110,7 +110,7 @@ public class MessageChatActivity extends BaseActivity {
                     chatList = (List<Message>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES);
                     for (HashMap<String, Object> messageObj : (ArrayList<HashMap<String, Object>>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES)) {
                         Message msg = new Message(messageObj);
-                        if(msg.getSenderId().equals(mLoginDetail.getUuid())){
+                        if(msg.getSenderId().equalsIgnoreCase(mLoginDetail.getUuid())){
                             messageAdapter.add(new SendMessageItem(msg));
                         }else{
                             messageAdapter.add(new ReceiveMessageItem(msg));
