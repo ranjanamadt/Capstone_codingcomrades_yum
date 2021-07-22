@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,11 +24,13 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
@@ -38,7 +43,8 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 public class ProfileSettingActivity extends BaseActivity {
 
     ChipGroup chipGroupEatingPref, chipGroupTastePref, chipGroupTalkPref, chipGroupNoEatPref, chipGroupNoTalkPref;
-    Spinner spnEatingPref, spnTastePref, spnTalkPref, spnNoEatPref, spnNoTalkPref;
+    Spinner spnEatingPref, spnTastePref, spnTalkPref, spnNoEatPref, spnNoTalkPref, preference_looking;
+    TextView mylocation;
     private List<String> enjoyEatingList, tasteList, interestList, notEatList, notTalkList;
     List<String> resultEating = new ArrayList<>();
     List<String> resultTastes = new ArrayList<>();
@@ -46,6 +52,7 @@ public class ProfileSettingActivity extends BaseActivity {
     List<String> resultNotEat = new ArrayList<>();
     List<String> resultNotTalk = new ArrayList<>();
     Boolean checkEating = false, checkTaste = false, checkInterest = false, checkNoEat = false, checkNoTalk = false;
+    final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Any"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,10 @@ public class ProfileSettingActivity extends BaseActivity {
         spnTalkPref = findViewById(R.id.spnTalkPref);
         spnNoEatPref = findViewById(R.id.spnNoEatPref);
         spnNoTalkPref = findViewById(R.id.spnNoTalkPref);
+        preference_looking = findViewById(R.id.preference_looking);
+        mylocation = findViewById(R.id.myLocation);
+
+        preference_looking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
         getEatingPreferences();
         getTastesPreferences();
@@ -79,6 +90,8 @@ public class ProfileSettingActivity extends BaseActivity {
                 addTalkAbout((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
+                //getuserlocation((Double)documentSnapshot.get(FSConstants.USER.LATITUDE), (Double)documentSnapshot.get(FSConstants.USER.LONGITUDE));
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -88,6 +101,19 @@ public class ProfileSettingActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void getuserlocation(Double latitude, Double longitude) {
+        Geocoder gcd = new Geocoder(getApplicationContext(), Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = gcd.getFromLocation(latitude, longitude, 1);
+            if (addresses.size() > 0) {
+                mylocation.setText(addresses.get(0).getLocality());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getEatingPreferences() {

@@ -36,8 +36,8 @@
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_25sdp"
-                    android:layout_marginTop="@dimen/_34sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/logout"
                     android:textColor="@color/black"
@@ -46,7 +46,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seekbar_distance" />
+                    app:layout_constraintTop_toBottomOf="@+id/applyChnagesBtn" />
 
                 <Button
                     android:id="@+id/payment_Btn"
@@ -63,6 +63,21 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/applyChnagesBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:backgroundTint="@color/facebook_blue"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="Apply Changes"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/seekbar_distance" />
 
                 <TextView
                     android:id="@+id/account_settings"
@@ -409,6 +424,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     app:layout_constraintStart_toStartOf="@+id/distance"
+                    app:layout_constraintTop_toBottomOf="@+id/distance" />
+
+                <TextView
+                    android:id="@+id/maxDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="2 Miles"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toEndOf="@+id/seekbar_distance"
                     app:layout_constraintTop_toBottomOf="@+id/distance" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
