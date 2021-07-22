@@ -86,12 +86,12 @@ public class SplashActivity extends BaseActivity {
 
     }
 
-    void getFCMToken() {
+    public static void getFCMToken() {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
                 if (!task.isSuccessful()) {
-                    yLog(ContentValues.TAG, "Fetching FCM registration token failed" + task.getException());
+                   Log.e(ContentValues.TAG, "Fetching FCM registration token failed" + task.getException());
                     return;
                 }
                 Log.e("device token : ", task.getResult().toString());

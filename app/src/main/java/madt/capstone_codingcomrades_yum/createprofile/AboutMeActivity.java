@@ -29,6 +29,7 @@ import madt.capstone_codingcomrades_yum.databinding.ActivityAboutMeBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
+import madt.capstone_codingcomrades_yum.splash.SplashActivity;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
@@ -94,6 +95,9 @@ public class AboutMeActivity extends BaseActivity {
         binding.btnConfirmAboutMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN).isEmpty()){
+                    SplashActivity.getFCMToken();
+                }
                 if (binding.firstNameET.getText().toString().isEmpty()) {
                     ySnackbar(AboutMeActivity.this, getString(R.string.err_first_name_empty));
                 } else if (binding.lastNameET.getText().toString().isEmpty()) {
