@@ -46,6 +46,7 @@ import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 
 public class MessageChatActivity extends BaseActivity {
@@ -54,6 +55,7 @@ public class MessageChatActivity extends BaseActivity {
     protected LoginUserDetail mLoginDetail;
     private GroupAdapter messageAdapter = new GroupAdapter<GroupieViewHolder>();
     private List<Message> chatList = new ArrayList<>()  ;
+    private String username = "";
 
 
     @Override
@@ -99,6 +101,10 @@ public class MessageChatActivity extends BaseActivity {
                 }
             }
         });
+        if (getIntent().hasExtra(FSConstants.CHAT_List.USER_NAME)) {
+            username = getIntent().getStringExtra(FSConstants.CHAT_List.USER_NAME);
+        }
+        setTopBar();
     }
 
     private void populateData(){
@@ -108,6 +114,7 @@ public class MessageChatActivity extends BaseActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     chatList = (List<Message>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES);
+
                     for (HashMap<String, Object> messageObj : (ArrayList<HashMap<String, Object>>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES)) {
                         Message msg = new Message(messageObj);
                         if(msg.getSenderId().equalsIgnoreCase(mLoginDetail.getUuid())){
@@ -162,18 +169,18 @@ public class MessageChatActivity extends BaseActivity {
 
     @Override
     protected void setTopBar() {
-//        YumTopBar.setToolbar(
-//                binding.topBar,
-//                R.drawable.ic_back_arrow,
-//                matchUser.getFullName(),
-//                true,
-//                false,
-//                new YumTopBar.OnToolbarClickListener() {
-//                    @Override
-//                    public void onLeftIconClick() {
-//                        finish();
-//                    }
-//                });
+        YumTopBar.setToolbar(
+                binding.topBar,
+                R.drawable.ic_back_arrow,
+                username,
+                true,
+                true,
+                new YumTopBar.OnToolbarClickListener() {
+                    @Override
+                    public void onLeftIconClick() {
+                        finish();
+                    }
+                });
     }
 
 }

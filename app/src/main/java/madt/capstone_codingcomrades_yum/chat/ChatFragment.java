@@ -104,6 +104,7 @@ public class ChatFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
                     startActivity(i);
                 }
             });
@@ -112,6 +113,7 @@ public class ChatFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
                     startActivity(i);
                 }
             });
@@ -120,6 +122,7 @@ public class ChatFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
                     startActivity(i);
                 }
             });
@@ -128,6 +131,7 @@ public class ChatFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
                     startActivity(i);
                 }
             });
@@ -136,6 +140,7 @@ public class ChatFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
                     startActivity(i);
                 }
             });
