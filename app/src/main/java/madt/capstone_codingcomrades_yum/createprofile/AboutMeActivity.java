@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public class AboutMeActivity extends BaseActivity {
     public static String firstName = "", lastName = "", gender = "", sePref = "", dob = "";
     public static String stringDate = "";
     public boolean isUserExist = false;
+    public static boolean dateSelected = false;
 
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight", "Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -55,13 +57,21 @@ public class AboutMeActivity extends BaseActivity {
 
 
         // getting today's date and separating day, month and year and putting that value to array
-        long millis = System.currentTimeMillis();
+        /*long millis = System.currentTimeMillis();
         java.sql.Date todaydate = new java.sql.Date(millis);
         String ArrtodayDate[] = todaydate.toString().split("-");
 
         // date into the string format
         stringDate = getMonthLetter(Integer.parseInt(ArrtodayDate[1]) - 1).toString() + " " + ArrtodayDate[2] + ", " + ArrtodayDate[0];
+        binding.dobTV.setText(stringDate);*/
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -18);
+        SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, yyyy");
+
+        stringDate = format1.format(calendar.getTime());
         binding.dobTV.setText(stringDate);
+        //ySnackbar(AboutMeActivity.this, "date: " + stringDate);
 
         Calendar cal = Calendar.getInstance();
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -80,13 +90,19 @@ public class AboutMeActivity extends BaseActivity {
                         String monthLetter = getMonthLetter(month);
                         stringDate = monthLetter + " " + dayOfMonth + ", " + year;
                         binding.dobTV.setText(stringDate);
-                        binding.dobTV.setTextSize(20);
                     }
                 }, year, month, day
                 );
 
-                // disabling the paste date
-                dpDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                // setting max date as 18 years ago
+                if(!dateSelected){
+                    dateSelected = true;
+                    cal.add(Calendar.YEAR, -18);
+                    dpDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+                } else {
+                    cal.add(Calendar.YEAR, 0);
+                    dpDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+                }
                 // showing the date picket dialog
                 dpDialog.show();
             }
