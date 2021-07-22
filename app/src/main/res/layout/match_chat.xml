@@ -4,6 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".chat.MessageChatActivity">
     <data></data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <madt.capstone_codingcomrades_yum.utils.YumTopBar
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/_6sdp" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -55,4 +68,5 @@
             tools:listitem="@layout/item_message_send" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 </layout>
