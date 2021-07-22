@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,7 +45,8 @@ public class ProfileSettingActivity extends BaseActivity {
 
     ChipGroup chipGroupEatingPref, chipGroupTastePref, chipGroupTalkPref, chipGroupNoEatPref, chipGroupNoTalkPref;
     Spinner spnEatingPref, spnTastePref, spnTalkPref, spnNoEatPref, spnNoTalkPref, preference_looking;
-    TextView mylocation;
+    SeekBar seekBar_distance;
+    TextView mylocation, maxDistance;
     private List<String> enjoyEatingList, tasteList, interestList, notEatList, notTalkList;
     List<String> resultEating = new ArrayList<>();
     List<String> resultTastes = new ArrayList<>();
@@ -70,9 +72,28 @@ public class ProfileSettingActivity extends BaseActivity {
         spnNoEatPref = findViewById(R.id.spnNoEatPref);
         spnNoTalkPref = findViewById(R.id.spnNoTalkPref);
         preference_looking = findViewById(R.id.preference_looking);
+        seekBar_distance = findViewById(R.id.seekbar_distance);
+        maxDistance = findViewById(R.id.maxDistance);
         mylocation = findViewById(R.id.myLocation);
 
         preference_looking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
+
+        seekBar_distance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                maxDistance.setText(String.valueOf(progress+2) + " Miles");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         getEatingPreferences();
         getTastesPreferences();
