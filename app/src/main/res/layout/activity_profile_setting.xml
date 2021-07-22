@@ -376,7 +376,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_age" />
 
                 <SeekBar
-                    android:id="@+id/seekbar"
+                    android:id="@+id/seekbarMinAge"
                     android:layout_width="@dimen/_179sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -397,7 +397,7 @@
                     android:text="18 Years"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toEndOf="@+id/seekbar"
+                    app:layout_constraintStart_toEndOf="@+id/seekbarMinAge"
                     app:layout_constraintTop_toBottomOf="@+id/minAgeTV" />
 
                 <TextView
@@ -411,7 +411,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+                    app:layout_constraintTop_toBottomOf="@+id/seekbarMinAge" />
 
                 <SeekBar
                     android:id="@+id/seekbarMaxAge"
@@ -435,7 +435,7 @@
                     android:text="18 Years"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toEndOf="@+id/seekbar"
+                    app:layout_constraintStart_toEndOf="@+id/seekbarMinAge"
                     app:layout_constraintTop_toBottomOf="@+id/maxAgeTV" />
 
                 <TextView

@@ -3,6 +3,7 @@ package madt.capstone_codingcomrades_yum;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -36,6 +37,7 @@ import java.util.Locale;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
 import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
+import madt.capstone_codingcomrades_yum.databinding.ActivityProfileSettingBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
@@ -43,10 +45,13 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
 public class ProfileSettingActivity extends BaseActivity {
 
+    ActivityProfileSettingBinding binding;
+
+
     ChipGroup chipGroupEatingPref, chipGroupTastePref, chipGroupTalkPref, chipGroupNoEatPref, chipGroupNoTalkPref;
     Spinner spnEatingPref, spnTastePref, spnTalkPref, spnNoEatPref, spnNoTalkPref, preference_looking;
-    SeekBar seekBar_distance;
-    TextView mylocation, maxDistance;
+    SeekBar seekBar_distance,seekbarMinAge,seekbarMaxAge;
+    TextView mylocation, maxDistance, minimumAge, maximumAge;
     private List<String> enjoyEatingList, tasteList, interestList, notEatList, notTalkList;
     List<String> resultEating = new ArrayList<>();
     List<String> resultTastes = new ArrayList<>();
@@ -55,11 +60,14 @@ public class ProfileSettingActivity extends BaseActivity {
     List<String> resultNotTalk = new ArrayList<>();
     Boolean checkEating = false, checkTaste = false, checkInterest = false, checkNoEat = false, checkNoTalk = false;
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Any"};
+    int minAgeSeekBar = 18;
+    int maxAgeSeekBar = 18;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_setting);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_setting);
 
         chipGroupEatingPref = findViewById(R.id.chipGroupEatingPref);
         chipGroupTastePref = findViewById(R.id.chipGroupTastePref);
@@ -73,15 +81,59 @@ public class ProfileSettingActivity extends BaseActivity {
         spnNoTalkPref = findViewById(R.id.spnNoTalkPref);
         preference_looking = findViewById(R.id.preference_looking);
         seekBar_distance = findViewById(R.id.seekbar_distance);
+        seekbarMinAge = findViewById(R.id.seekbarMinAge);
+        seekbarMaxAge = findViewById(R.id.seekbarMaxAge);
+        minimumAge = findViewById(R.id.minimumAge);
+        maximumAge = findViewById(R.id.maximumAge);
         maxDistance = findViewById(R.id.maxDistance);
         mylocation = findViewById(R.id.myLocation);
 
-        preference_looking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
+        binding.preferenceLooking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
-        seekBar_distance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.seekbarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maxDistance.setText(String.valueOf(progress+2) + " Miles");
+                binding.maxDistance.setText(String.valueOf(progress+2) + " Miles");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        binding.seekbarMinAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                minAgeSeekBar = progress + 18;
+                binding.minimumAge.setText(String.valueOf(progress+18) + " Years");
+                if(maxAgeSeekBar < minAgeSeekBar){
+                    maxAgeSeekBar = progress + 18;
+                    binding.maximumAge.setText(String.valueOf(progress+18) + " Years");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        binding.seekbarMaxAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                maxAgeSeekBar = progress+minAgeSeekBar;
+                binding.maximumAge.setText(String.valueOf(progress+minAgeSeekBar) + " Years");
             }
 
             @Override
@@ -130,7 +182,7 @@ public class ProfileSettingActivity extends BaseActivity {
         try {
             addresses = gcd.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
-                mylocation.setText(addresses.get(0).getLocality());
+                binding.myLocation.setText(addresses.get(0).getLocality());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,9 +196,9 @@ public class ProfileSettingActivity extends BaseActivity {
                 enjoyEatingList = (List<String>) documentSnapshot.get("data");
                 //setEnjoyEatingDropdown(enjoyEatingList);
 
-                spnEatingPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, enjoyEatingList));
+                binding.spnEatingPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, enjoyEatingList));
 
-                spnEatingPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                binding.spnEatingPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkEating){
@@ -177,9 +229,9 @@ public class ProfileSettingActivity extends BaseActivity {
                 tasteList = (List<String>) documentSnapshot.get("data");
                 //setEnjoyEatingDropdown(enjoyEatingList);
 
-                spnTastePref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, tasteList));
+                binding.spnTastePref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, tasteList));
 
-                spnTastePref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                binding.spnTastePref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkTaste){
@@ -210,9 +262,9 @@ public class ProfileSettingActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 notEatList = (List<String>) documentSnapshot.get("data");
 
-                spnNoEatPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, notEatList));
+                binding.spnNoEatPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, notEatList));
 
-                spnNoEatPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                binding.spnNoEatPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkNoEat){
@@ -249,9 +301,9 @@ public class ProfileSettingActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 notTalkList = (List<String>) documentSnapshot.get("data");
 
-                spnNoTalkPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, notTalkList));
+                binding.spnNoTalkPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, notTalkList));
 
-                spnNoTalkPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                binding.spnNoTalkPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkNoTalk){
@@ -287,9 +339,9 @@ public class ProfileSettingActivity extends BaseActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 interestList = (List<String>) documentSnapshot.get("data");
 
-                spnTalkPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, interestList));
+                binding.spnTalkPref.setAdapter(new ArrayAdapter<String>(ProfileSettingActivity.this, android.R.layout.simple_spinner_dropdown_item, interestList));
 
-                spnTalkPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                binding.spnTalkPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkInterest){
@@ -317,14 +369,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addEnjoyEating(List<String> enjoyEatingList) {
         resultEating.addAll(enjoyEatingList);
         for (String enjoyEat : enjoyEatingList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, chipGroupEatingPref, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupEatingPref, false);
             newChip.setText(enjoyEat);
-            chipGroupEatingPref.addView(newChip);
+            binding.chipGroupEatingPref.addView(newChip);
 
             newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chipGroupEatingPref.removeView(v);
+                    binding.chipGroupEatingPref.removeView(v);
                 }
             });
         }
@@ -333,14 +385,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addTaste(List<String> tasteList) {
         resultTastes.addAll(tasteList);
         for (String taste : tasteList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, chipGroupTastePref, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTastePref, false);
             newChip.setText(taste);
-            chipGroupTastePref.addView(newChip);
+            binding.chipGroupTastePref.addView(newChip);
 
             newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chipGroupTastePref.removeView(v);
+                    binding.chipGroupTastePref.removeView(v);
                 }
             });
         }
@@ -349,14 +401,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addTalkAbout(List<String> TalkList) {
         resultInterest.addAll(TalkList);
         for (String talk : TalkList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, chipGroupTalkPref, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTalkPref, false);
             newChip.setText(talk);
-            chipGroupTalkPref.addView(newChip);
+            binding.chipGroupTalkPref.addView(newChip);
 
             newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chipGroupTalkPref.removeView(v);
+                    binding.chipGroupTalkPref.removeView(v);
                 }
             });
         }
@@ -365,14 +417,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addNotEat(List<String> notEatList) {
         resultNotEat.addAll(notEatList);
         for (String notEat : notEatList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, chipGroupNoEatPref, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupNoEatPref, false);
             newChip.setText(notEat);
-            chipGroupNoEatPref.addView(newChip);
+            binding.chipGroupNoEatPref.addView(newChip);
 
             newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chipGroupNoEatPref.removeView(v);
+                    binding.chipGroupNoEatPref.removeView(v);
                 }
             });
         }
@@ -383,14 +435,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addNotTalk(List<String> notTalkList) {
         resultNotTalk.addAll(notTalkList);
         for (String notTalk : notTalkList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, chipGroupNoTalkPref, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupNoTalkPref, false);
             newChip.setText(notTalk);
-            chipGroupNoTalkPref.addView(newChip);
+            binding.chipGroupNoTalkPref.addView(newChip);
 
             newChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chipGroupNoTalkPref.removeView(v);
+                    binding.chipGroupNoTalkPref.removeView(v);
                 }
             });
         }
@@ -399,14 +451,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addEatingChip(String topic) {
         resultEating.add(topic);
 
-        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, chipGroupEatingPref, false);
+        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupEatingPref, false);
         newChip.setText(topic);
-        chipGroupEatingPref.addView(newChip);
+        binding.chipGroupEatingPref.addView(newChip);
 
         newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chipGroupEatingPref.removeView(v);
+                binding.chipGroupEatingPref.removeView(v);
                 resultEating.remove(((Chip) v).getText());
             }
         });
@@ -416,14 +468,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addTastesChip(String topic) {
         resultTastes.add(topic);
 
-        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, chipGroupTastePref, false);
+        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTastePref, false);
         newChip.setText(topic);
-        chipGroupTastePref.addView(newChip);
+        binding.chipGroupTastePref.addView(newChip);
 
         newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chipGroupTastePref.removeView(v);
+                binding.chipGroupTastePref.removeView(v);
                 resultTastes.remove(((Chip) v).getText());
             }
         });
@@ -432,14 +484,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addInterestChip(String topic) {
         resultInterest.add(topic);
 
-        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, chipGroupTalkPref, false);
+        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupTalkPref, false);
         newChip.setText(topic);
-        chipGroupTalkPref.addView(newChip);
+        binding.chipGroupTalkPref.addView(newChip);
 
         newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chipGroupTalkPref.removeView(v);
+                binding.chipGroupTalkPref.removeView(v);
                 resultInterest.remove(((Chip) v).getText());
             }
         });
@@ -448,14 +500,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addNoEatChip(String topic) {
         resultNotEat.add(topic);
 
-        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, chipGroupNoEatPref, false);
+        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip, binding.chipGroupNoEatPref, false);
         newChip.setText(topic);
-        chipGroupNoEatPref.addView(newChip);
+        binding.chipGroupNoEatPref.addView(newChip);
 
         newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chipGroupNoEatPref.removeView(v);
+                binding.chipGroupNoEatPref.removeView(v);
                 resultNotEat.remove(((Chip) v).getText());
             }
         });
@@ -465,14 +517,14 @@ public class ProfileSettingActivity extends BaseActivity {
     private void addNoTalkChip(String topic) {
         resultNotTalk.add(topic);
 
-        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, chipGroupNoTalkPref, false);
+        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip, binding.chipGroupNoTalkPref, false);
         newChip.setText(topic);
-        chipGroupNoTalkPref.addView(newChip);
+        binding.chipGroupNoTalkPref.addView(newChip);
 
         newChip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chipGroupNoTalkPref.removeView(v);
+                binding.chipGroupNoTalkPref.removeView(v);
                 resultNotTalk.remove(((Chip) v).getText());
             }
         });

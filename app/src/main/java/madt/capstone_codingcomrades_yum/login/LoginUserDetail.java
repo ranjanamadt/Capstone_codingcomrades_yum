@@ -10,7 +10,21 @@ public class LoginUserDetail {
     String lastName;
     String dob;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list) {
+    String gender;
+    String sePref;
+    String aboutMe;
+    String profileImage;
+    List<String> interest;
+    List<String> not_eat;
+    List<String> not_talk;
+    List<String> taste;
+    List<String> enjoy_eating;
+
+
+    List<String> preferences;
+    List<String> report_list;
+
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,6 +38,7 @@ public class LoginUserDetail {
         this.not_talk = not_talk;
         this.taste = taste;
         this.enjoy_eating = enjoy_eating;
+        this.preferences=preferences;
         this.report_list = report_list != null ? report_list : new ArrayList<>();
     }
 
@@ -88,15 +103,12 @@ public class LoginUserDetail {
     public void setReport_list(List<String> report_list) {
         this.report_list = report_list;
     }
+    public List<String> getPreferences() {
+        return preferences;
+    }
 
-    String gender;
-    String sePref;
-    String aboutMe;
-    String profileImage;
-    List<String> interest;
-    List<String> not_eat;
-    List<String> not_talk;
-    List<String> taste;
-    List<String> enjoy_eating;
-    List<String> report_list;
+    public void setPreferences(List<String> preferences) {
+        this.preferences = preferences;
+    }
+
 }

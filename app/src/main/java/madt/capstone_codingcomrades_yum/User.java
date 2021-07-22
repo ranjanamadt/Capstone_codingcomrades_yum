@@ -42,6 +42,16 @@ public class User {
     List<String> enjoy_eating;
     List<String> report_list;
 
+    public List<String> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(List<String> preferences) {
+        this.preferences = preferences;
+    }
+
+    List<String> preferences;
+
     public String getProfileImage() {
         return profileImage;
     }
@@ -71,6 +81,8 @@ public class User {
         this.not_talk =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
         this.taste =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.TASTE);
         this.enjoy_eating = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+        this.preferences = (List<String>)document.get(FSConstants.USER.PREFERENCES);
+
         this.report_list =  (List<String>)document.get(FSConstants.USER.REPORT_LIST) != null  ? (List<String>)document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
     }
 

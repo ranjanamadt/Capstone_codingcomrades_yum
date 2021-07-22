@@ -21,6 +21,7 @@ public class FSConstants {
         String LONGITUDE="longitude";
         String ABOUT_ME="aboutMe";
         String PROFILE_IMAGE="profileImage";
+        String PREFERENCES="preferences";
         String LAST_MESSAGE="lastMessage";
         String LAST_MESSAGE_TIMESTAMP="lastMessageTimeStamp";
         String REPORT_LIST = "report_list";

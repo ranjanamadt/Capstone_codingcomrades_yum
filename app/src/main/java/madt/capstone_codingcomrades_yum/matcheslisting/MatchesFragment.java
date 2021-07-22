@@ -165,7 +165,7 @@ public class MatchesFragment extends BaseFragment {
 
         FirebaseCRUD.getInstance().
                 findMatches(FSConstants.Collections.USERS,
-                        mLoginDetail.getTaste(),
+                        mLoginDetail.getPreferences(),
                         mLoginDetail.getReport_list()
 
                 ).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

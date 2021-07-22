@@ -74,6 +74,7 @@ public class FinishProfileActivity extends BaseActivity {
     LocationCallback locationCallback;
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int PROFILE_RESULT_CODE = 2;
+    List<String> preferences=new ArrayList<>();
 
 
     String latitude = "";
@@ -122,6 +123,12 @@ public class FinishProfileActivity extends BaseActivity {
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
 
+                preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING));
+                preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE));
+                preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
+                preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
+                preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
+
                 if (!LoginActivity.profile_image.isEmpty())
                     Picasso.get().load(LoginActivity.profile_image).into(binding.imageBtn);
 
@@ -168,6 +175,7 @@ public class FinishProfileActivity extends BaseActivity {
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
                 finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgString);
+                finishProfile.put(FSConstants.USER.PREFERENCES, preferences);
 
                 CommonUtils.showProgress(FinishProfileActivity.this);
 
@@ -217,7 +225,8 @@ public class FinishProfileActivity extends BaseActivity {
                             user.getNot_talk(),
                             user.getTaste(),
                             user.getEnjoy_eating(),
-                            user.getReport_list()
+                            user.getReport_list(),
+                            user.getPreferences()
                     );
 
                     yLog("loginUserDetail: ", new Gson().toJson(loginUserDetail));
