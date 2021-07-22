@@ -72,7 +72,7 @@ public class ChatDetail {
         this.lastName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
         this.lastMessageTimeStamp = userDetail.get(FSConstants.USER.LAST_MESSAGE_TIMESTAMP).toString();
         this.lastMessage = userDetail.get(FSConstants.USER.LAST_MESSAGE).toString();
-        this.profileImage = userDetail.get(FSConstants.USER.PROFILE_IMAGE).toString();
+      //  this.profileImage = userDetail.get(FSConstants.USER.PROFILE_IMAGE).toString();
 
     }
 

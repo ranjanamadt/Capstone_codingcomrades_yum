@@ -63,6 +63,7 @@ public class ProfileSettingActivity extends BaseActivity {
     int minAgeSeekBar = 18;
     int maxAgeSeekBar = 18;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
