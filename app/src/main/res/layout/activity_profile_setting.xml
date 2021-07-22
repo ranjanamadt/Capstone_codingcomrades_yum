@@ -363,13 +363,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/chipGroupNoTalkPref" />
 
                 <TextView
-                    android:id="@+id/age_between"
+                    android:id="@+id/minAgeTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="@string/between"
+                    android:text="Minimum age"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -380,10 +380,63 @@
                     android:layout_width="@dimen/_179sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:max="32"
+                    android:progress="2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.383"
-                    app:layout_constraintStart_toEndOf="@+id/age_between"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_age" />
+                    app:layout_constraintHorizontal_bias="0.146"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/minAgeTV" />
+
+                <TextView
+                    android:id="@+id/minimumAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="18 Years"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toEndOf="@+id/seekbar"
+                    app:layout_constraintTop_toBottomOf="@+id/minAgeTV" />
+
+                <TextView
+                    android:id="@+id/maxAgeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui"
+                    android:text="Maximum age"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+                <SeekBar
+                    android:id="@+id/seekbarMaxAge"
+                    android:layout_width="@dimen/_179sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:max="32"
+                    android:progress="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.146"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/maxAgeTV" />
+
+                <TextView
+                    android:id="@+id/maximumAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="18 Years"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toEndOf="@+id/seekbar"
+                    app:layout_constraintTop_toBottomOf="@+id/maxAgeTV" />
 
                 <TextView
                     android:id="@+id/settings_bio"
@@ -394,8 +447,8 @@
                     android:text="@string/i_am_looking"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="@+id/age_between"
-                    app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+                    app:layout_constraintStart_toStartOf="@+id/minAgeTV"
+                    app:layout_constraintTop_toBottomOf="@+id/seekbarMaxAge" />
 
                 <TextView
                     android:id="@+id/distance"
@@ -415,7 +468,7 @@
                     android:layout_width="192dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintStart_toStartOf="@+id/age_between"
+                    app:layout_constraintStart_toStartOf="@+id/minAgeTV"
                     app:layout_constraintTop_toBottomOf="@+id/settings_bio" />
 
                 <SeekBar
@@ -425,7 +478,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:max="48"
                     android:progress="2"
-                    app:layout_constraintStart_toStartOf="@+id/distance"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/distance" />
 
                 <TextView
