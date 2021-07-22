@@ -34,7 +34,9 @@ public class LoginUserDetail {
     public String getFirstName() {
         return firstName;
     }
-
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
     public String getLastName() {
         return lastName;
     }

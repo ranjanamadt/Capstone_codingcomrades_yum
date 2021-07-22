@@ -2,6 +2,7 @@ package madt.capstone_codingcomrades_yum.chat;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +10,35 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.gson.Gson;
+import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.databinding.BindableItem;
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityMessagesBinding;
 import madt.capstone_codingcomrades_yum.databinding.FragmentChatBinding;
+import madt.capstone_codingcomrades_yum.databinding.ItemMessageReceiveBinding;
+import madt.capstone_codingcomrades_yum.databinding.ItemMessageSendBinding;
 import madt.capstone_codingcomrades_yum.databinding.MatchChatBinding;
 import madt.capstone_codingcomrades_yum.databinding.MatchChatBindingImpl;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
@@ -38,10 +50,10 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
 public class MessageChatActivity extends BaseActivity {
     private MatchChatBinding binding;
-
+    private  String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" + FSConstants.Collections.CHATROOM;
     protected LoginUserDetail mLoginDetail;
-    private ChatElementAdapter chatAdapter;
-    private ArrayList<Message> chatList = new ArrayList<>();
+    private GroupAdapter messageAdapter = new GroupAdapter<GroupieViewHolder>();
+    private List<Message> chatList = new ArrayList<>()  ;
 
 
     @Override
@@ -49,18 +61,62 @@ public class MessageChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.match_chat);
         mLoginDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
-//
-        binding.messagesChatRV.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+        binding.messagesChatRV.setAdapter(messageAdapter);
+        populateData();
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String messageText = binding.editText.getText().toString();
+                if(!messageText.isEmpty()){
+                    Message newMsg = new Message(mLoginDetail.getFullName(),
+                            mLoginDetail.getUuid(),
+                            System.currentTimeMillis() + "",
+                            messageText,
+                            mLoginDetail.getProfileImage());
 
-        String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" + FSConstants.Collections.CHATROOM;
+                    chatList.add(newMsg);
+
+                    Map<String, Object> currentMessageList = new HashMap<>();
+                    currentMessageList.put(FSConstants.CHAT_List.MESSAGES, chatList);
+                    FirebaseCRUD.getInstance().updateDoc(collectionID,getIntent().getStringExtra(FSConstants.CHAT_List.CHAT_ID),currentMessageList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                messageAdapter.add(new SendMessageItem(newMsg));
+                                binding.editText.setText("");
+                            }
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Log.e("path :", e.toString());
+
+                        }
+                    });
+
+
+                }
+            }
+        });
+    }
+
+    private void populateData(){
+
         if (getIntent().hasExtra(FSConstants.CHAT_List.CHAT_ID)) {
             FirebaseCRUD.getInstance().getDocument(collectionID , getIntent().getStringExtra(FSConstants.CHAT_List.CHAT_ID)).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    chatList = (List<Message>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES);
                     for (HashMap<String, Object> messageObj : (ArrayList<HashMap<String, Object>>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES)) {
-                        chatList.add(new Message(messageObj));
+                        Message msg = new Message(messageObj);
+                        if(msg.getSenderId().equals(mLoginDetail.getUuid())){
+                            messageAdapter.add(new SendMessageItem(msg));
+                        }else{
+                            messageAdapter.add(new ReceiveMessageItem(msg));
+
+                        }
                     }
-                    binding.messagesChatRV.setAdapter(new ChatElementAdapter(MessageChatActivity.this, chatList));
                 }
             });
 
@@ -69,47 +125,41 @@ public class MessageChatActivity extends BaseActivity {
 
 
 
-    class ChatElementAdapter extends RecyclerView.Adapter<ChatElementAdapter.ChatViewHolder> {
-        private Activity activity;
-        private ArrayList<Message> chatList;
-
-        ChatElementAdapter(Activity activity, ArrayList<Message> chatList) {
-            this.activity = activity;
-            this.chatList = chatList;
-        }
-
-        @NonNull
-        @NotNull
-        @Override
-        public MessageChatActivity.ChatElementAdapter.ChatViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_receive, parent, false);
-
-            return new ChatViewHolder(view);
-        }
+    class SendMessageItem extends BindableItem<ItemMessageSendBinding> {
+        Message message;
 
         @Override
-        public void onBindViewHolder(@NonNull @NotNull MessageChatActivity.ChatElementAdapter.ChatViewHolder holder, int position) {
-            Message chatEl = chatList.get(position);
-            holder.receiveMsg.setText(chatEl.getMessageText());
+        public void bind(@NonNull @NotNull ItemMessageSendBinding viewBinding, int position) {
+            viewBinding.myMessageTv.setText(message.getMessageText());
         }
-
+        public SendMessageItem(Message message) {
+            this.message = message;
+        }
         @Override
-        public int getItemCount() {
-            return chatList.size();
+        public int getLayout() {
+            return R.layout.item_message_send;
         }
-
-        class ChatViewHolder extends RecyclerView.ViewHolder {
-
-            TextView receiveMsg;
-
-            public ChatViewHolder(@NonNull View itemView) {
-                super(itemView);
-
-                receiveMsg = itemView.findViewById(R.id.recievedMessageTv);
-            }
-        }
-
     }
+    class ReceiveMessageItem extends BindableItem<ItemMessageReceiveBinding> {
+        Message message;
+
+        public ReceiveMessageItem(Message message) {
+            this.message = message;
+        }
+
+        @Override
+        public void bind(@NonNull @NotNull ItemMessageReceiveBinding viewBinding, int position) {
+            viewBinding.recievedMessageTv.setText(message.getMessageText());
+        }
+
+        @Override
+        public int getLayout() {
+            return R.layout.item_message_receive;
+        }
+    }
+
+
+
     @Override
     protected void setTopBar() {
 //        YumTopBar.setToolbar(
