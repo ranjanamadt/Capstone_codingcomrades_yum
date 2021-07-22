@@ -37,6 +37,7 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 public class InterestActivity extends BaseActivity {
     private ActivityInterestsBinding binding;
     private List<String> interestList;
+    List<String> userNoTalkList = new ArrayList<>();
     List<String> resultInt = new ArrayList<>();
     Boolean checkInterest = false;
 
@@ -53,7 +54,19 @@ public class InterestActivity extends BaseActivity {
         setTopBar();
         binding.chipInterest.removeAllViews();
 
-
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userNoTalkList = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(InterestActivity.this, getString(R.string.err_fetching_data));
+            }
+        });
 
         checkInterest=false;
         if( resultInt.isEmpty()) {
@@ -61,9 +74,6 @@ public class InterestActivity extends BaseActivity {
         } else{
             addInterest(resultInt);
         }
-
-
-
 
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
 
@@ -160,7 +170,11 @@ public class InterestActivity extends BaseActivity {
     }
 
     private void setInterestDropdown() {
-
+        if(userNoTalkList != null && !userNoTalkList.isEmpty()){
+            interestList.removeAll(userNoTalkList);
+            yLog("interest drop down list: ", interestList.toString());
+            yLog("userNoTalkList: ", userNoTalkList.toString());
+        }
         binding.interestTopics.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, interestList));
         binding.interestTopics.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

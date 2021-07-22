@@ -46,6 +46,8 @@ public class FoodTopicsActivity extends BaseActivity {
 
     List<String> resultNotEat = new ArrayList<>();
     List<String> resultNotTalk = new ArrayList<>();
+    List<String> userEnjoyEatingList = new ArrayList<>();
+    List<String> userInterestList = new ArrayList<>();
     Boolean checkNotEat = false;
     Boolean checkNotTalk = false;
 
@@ -163,6 +165,9 @@ public class FoodTopicsActivity extends BaseActivity {
     }
 
     private void setNotTalkDropdown() {
+        notTalkList.removeAll(userInterestList);
+        yLog("notTalk drop down list: ", notTalkList.toString());
+        yLog("userInterestList: ", userInterestList.toString());
 
         binding.spnNoTopic.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,
                 notTalkList));
@@ -193,6 +198,10 @@ public class FoodTopicsActivity extends BaseActivity {
     }
 
     private void setNotEatDropdown() {
+        notEatList.removeAll(userEnjoyEatingList);
+        yLog("notEat drop down list: ", notEatList.toString());
+        yLog("userEnjoyEatingList: ", userEnjoyEatingList.toString());
+
         binding.spnNoFood.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, notEatList));
         binding.spnNoFood.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -221,6 +230,22 @@ public class FoodTopicsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userEnjoyEatingList = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+                userInterestList = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(FoodTopicsActivity.this, getString(R.string.err_fetching_data));
+            }
+        });
+
         setTopBar();
         binding.chipGroupNoFood.removeAllViews();
         binding.chipNotTalk.removeAllViews();

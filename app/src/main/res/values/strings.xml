@@ -84,6 +84,7 @@
     <string name="err_profile_image_empty">Profile image not uploaded</string>
     <string name="err_city_name_empty">City name not entered</string>
     <string name="err_city_not_found">City name not found</string>
+    <string name="err_fetching_data">Error fetching data, please come again after few minutes</string>
 
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>

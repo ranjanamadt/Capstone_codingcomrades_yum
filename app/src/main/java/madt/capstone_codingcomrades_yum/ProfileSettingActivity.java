@@ -420,7 +420,7 @@ public class ProfileSettingActivity extends BaseActivity {
                                 addInterestChip(interestList.get(position));
                             }
                         } else{
-                            checkInterest = false;
+                            checkInterest = true;
                         }
                     }
 

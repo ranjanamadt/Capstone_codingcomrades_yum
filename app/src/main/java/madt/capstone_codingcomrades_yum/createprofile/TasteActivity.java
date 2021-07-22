@@ -42,6 +42,7 @@ public class TasteActivity extends BaseActivity {
     private List<String> tasteList ;
     Boolean checkEating = false;
     Boolean checkTaste = false;
+    List<String> userNoEatList = new ArrayList<>();
     List<String> resultEating = new ArrayList<>();
     List<String> resultTastes = new ArrayList<>();
 
@@ -127,6 +128,11 @@ public class TasteActivity extends BaseActivity {
     }
 
     private void setEnjoyEatingDropdown(List<String> topicsList) {
+        if(userNoEatList != null && !userNoEatList.isEmpty()){
+            topicsList.removeAll(userNoEatList);
+            yLog("enjoy eating drop down list: ", topicsList.toString());
+            yLog("userNoEatList: ", userNoEatList.toString());
+        }
         binding.spnEatingPreferences.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, topicsList));
 
         binding.spnEatingPreferences.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -175,6 +181,22 @@ public class TasteActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userNoEatList = (List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(TasteActivity.this, getString(R.string.err_fetching_data));
+            }
+        });
+
+
         setTopBar();
         checkEating = false;
         checkTaste = false;
