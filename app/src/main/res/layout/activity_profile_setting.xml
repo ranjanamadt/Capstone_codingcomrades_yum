@@ -476,6 +476,7 @@
                     android:layout_width="@dimen/_179sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
                     android:max="48"
                     android:progress="2"
                     app:layout_constraintStart_toStartOf="parent"

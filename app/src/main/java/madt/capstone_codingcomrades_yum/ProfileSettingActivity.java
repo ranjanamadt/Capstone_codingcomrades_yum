@@ -2,6 +2,7 @@ package madt.capstone_codingcomrades_yum;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -9,9 +10,12 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,6 +62,7 @@ public class ProfileSettingActivity extends BaseActivity {
     List<String> resultInterest = new ArrayList<>();
     List<String> resultNotEat = new ArrayList<>();
     List<String> resultNotTalk = new ArrayList<>();
+    List<String> otherLocations = new ArrayList<>();
     Boolean checkEating = false, checkTaste = false, checkInterest = false, checkNoEat = false, checkNoTalk = false;
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Any"};
     int minAgeSeekBar = 18;
@@ -144,6 +149,34 @@ public class ProfileSettingActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        binding.newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileSettingActivity.this);
+                LayoutInflater layoutInflater = LayoutInflater.from(ProfileSettingActivity.this);
+                View view = layoutInflater.inflate(R.layout.dialog_new_location, null);
+                builder.setView(view);
+
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                EditText cityNameET = view.findViewById(R.id.cityNameET);
+                Button btnAdd = view.findViewById(R.id.btnAdd);
+
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String cityName = cityNameET.getText().toString().trim();
+                        if (cityName.isEmpty()) {
+                            ySnackbar(ProfileSettingActivity.this, getString(R.string.err_city_name_empty));
+                            return;
+                        }
+                        otherLocations.add(cityName);
+                    }
+                });
             }
         });
 
