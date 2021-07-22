@@ -186,8 +186,18 @@ public class ProfileSettingActivity extends BaseActivity {
                                 Double latitude = address.getLatitude();
                                 Double longitude = address.getLongitude();
 
-                                otherLocations.add(cityName);
-                                binding.myLocation.setText(binding.myLocation.getText().toString().trim() + ", " + cityName);
+                                if (otherLocations != null && !otherLocations.isEmpty()) {
+                                    if (!otherLocations.contains(cityName)) {
+                                        otherLocations.add(cityName);
+                                        addLocationChip(cityName);
+                                    } else {
+                                        alertDialog.dismiss();
+                                    }
+                                } else {
+                                    otherLocations.add(cityName);
+                                    addLocationChip(cityName);
+                                }
+
                                 yLog("other locations: ", otherLocations.toString());
                                 ySnackbar(ProfileSettingActivity.this, "other locations: "+ otherLocations.toString());
                             } else{
@@ -584,6 +594,22 @@ public class ProfileSettingActivity extends BaseActivity {
             public void onClick(View v) {
                 binding.chipGroupNoTalkPref.removeView(v);
                 resultNotTalk.remove(((Chip) v).getText());
+            }
+        });
+
+    }
+
+    private void addLocationChip(String location) {
+        String city = location.substring(0, 1).toUpperCase() + location.substring(1);
+        Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.purple_chip, binding.chipGroupCity, false);
+        newChip.setText(city);
+        binding.chipGroupCity.addView(newChip);
+
+        newChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.chipGroupCity.removeView(v);
+                resultTastes.remove(((Chip) v).getText());
             }
         });
 
