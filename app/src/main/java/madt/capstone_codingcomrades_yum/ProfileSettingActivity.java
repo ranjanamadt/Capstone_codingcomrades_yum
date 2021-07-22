@@ -171,10 +171,35 @@ public class ProfileSettingActivity extends BaseActivity {
                     public void onClick(View v) {
                         String cityName = cityNameET.getText().toString().trim();
                         if (cityName.isEmpty()) {
+                            alertDialog.dismiss();
                             ySnackbar(ProfileSettingActivity.this, getString(R.string.err_city_name_empty));
                             return;
                         }
-                        otherLocations.add(cityName);
+
+                        Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+                        try {
+                            List<Address> addresses = geocoder.getFromLocationName(cityName,1);
+
+                            if (addresses.size() > 0){
+                                Address address = addresses.get(0);
+
+                                Double latitude = address.getLatitude();
+                                Double longitude = address.getLongitude();
+
+                                otherLocations.add(cityName);
+                                binding.myLocation.setText(binding.myLocation.getText().toString().trim() + ", " + cityName);
+                                yLog("other locations: ", otherLocations.toString());
+                                ySnackbar(ProfileSettingActivity.this, "other locations: "+ otherLocations.toString());
+                            } else{
+                                alertDialog.dismiss();
+                                ySnackbar(ProfileSettingActivity.this, getString(R.string.err_city_not_found));
+                                return;
+                            }
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        alertDialog.dismiss();
                     }
                 });
             }
