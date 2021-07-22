@@ -1,6 +1,7 @@
 package madt.capstone_codingcomrades_yum.chat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,6 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
@@ -35,7 +35,7 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 public class ChatFragment extends BaseFragment {
     private FragmentChatBinding binding;
     private ChatElementAdapter chatAdapter;
-    private ArrayList<ChatUserDetail> chatList = new ArrayList<>();
+    private ArrayList<ChatDetail> chatList = new ArrayList<>();
     ;
 
     @Override
@@ -56,7 +56,8 @@ public class ChatFragment extends BaseFragment {
                     int i = task.getResult().getDocuments().size();
 
                     for (DocumentSnapshot document : task.getResult()) {
-                        ChatUserDetail userDetail = new ChatUserDetail((HashMap<String, Object>) document.get(FSConstants.CHAT_List.USER_DETAIL));
+                        ChatDetail userDetail = new ChatDetail( document );
+
                         chatList.add(userDetail);
                     }
                     yLog("chats", chatList.size() + "");
@@ -72,9 +73,9 @@ public class ChatFragment extends BaseFragment {
 
     class ChatElementAdapter extends RecyclerView.Adapter<ChatElementAdapter.ChatViewHolder> {
         private Activity activity;
-        private ArrayList<ChatUserDetail> chatList;
+        private ArrayList<ChatDetail> chatList;
 
-        ChatElementAdapter(Activity activity, ArrayList<ChatUserDetail> chatList) {
+        ChatElementAdapter(Activity activity, ArrayList<ChatDetail> chatList) {
             this.activity = activity;
             this.chatList = chatList;
         }
@@ -84,26 +85,60 @@ public class ChatFragment extends BaseFragment {
         @Override
         public ChatFragment.ChatElementAdapter.ChatViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_chatlist, parent, false);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
             return new ChatViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull @NotNull ChatFragment.ChatElementAdapter.ChatViewHolder holder, int position) {
-            ChatUserDetail chatEl = chatList.get(position);
+            ChatDetail chatEl = chatList.get(position);
             holder.usernameTV.setText(chatEl.getFirstName() + " " + chatEl.getLastName());
             holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
             holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));
 //            yLog("profile image :",chatEl.getProfileImage()+"//");
             if(chatEl.getProfileImage()!=null && !chatEl.getProfileImage().isEmpty())
-            holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
+                holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
             holder.lastMessageTV.setText(chatList.get(position).getLastMessage());
 
+            holder.usernameTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
+                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    startActivity(i);
+                }
+            });
+            holder.timeTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
+                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    startActivity(i);
+                }
+            });
+            holder.dateTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
+                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    startActivity(i);
+                }
+            });
+            holder.chatPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
+                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    startActivity(i);
+                }
+            });
+            holder.lastMessageTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
+                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
+                    startActivity(i);
+                }
+            });
         }
 
         @Override
@@ -126,6 +161,8 @@ public class ChatFragment extends BaseFragment {
                 chatPicture = itemView.findViewById(R.id.chatPicture);
             }
         }
+
+
 
     }
 

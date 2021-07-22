@@ -1,10 +1,12 @@
 package madt.capstone_codingcomrades_yum.chat;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.HashMap;
 
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 
-public class ChatUserDetail {
+public class ChatDetail {
 
     public String getFirstName() {
         return firstName;
@@ -23,15 +25,16 @@ public class ChatUserDetail {
     }
 
     String firstName;
-
+    String chatRoomId;
     String lastMessage;
     String profileImage;
-    public ChatUserDetail(String firstName, String lastName, String lastMessageTimeStamp, String lastMessage, String profileImage) {
+    public ChatDetail(String firstName, String lastName, String lastMessageTimeStamp, String lastMessage, String profileImage) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastMessageTimeStamp = lastMessageTimeStamp;
         this.lastMessage = lastMessage;
         this.profileImage = profileImage;
+        this.chatRoomId = null;
     }
 
     String lastName;
@@ -62,7 +65,9 @@ public class ChatUserDetail {
     }
 
 
-    public ChatUserDetail(HashMap<String, Object> userDetail) {
+    public ChatDetail(DocumentSnapshot document) {
+        this.chatRoomId = document.getId();
+        HashMap<String, Object> userDetail = (HashMap<String, Object>) document.get(FSConstants.CHAT_List.USER_DETAIL);
         this.firstName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
         this.lastName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
         this.lastMessageTimeStamp = userDetail.get(FSConstants.USER.LAST_MESSAGE_TIMESTAMP).toString();
@@ -71,5 +76,11 @@ public class ChatUserDetail {
 
     }
 
+    public String getChatRoomId() {
+        return chatRoomId;
+    }
 
+    public void setChatRoomId(String chatRoomId) {
+        this.chatRoomId = chatRoomId;
+    }
 }

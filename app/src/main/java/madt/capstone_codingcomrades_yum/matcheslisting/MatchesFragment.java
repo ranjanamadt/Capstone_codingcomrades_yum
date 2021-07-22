@@ -35,7 +35,7 @@ import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
-import madt.capstone_codingcomrades_yum.chat.ChatUserDetail;
+import madt.capstone_codingcomrades_yum.chat.ChatDetail;
 import madt.capstone_codingcomrades_yum.chat.Message;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
@@ -84,7 +84,7 @@ public class MatchesFragment extends BaseFragment {
                 Map<String, Object> currentChatList = new HashMap<>();
 
                 currentChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
-                currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatUserDetail(
+                currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatDetail(
                         matchesList.get(position).getFirstName(),
                         matchesList.get(position).getLastName(),
                         System.currentTimeMillis() + "",
@@ -99,7 +99,7 @@ public class MatchesFragment extends BaseFragment {
                 Map<String, Object> likedChatList = new HashMap<>();
 
                 likedChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
-                likedChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatUserDetail(
+                likedChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatDetail(
                         mLoginDetail.getFirstName(),
                         mLoginDetail.getLastName(),
                         System.currentTimeMillis() + "",

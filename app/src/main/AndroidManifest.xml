@@ -91,6 +91,9 @@
         <activity
             android:name=".matcheslisting.MatchDetail"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".chat.MessageChatActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

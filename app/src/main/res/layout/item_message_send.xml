@@ -13,13 +13,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/myMessageTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_receive_message"
             android:fontFamily="@font/segoe_ui"
             android:maxWidth="250dp"
-            android:padding="16dp"
 
+            android:padding="16dp"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintEnd_toEndOf="parent"

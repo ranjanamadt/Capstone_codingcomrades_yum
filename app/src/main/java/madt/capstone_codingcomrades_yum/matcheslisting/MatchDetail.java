@@ -1,11 +1,9 @@
 package madt.capstone_codingcomrades_yum.matcheslisting;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,14 +13,11 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
-import com.google.common.base.Strings;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +25,6 @@ import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.User;
-import madt.capstone_codingcomrades_yum.chat.ChatUserDetail;
-import madt.capstone_codingcomrades_yum.chat.Message;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.MatchDetailBinding;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
@@ -76,7 +69,6 @@ public class MatchDetail extends BaseActivity {
                 }
             });
         }
-
         binding.acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

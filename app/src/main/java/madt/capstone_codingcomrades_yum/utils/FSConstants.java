@@ -41,6 +41,7 @@ public class FSConstants {
     public  interface  CHAT_List{
         String USER_NAME= "userName";
         String USER_IMAGE= "userImage";
+        String CHAT_ID = "chatID";
         String MESSAGES="messages";
         String USER_DETAIL="userDetail";
 
