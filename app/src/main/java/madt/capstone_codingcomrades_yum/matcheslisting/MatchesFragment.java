@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -83,7 +84,12 @@ public class MatchesFragment extends BaseFragment {
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+                //CREATE MATCH
+                List<String> matchedList = mLoginDetail.getMatched_users();
+                matchedList.add(matchesList.get(position).getUuid());
+                addMatchToUser(matchedList);
 
+                //CREATE MESSAGE
                 Message firstMessage = new Message(mLoginDetail.getUuid(),
                         mLoginDetail.getFullName(),
                         System.currentTimeMillis() + "",
@@ -92,8 +98,8 @@ public class MatchesFragment extends BaseFragment {
                 List<Message> messageList = new ArrayList<Message>();
                 messageList.add(firstMessage);
 
+                //CREATE CHATROOM FOR LOGGED USER
                 Map<String, Object> currentChatList = new HashMap<>();
-
                 currentChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
                 currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatDetail(
                         matchesList.get(position).getFirstName(),
@@ -106,7 +112,7 @@ public class MatchesFragment extends BaseFragment {
                 // Method to create chat room for Logged In User
                 createCurrentUserChatRoom(currentChatList);
 
-
+                //CREATE CHATROOM FOR LIKED USER
                 Map<String, Object> likedChatList = new HashMap<>();
 
                 likedChatList.put(FSConstants.CHAT_List.MESSAGES, messageList);
@@ -173,7 +179,15 @@ public class MatchesFragment extends BaseFragment {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                    matchesList.add(new User(document));
+                    List<String> reported = mLoginDetail.getReport_list();
+                    List<String> matched = mLoginDetail.getMatched_users();
+                    if(reported != null && reported.contains(document.getId())){
+                        Log.e("Reported :", document.getId());
+                    }else if(matched != null && matched.contains(document.getId())){
+                        Log.e("Matched :", document.getId());
+                    }else{
+                        matchesList.add(new User(document));
+                    }
                 }
                 // on below line we are creating a variable for our adapter class and passing array list to it.
                 mAdapter = new MatchesAdapter(matchesList, getContext());
@@ -306,6 +320,19 @@ public class MatchesFragment extends BaseFragment {
         });
 
 
+    }
+    private void addMatchToUser(List<String> matchedList){
+        Map<String, Object> mapMatchedList = new HashMap<>();
+        mapMatchedList.put(FSConstants.USER.MATCHED_USERS, matchedList);
+        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS,mLoginDetail.getUuid(),mapMatchedList)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                mLoginDetail.setMatched_users(matchedList);
+                AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(mLoginDetail).toString());
+
+            }
+        });
     }
 
     @Override

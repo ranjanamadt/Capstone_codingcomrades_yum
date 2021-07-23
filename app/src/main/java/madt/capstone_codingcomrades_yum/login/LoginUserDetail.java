@@ -19,12 +19,12 @@ public class LoginUserDetail {
     List<String> not_talk;
     List<String> taste;
     List<String> enjoy_eating;
-
+    List<String> matched_users;
 
     List<String> preferences;
     List<String> report_list;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences) {
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,6 +40,15 @@ public class LoginUserDetail {
         this.enjoy_eating = enjoy_eating;
         this.preferences=preferences;
         this.report_list = report_list != null ? report_list : new ArrayList<>();
+        this.matched_users = matched_users != null ? matched_users : new ArrayList<>();
+    }
+
+    public List<String> getMatched_users() {
+        return matched_users != null ? matched_users : new ArrayList<>();
+    }
+
+    public void setMatched_users(List<String> matched_users) {
+        this.matched_users = matched_users;
     }
 
     public String getUuid() {

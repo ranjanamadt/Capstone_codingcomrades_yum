@@ -41,6 +41,7 @@ public class User {
     List<String> taste;
     List<String> enjoy_eating;
     List<String> report_list;
+    List<String> matched_users;
 
     public List<String> getPreferences() {
         return preferences;
@@ -84,6 +85,15 @@ public class User {
         this.preferences = (List<String>)document.get(FSConstants.USER.PREFERENCES);
 
         this.report_list =  (List<String>)document.get(FSConstants.USER.REPORT_LIST) != null  ? (List<String>)document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
+        this.matched_users =  (List<String>)document.get(FSConstants.USER.MATCHED_USERS) != null  ? (List<String>)document.get(FSConstants.USER.MATCHED_USERS) : new ArrayList<>();
+    }
+
+    public List<String> getMatched_users() {
+        return matched_users;
+    }
+
+    public void setMatched_users(List<String> matched_users) {
+        this.matched_users = matched_users;
     }
 
     public String getUuid() {

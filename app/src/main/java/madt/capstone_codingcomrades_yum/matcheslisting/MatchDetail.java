@@ -109,6 +109,7 @@ public class MatchDetail extends BaseActivity {
                         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS,mLoginDetail.getUuid(),mapReportList).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
+                                mLoginDetail.setReport_list(reportList);
                                 AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(mLoginDetail).toString());
 
                                 ySnackbar(MatchDetail.this, getString(R.string.report_confirmation));
