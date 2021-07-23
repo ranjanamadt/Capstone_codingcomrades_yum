@@ -3,6 +3,7 @@ package madt.capstone_codingcomrades_yum.createprofile;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,11 +23,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
@@ -68,6 +77,9 @@ import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class FinishProfileActivity extends BaseActivity {
     private ActivityFinishProfileBinding binding;
+
+    public static final String TAG = "FinishProfileActivity";
+    public static final int REQUEST_CHECK_SETTINGS = 1;
 
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
@@ -284,7 +296,7 @@ public class FinishProfileActivity extends BaseActivity {
     }
 
     private void startUpdateLocation() {
-        locationRequest = LocationRequest.create();
+        /*locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(3000);
@@ -303,7 +315,62 @@ public class FinishProfileActivity extends BaseActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);*/
+
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                .addApi(LocationServices.API).build();
+        googleApiClient.connect();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000 / 2);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+
+        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+
+                if (status.getStatusCode() == LocationSettingsStatusCodes.SUCCESS) {
+                    yLog(TAG, "All location settings are satisfied.");
+                } else if(status.getStatusCode() == LocationSettingsStatusCodes.RESOLUTION_REQUIRED){
+                    yLog(TAG, "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
+
+                    try {
+                        // Show the dialog by calling startResolutionForResult(), and check the result
+                        // in onActivityResult().
+                        status.startResolutionForResult(FinishProfileActivity.this, REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException e) {
+                       yLog(TAG, "PendingIntent unable to execute request.");
+                    }
+                } else if(status.getStatusCode() == LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE) {
+                    yLog(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+                }
+
+                locationCallback = new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        if (locationResult != null) {
+                            Location location = locationResult.getLastLocation();
+                            latitude = String.valueOf(location.getLatitude());
+                            longitude = String.valueOf(location.getLongitude());
+                        }
+                    }
+                };
+
+                if (ActivityCompat.checkSelfPermission(FinishProfileActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+            }
+        });
+
     }
 
     @Override
