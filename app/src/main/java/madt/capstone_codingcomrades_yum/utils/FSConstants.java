@@ -26,6 +26,11 @@ public class FSConstants {
         String LAST_MESSAGE_TIMESTAMP="lastMessageTimeStamp";
         String REPORT_LIST = "report_list";
         String MATCHED_USERS = "matched_users";
+        String OTHER_LOCATIONS = "other_locations";
+        String MIN_AGE_PREFERENCE = "min_age_preference";
+        String MAX_AGE_PREFERENCE = "max_age_preference";
+        String LOOKING_FOR = "looking_for";
+        String MAX_DISTANCE = "max_distance";
     }
 
     public interface PREFERENCE{

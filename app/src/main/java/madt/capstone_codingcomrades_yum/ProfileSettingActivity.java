@@ -35,8 +35,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
@@ -50,7 +52,6 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 public class ProfileSettingActivity extends BaseActivity {
 
     ActivityProfileSettingBinding binding;
-
 
     ChipGroup chipGroupEatingPref, chipGroupTastePref, chipGroupTalkPref, chipGroupNoEatPref, chipGroupNoTalkPref;
     Spinner spnEatingPref, spnTastePref, spnTalkPref, spnNoEatPref, spnNoTalkPref, preference_looking;
@@ -67,6 +68,7 @@ public class ProfileSettingActivity extends BaseActivity {
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Any"};
     int minAgeSeekBar = 18;
     int maxAgeSeekBar = 18;
+    int maxDistanceSeekBar = 2;
 
 
     @Override
@@ -98,6 +100,7 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.seekbarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                maxDistanceSeekBar = progress + 2;
                 binding.maxDistance.setText(String.valueOf(progress+2) + " Miles");
             }
 
@@ -116,10 +119,10 @@ public class ProfileSettingActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 minAgeSeekBar = progress + 18;
-                binding.minimumAge.setText(String.valueOf(progress+18) + " Years");
+                binding.minimumAge.setText(String.valueOf(progress + 18) + " Years");
                 if(maxAgeSeekBar < minAgeSeekBar){
                     maxAgeSeekBar = progress + 18;
-                    binding.maximumAge.setText(String.valueOf(progress+18) + " Years");
+                    binding.maximumAge.setText(String.valueOf(progress + 18) + " Years");
                 }
             }
 
@@ -137,8 +140,8 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.seekbarMaxAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maxAgeSeekBar = progress+minAgeSeekBar;
-                binding.maximumAge.setText(String.valueOf(progress+minAgeSeekBar) + " Years");
+                maxAgeSeekBar = progress + minAgeSeekBar;
+                binding.maximumAge.setText(String.valueOf(progress + minAgeSeekBar) + " Years");
             }
 
             @Override
@@ -210,6 +213,57 @@ public class ProfileSettingActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                         alertDialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        binding.applyChangesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(resultEating.isEmpty()){
+                    ySnackbar(ProfileSettingActivity.this, getString(R.string.err_enjoy_eating_chip_empty));
+                    return;
+                }
+                if(resultTastes.isEmpty()){
+                    ySnackbar(ProfileSettingActivity.this, getString(R.string.err_enjoy_taste_chip_empty));
+                    return;
+                }
+                if(resultInterest.isEmpty()){
+                    ySnackbar(ProfileSettingActivity.this, getString(R.string.err_interest_chip_empty));
+                    return;
+                }
+                if(resultNotEat.isEmpty()){
+                    ySnackbar(ProfileSettingActivity.this, getString(R.string.err_not_eat_chip_empty));
+                    return;
+                }
+                if(resultNotTalk.isEmpty()){
+                    ySnackbar(ProfileSettingActivity.this, getString(R.string.err_not_talk_chip_empty));
+                    return;
+                }
+
+                Map<String, Object> editProfile = new HashMap<>();
+                editProfile.put(FSConstants.PREFERENCE_TYPE.ENJOY_EATING, resultEating);
+                editProfile.put(FSConstants.PREFERENCE_TYPE.TASTE, resultTastes);
+                editProfile.put(FSConstants.PREFERENCE_TYPE.INTEREST, resultInterest);
+                editProfile.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, resultNotEat);
+                editProfile.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, resultNotTalk);
+                editProfile.put(FSConstants.USER.OTHER_LOCATIONS, otherLocations);
+                editProfile.put(FSConstants.USER.MIN_AGE_PREFERENCE, minAgeSeekBar);
+                editProfile.put(FSConstants.USER.MAX_AGE_PREFERENCE, maxAgeSeekBar);
+                editProfile.put(FSConstants.USER.LOOKING_FOR, binding.preferenceLooking.getSelectedItem());
+                editProfile.put(FSConstants.USER.MAX_DISTANCE, maxDistanceSeekBar);
+
+                FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), editProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        ySnackbar(ProfileSettingActivity.this, getString(R.string.success_updating_user));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                        CommonUtils.hideProgress();
+                        ySnackbar(ProfileSettingActivity.this, getString(R.string.error_saving_user));
                     }
                 });
             }
@@ -445,6 +499,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupEatingPref.removeView(v);
+                    resultEating.remove(((Chip) v).getText());
                 }
             });
         }
@@ -461,6 +516,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupTastePref.removeView(v);
+                    resultTastes.remove(((Chip) v).getText());
                 }
             });
         }
@@ -477,6 +533,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupTalkPref.removeView(v);
+                    resultInterest.remove(((Chip) v).getText());
                 }
             });
         }
@@ -493,6 +550,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupNoEatPref.removeView(v);
+                    resultNotEat.remove(((Chip) v).getText());
                 }
             });
         }
@@ -511,6 +569,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     binding.chipGroupNoTalkPref.removeView(v);
+                    resultNotTalk.remove(((Chip) v).getText());
                 }
             });
         }

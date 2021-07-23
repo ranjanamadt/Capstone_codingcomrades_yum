@@ -35,7 +35,7 @@
                     android:layout_height="@dimen/_250sdp"
                     app:sliderAnimationDuration="600"
                     app:sliderAutoCycleDirection="back_and_forth"
-app:sliderIndicatorPadding="@dimen/_3sdp"
+                    app:sliderIndicatorPadding="@dimen/_3sdp"
                     app:sliderIndicatorAnimationDuration="600"
                     app:sliderIndicatorGravity="center_horizontal|bottom"
                     app:sliderIndicatorMargin="@dimen/_15sdp"
@@ -47,6 +47,17 @@ app:sliderIndicatorPadding="@dimen/_3sdp"
                     app:sliderScrollTimeInSec="2"
                     app:sliderStartAutoCycle="true"
                     tools:ignore="MissingConstraints"/>
+
+                <ImageView
+                    android:id="@+id/imageProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_imageicon" />
 
 
                 <TextView
