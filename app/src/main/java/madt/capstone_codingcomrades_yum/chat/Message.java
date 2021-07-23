@@ -32,7 +32,7 @@ public class Message {
 
     public Message(HashMap<String, Object> document) {
         this.sendBy = document.get(FSConstants.MESSAGE_DETAIL.TEXT).toString();
-        this.senderId = document.get(FSConstants.MESSAGE_DETAIL.SEND_BY).toString();
+        this.senderId = document.get(FSConstants.MESSAGE_DETAIL.SENDER_ID).toString();
         this.timestamp = document.get(FSConstants.MESSAGE_DETAIL.TIMESTAMP).toString();
         this.messageText = document.get(FSConstants.MESSAGE_DETAIL.TEXT).toString();
         this.userImage = document.get(FSConstants.MESSAGE_DETAIL.IMAGE).toString();

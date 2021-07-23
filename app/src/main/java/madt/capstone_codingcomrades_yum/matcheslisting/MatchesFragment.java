@@ -190,7 +190,7 @@ public class MatchesFragment extends BaseFragment {
                     } else {
                         matchesList.add(new User(document));
                     }
-                    matchesList.add(new User(document));
+
                 }
                 // on below line we are creating a variable for our adapter class and passing array list to it.
                 mAdapter = new MatchesAdapter(matchesList, getContext());

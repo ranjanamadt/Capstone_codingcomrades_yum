@@ -126,6 +126,7 @@ public class MessageChatActivity extends BaseActivity {
                             chatUserDetail.deviceToken
 
                     ));
+                    binding.editText.setText("");
 
 
 /*                    Map<String, Object> currentMessageList = new HashMap<>();
@@ -137,7 +138,7 @@ public class MessageChatActivity extends BaseActivity {
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 //  messageAdapter.add(new SendMessageItem(newMsg));
-                                binding.editText.setText("");
+
                                 SendPushHelper.sendPush(MessageChatActivity.this, chatUserDetail.getDeviceToken(), mLoginDetail.getFullName()
                                         , messageText);
 
@@ -196,6 +197,7 @@ public class MessageChatActivity extends BaseActivity {
 
                             for (HashMap<String, Object> messageObj : (ArrayList<HashMap<String, Object>>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES)) {
                                 Message msg = new Message(messageObj);
+                                yLog("sender id :",msg.getSenderId());
                                 if (msg.getSenderId().equalsIgnoreCase(mLoginDetail.getUuid())) {
                                     messageAdapter.add(new SendMessageItem(msg));
                                 } else {
