@@ -129,8 +129,9 @@ public class FinishProfileActivity extends BaseActivity {
                 preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
                 preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
 
-                if (!LoginActivity.profile_image.isEmpty())
+                /*if (!LoginActivity.profile_image.isEmpty()) {
                     Picasso.get().load(LoginActivity.profile_image).into(binding.imageBtn);
+                }*/
 
 
                 // getEnjoyEating(FirebaseAuth.getInstance().getUid());
