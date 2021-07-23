@@ -17,24 +17,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,14 +41,12 @@ import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentMatchesBinding;
 import madt.capstone_codingcomrades_yum.fcm.SendPushHelper;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
-import madt.capstone_codingcomrades_yum.networking.VolleySingleton;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
+import madt.capstone_codingcomrades_yum.utils.ChatMessagesHelper;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class MatchesFragment extends BaseFragment {
@@ -90,8 +80,9 @@ public class MatchesFragment extends BaseFragment {
                 addMatchToUser(matchedList);
 
                 //CREATE MESSAGE
-                Message firstMessage = new Message(mLoginDetail.getUuid(),
+                Message firstMessage = new Message(
                         mLoginDetail.getFullName(),
+                        mLoginDetail.getUuid(),
                         System.currentTimeMillis() + "",
                         "Hello",
                         mLoginDetail.getProfileImage());
@@ -106,11 +97,15 @@ public class MatchesFragment extends BaseFragment {
                         matchesList.get(position).getLastName(),
                         System.currentTimeMillis() + "",
                         getString(R.string.initial_chat_message),
-                        matchesList.get(position).getProfileImage()
+                        matchesList.get(position).getProfileImage(),
+                        mLoginDetail.getUuid(),
+                        matchesList.get(position).getUuid()
+
                 ));
 
                 // Method to create chat room for Logged In User
-                createCurrentUserChatRoom(currentChatList);
+                ChatMessagesHelper.createCurrentUserChatRoom(mLoginDetail.getUuid() +
+                        matchesList.get(position).getUuid(), currentChatList);
 
                 //CREATE CHATROOM FOR LIKED USER
                 Map<String, Object> likedChatList = new HashMap<>();
@@ -121,16 +116,19 @@ public class MatchesFragment extends BaseFragment {
                         mLoginDetail.getLastName(),
                         System.currentTimeMillis() + "",
                         getString(R.string.initial_chat_message),
-                        mLoginDetail.getProfileImage()
+                        mLoginDetail.getProfileImage(),
+                        matchesList.get(position).getUuid(),
+                        mLoginDetail.getUuid()
                 ));
 
-                SendPushHelper.sendPush(getActivity(),matchesList.get(position).getDeviceToken(),getString(R.string.new_like)
-                ,mLoginDetail.getFullName()+" liked your profile!");
-
+                // Send Push notification on receiver device
+                SendPushHelper.sendPush(getActivity(), matchesList.get(position).getDeviceToken(), getString(R.string.new_like)
+                        , mLoginDetail.getFullName() + " liked your profile!");
 
 
                 // Method to create chat room for Liked User
-                createLikedUserChatRoom(matchesList.get(position).getUuid(), likedChatList);
+                ChatMessagesHelper.createLikedUserChatRoom(
+                        matchesList.get(position).getUuid(),matchesList.get(position).getUuid() + mLoginDetail.getUuid(),  likedChatList);
             }
 
             @Override
@@ -179,16 +177,18 @@ public class MatchesFragment extends BaseFragment {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
                 matchesList.clear();
+
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                     List<String> reported = mLoginDetail.getReport_list();
                     List<String> matched = mLoginDetail.getMatched_users();
-                    if(reported != null && reported.contains(document.getId())){
+                    if (reported != null && reported.contains(document.getId())) {
                         Log.e("Reported :", document.getId());
-                    }else if(matched != null && matched.contains(document.getId())){
+                    } else if (matched != null && matched.contains(document.getId())) {
                         Log.e("Matched :", document.getId());
-                    }else{
+                    } else {
                         matchesList.add(new User(document));
                     }
+
                 }
                 // on below line we are creating a variable for our adapter class and passing array list to it.
                 mAdapter = new MatchesAdapter(matchesList, getContext());
@@ -303,37 +303,19 @@ public class MatchesFragment extends BaseFragment {
                 }
             });
 
-    private void createLikedUserChatRoom(String uuid, Map<String, Object> likedChatList) {
-        FirebaseCRUD.getInstance().createChatRoomSubCollection(FSConstants.Collections.USERS,
-                FSConstants.Collections.CHATROOM, uuid,
-                likedChatList
-        ).addOnCompleteListener(task -> {
 
-        });
-    }
-
-    private void createCurrentUserChatRoom(Map<String, Object> currentChatList) {
-        FirebaseCRUD.getInstance().createChatRoomSubCollection(FSConstants.Collections.USERS,
-                FSConstants.Collections.CHATROOM, FirebaseAuth.getInstance().getUid(),
-                currentChatList
-        ).addOnCompleteListener(task -> {
-
-        });
-
-
-    }
-    private void addMatchToUser(List<String> matchedList){
+    private void addMatchToUser(List<String> matchedList) {
         Map<String, Object> mapMatchedList = new HashMap<>();
         mapMatchedList.put(FSConstants.USER.MATCHED_USERS, matchedList);
-        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS,mLoginDetail.getUuid(),mapMatchedList)
+        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, mLoginDetail.getUuid(), mapMatchedList)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                mLoginDetail.setMatched_users(matchedList);
-                AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(mLoginDetail).toString());
+                    @Override
+                    public void onSuccess(Void unused) {
+                        mLoginDetail.setMatched_users(matchedList);
+                        AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(mLoginDetail).toString());
 
-            }
-        });
+                    }
+                });
     }
 
     @Override

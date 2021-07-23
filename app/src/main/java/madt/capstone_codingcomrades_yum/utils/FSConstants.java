@@ -47,6 +47,9 @@ public class FSConstants {
         String CHAT_ID = "chatID";
         String MESSAGES="messages";
         String USER_DETAIL="userDetail";
+        String SENDER_ID="senderId";
+        String RECEIVER_ID="receiverId";
+
 
     }
 

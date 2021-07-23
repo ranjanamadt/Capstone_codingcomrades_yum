@@ -99,51 +99,17 @@ public class ChatFragment extends BaseFragment {
                 holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
             holder.lastMessageTV.setText(chatList.get(position).getLastMessage());
 
-            holder.usernameTV.setOnClickListener(new View.OnClickListener() {
+            holder.topView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
                     i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
+                    MessageChatActivity.chatUserDetail=chatEl;
                     startActivity(i);
                 }
             });
-            holder.timeTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
-                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
-                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
-                    startActivity(i);
-                }
-            });
-            holder.dateTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
-                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
-                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
-                    startActivity(i);
-                }
-            });
-            holder.chatPicture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
-                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
-                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
-                    startActivity(i);
-                }
-            });
-            holder.lastMessageTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), MessageChatActivity.class);
-                    i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
-                    i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
-                    startActivity(i);
-                }
-            });
+
         }
 
         @Override
@@ -155,6 +121,7 @@ public class ChatFragment extends BaseFragment {
 
             TextView usernameTV, dateTV, timeTV, lastMessageTV;
             CircularImageView chatPicture;
+            View  topView ;
 
             public ChatViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -164,6 +131,8 @@ public class ChatFragment extends BaseFragment {
                 timeTV = itemView.findViewById(R.id.tv_time);
                 lastMessageTV = itemView.findViewById(R.id.tv_description);
                 chatPicture = itemView.findViewById(R.id.chatPicture);
+                topView = itemView.findViewById(R.id.viewChat);
+
 
             }
         }

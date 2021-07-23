@@ -32,11 +32,17 @@ public class FirebaseCRUD {
         return db.collection(collection).add(document);
     }
 
-    public Task<DocumentReference> createChatRoomSubCollection(String collection, String subCollection, String docId,Map<String, Object> document) {
+    public Task<Void> createChatRoomSubCollection(String collection, String subCollection, String docId, String chatId, Map<String, Object> document) {
         Log.e("path :", collection + "/" + docId + "/" + subCollection);
         // Add a new document with a generated ID
-        return db.collection(collection + "/" + docId + "/" + subCollection).add(document);
+        return db.collection(collection + "/" + docId + "/" + subCollection).document(chatId).set(document);
     }
+
+ /*   public Task<DocumentReference> createChatRoomDoc(String collection, String subCollection, String docId,Map<String, Object> document) {
+        Log.e("path :", collection + "/" + docId + "/" + subCollection);
+        // Add a new document with a generated ID
+        return db.collection(collection).add(document);
+    }*/
     public Task<DocumentReference> createReportedUsersSubCollection(String collection, String subCollection, String docId,Map<String, Object> document) {
         Log.e("path :", collection + "/" + docId + "/" + subCollection);
         // Add a new document with a generated ID
@@ -50,6 +56,7 @@ public class FirebaseCRUD {
 
     public Task<Void> updateDoc(String collection, String docId, Map<String, Object> updatedData) {
         // Add a new document with a generated ID
+        Log.e("doc id:", docId);
         return db.collection(collection).document(docId).update(updatedData);
     }
 
@@ -78,7 +85,7 @@ public class FirebaseCRUD {
 
     public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer,  List<? extends Object> reportedUsers) {
         Query queryResult = db.collection(FSConstants.Collections.USERS)
-                .whereArrayContainsAny(FSConstants.PREFERENCE_TYPE.TASTE, eatingPrefer)
+               .whereArrayContainsAny(FSConstants.PREFERENCE_TYPE.TASTE, eatingPrefer)
                 // avoid logged user
                 .whereNotEqualTo(FieldPath.documentId(), FirebaseAuth.getInstance().getUid());
 //        if (reportedUsers.size() > 0 ){

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_receive_message"
             android:fontFamily="@font/segoe_ui"
-            android:maxWidth="250dp"
+            android:maxWidth="@dimen/_250sdp"
 
             android:padding="16dp"
             android:textColor="@android:color/white"
