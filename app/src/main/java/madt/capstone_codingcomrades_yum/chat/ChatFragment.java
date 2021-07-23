@@ -44,10 +44,23 @@ public class ChatFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         binding.recyclerList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-        String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" +
-                FSConstants.Collections.CHATROOM;
 
         CommonUtils.showProgress(getActivity());
+
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        chatList.clear();
+        getChatList();
+    }
+
+    private void getChatList() {
+        String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" +
+                FSConstants.Collections.CHATROOM;
         FirebaseCRUD.getInstance()
                 .getAll(collectionID).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -56,7 +69,7 @@ public class ChatFragment extends BaseFragment {
                     int i = task.getResult().getDocuments().size();
 
                     for (DocumentSnapshot document : task.getResult()) {
-                        ChatDetail userDetail = new ChatDetail( document );
+                        ChatDetail userDetail = new ChatDetail(document);
 
                         chatList.add(userDetail);
                     }
@@ -67,8 +80,6 @@ public class ChatFragment extends BaseFragment {
                 }
             }
         });
-
-        return binding.getRoot();
     }
 
     class ChatElementAdapter extends RecyclerView.Adapter<ChatElementAdapter.ChatViewHolder> {
@@ -95,7 +106,7 @@ public class ChatFragment extends BaseFragment {
             holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
             holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));
 //            yLog("profile image :",chatEl.getProfileImage()+"//");
-            if(chatEl.getProfileImage()!=null && !chatEl.getProfileImage().isEmpty())
+            if (chatEl.getProfileImage() != null && !chatEl.getProfileImage().isEmpty())
                 holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
             holder.lastMessageTV.setText(chatList.get(position).getLastMessage());
 
@@ -105,7 +116,7 @@ public class ChatFragment extends BaseFragment {
                     Intent i = new Intent(getActivity(), MessageChatActivity.class);
                     i.putExtra(FSConstants.CHAT_List.CHAT_ID, chatEl.getChatRoomId());
                     i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
-                    MessageChatActivity.chatUserDetail=chatEl;
+                    MessageChatActivity.chatUserDetail = chatEl;
                     startActivity(i);
                 }
             });
@@ -121,7 +132,7 @@ public class ChatFragment extends BaseFragment {
 
             TextView usernameTV, dateTV, timeTV, lastMessageTV;
             CircularImageView chatPicture;
-            View  topView ;
+            View topView;
 
             public ChatViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -136,7 +147,6 @@ public class ChatFragment extends BaseFragment {
 
             }
         }
-
 
 
     }

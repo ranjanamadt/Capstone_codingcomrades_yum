@@ -31,11 +31,9 @@ import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ItemMessageReceiveBinding;
 import madt.capstone_codingcomrades_yum.databinding.ItemMessageSendBinding;
 import madt.capstone_codingcomrades_yum.databinding.MatchChatBinding;
-import madt.capstone_codingcomrades_yum.fcm.SendPushHelper;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
-import madt.capstone_codingcomrades_yum.utils.ChatMessagesHelper;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 import madt.capstone_codingcomrades_yum.utils.YumTopBar;
@@ -50,8 +48,7 @@ public class MessageChatActivity extends BaseActivity {
     private GroupAdapter messageAdapter = new GroupAdapter<GroupieViewHolder>();
     private List<Message> chatList = new ArrayList<>();
     private String username = "";
-    public static ChatDetail chatUserDetail ;
-
+    public static ChatDetail chatUserDetail;
 
 
     @Override
@@ -62,7 +59,7 @@ public class MessageChatActivity extends BaseActivity {
         binding.messagesChatRV.setAdapter(messageAdapter);
         populateData();
 
-        receiverCollectionID =FSConstants.Collections.USERS + "/" +chatUserDetail.getReceiverId() + "/" + FSConstants.Collections.CHATROOM;
+        receiverCollectionID = FSConstants.Collections.USERS + "/" + chatUserDetail.getReceiverId() + "/" + FSConstants.Collections.CHATROOM;
 
 
         binding.button.setOnClickListener(new View.OnClickListener() {
@@ -79,14 +76,25 @@ public class MessageChatActivity extends BaseActivity {
                             "");
 
                     chatList.add(newMsg);
+//Update CHATROOM FOR LIKED USER
+                    Map<String, Object> likedChatList = new HashMap<>();
 
-                    Map<String, Object> currentMessageList = new HashMap<>();
-                    currentMessageList.put(FSConstants.CHAT_List.MESSAGES, chatList);
+                    likedChatList.put(FSConstants.CHAT_List.MESSAGES, chatList);
+                    likedChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatDetail(
+                            mLoginDetail.getFirstName(),
+                            mLoginDetail.getLastName(),
+                            System.currentTimeMillis() + "",
+                            messageText,
+                            mLoginDetail.getProfileImage(),
+                            chatUserDetail.receiverId,
+                            mLoginDetail.getUuid()
+                    ));
 
-                    yLog("my collection :",collectionID);
-                    yLog("rece collection :",receiverCollectionID);
 
-                    FirebaseCRUD.getInstance().updateDoc(receiverCollectionID,chatUserDetail.receiverId+mLoginDetail.getUuid(), currentMessageList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    yLog("my collection :", collectionID);
+                    yLog("rece collection :", receiverCollectionID);
+
+                    FirebaseCRUD.getInstance().updateDoc(receiverCollectionID, chatUserDetail.receiverId + mLoginDetail.getUuid(), likedChatList).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
 
@@ -100,12 +108,30 @@ public class MessageChatActivity extends BaseActivity {
 
                         }
                     });
-                    FirebaseCRUD.getInstance().updateDoc(collectionID, mLoginDetail.getUuid()+chatUserDetail.receiverId, currentMessageList).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+
+                    //Update CHATROOM FOR LOGGED In USER
+                    Map<String, Object> currentChatList = new HashMap<>();
+                    currentChatList.put(FSConstants.CHAT_List.MESSAGES, chatList);
+                    currentChatList.put(FSConstants.CHAT_List.USER_DETAIL, new ChatDetail(
+                            chatUserDetail.getFirstName(),
+                            chatUserDetail.getLastName(),
+                            System.currentTimeMillis() + "",
+                            messageText,
+                            chatUserDetail.getProfileImage(),
+                            mLoginDetail.getUuid(),
+                            chatUserDetail.receiverId
+
+                    ));
+/*                    Map<String, Object> currentMessageList = new HashMap<>();
+                    currentMessageList.put(FSConstants.CHAT_List.MESSAGES, chatList);*/
+
+                    FirebaseCRUD.getInstance().updateDoc(collectionID, mLoginDetail.getUuid() + chatUserDetail.receiverId, currentChatList).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                              //  messageAdapter.add(new SendMessageItem(newMsg));
+                                //  messageAdapter.add(new SendMessageItem(newMsg));
                                 binding.editText.setText("");
                             }
                         }
