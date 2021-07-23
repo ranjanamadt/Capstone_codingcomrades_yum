@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Yum</string>
     <string name="todo">TODO</string>
-    <string name="login_with_phone_number">Login with Phone Number</string>
-    <string name="login_with_facebook">Login with Facebook</string>
+    <string name="login_with_phone_number">Sign up with Phone Number</string>
+    <string name="login_with_facebook">Connect with Facebook</string>
     <string name="ernest_khalimov">Ernest Khalimov</string>
     <string name="_31_male">31 - Male</string>
 
@@ -133,4 +133,5 @@
     <string name="cancel_action">Cancel</string>
     <string name="report_confirmation">The user was reported and will not appear on you match screen again</string>
     <string name="new_like">New Like Received</string>
+    <string name="or">OR</string>
 </resources>
