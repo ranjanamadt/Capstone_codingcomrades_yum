@@ -30,6 +30,16 @@ public class ChatDetail {
     String profileImage;
     String senderId;
 
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
+    String deviceToken;
+
     public String getSenderId() {
         return senderId;
     }
@@ -48,7 +58,7 @@ public class ChatDetail {
 
     String receiverId;
 
-    public ChatDetail(String firstName, String lastName, String lastMessageTimeStamp, String lastMessage, String profileImage, String senderId, String receiverId) {
+    public ChatDetail(String firstName, String lastName, String lastMessageTimeStamp, String lastMessage, String profileImage, String senderId, String receiverId, String deviceToken) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastMessageTimeStamp = lastMessageTimeStamp;
@@ -57,6 +67,7 @@ public class ChatDetail {
         this.chatRoomId = null;
         this.senderId=senderId;
         this.receiverId=receiverId;
+        this.deviceToken=deviceToken;
     }
 
     String lastName;
@@ -97,6 +108,7 @@ public class ChatDetail {
         this.profileImage = userDetail.get(FSConstants.USER.PROFILE_IMAGE).toString();
         this.senderId = userDetail.get(FSConstants.CHAT_List.SENDER_ID).toString();
         this.receiverId = userDetail.get(FSConstants.CHAT_List.RECEIVER_ID).toString();
+        this.deviceToken = userDetail.get(FSConstants.USER.DEVICE_TOKEN).toString();
 
     }
 

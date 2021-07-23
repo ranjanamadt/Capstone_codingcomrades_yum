@@ -99,7 +99,8 @@ public class MatchesFragment extends BaseFragment {
                         getString(R.string.initial_chat_message),
                         matchesList.get(position).getProfileImage(),
                         mLoginDetail.getUuid(),
-                        matchesList.get(position).getUuid()
+                        matchesList.get(position).getUuid(),
+                        matchesList.get(position).getDeviceToken()
 
                 ));
 
@@ -118,7 +119,8 @@ public class MatchesFragment extends BaseFragment {
                         getString(R.string.initial_chat_message),
                         mLoginDetail.getProfileImage(),
                         matchesList.get(position).getUuid(),
-                        mLoginDetail.getUuid()
+                        mLoginDetail.getUuid(),
+                       AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN)
                 ));
 
                 // Send Push notification on receiver device
@@ -188,7 +190,7 @@ public class MatchesFragment extends BaseFragment {
                     } else {
                         matchesList.add(new User(document));
                     }
-
+                    matchesList.add(new User(document));
                 }
                 // on below line we are creating a variable for our adapter class and passing array list to it.
                 mAdapter = new MatchesAdapter(matchesList, getContext());

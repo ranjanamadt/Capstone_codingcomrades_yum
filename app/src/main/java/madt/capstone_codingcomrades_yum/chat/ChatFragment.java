@@ -44,9 +44,7 @@ public class ChatFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         binding.recyclerList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-
         CommonUtils.showProgress(getActivity());
-
 
         return binding.getRoot();
     }

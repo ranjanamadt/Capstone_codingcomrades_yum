@@ -31,6 +31,7 @@ import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ItemMessageReceiveBinding;
 import madt.capstone_codingcomrades_yum.databinding.ItemMessageSendBinding;
 import madt.capstone_codingcomrades_yum.databinding.MatchChatBinding;
+import madt.capstone_codingcomrades_yum.fcm.SendPushHelper;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
@@ -87,7 +88,8 @@ public class MessageChatActivity extends BaseActivity {
                             messageText,
                             mLoginDetail.getProfileImage(),
                             chatUserDetail.receiverId,
-                            mLoginDetail.getUuid()
+                            mLoginDetail.getUuid(),
+                            AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN)
                     ));
 
 
@@ -120,9 +122,12 @@ public class MessageChatActivity extends BaseActivity {
                             messageText,
                             chatUserDetail.getProfileImage(),
                             mLoginDetail.getUuid(),
-                            chatUserDetail.receiverId
+                            chatUserDetail.receiverId,
+                            chatUserDetail.deviceToken
 
                     ));
+
+
 /*                    Map<String, Object> currentMessageList = new HashMap<>();
                     currentMessageList.put(FSConstants.CHAT_List.MESSAGES, chatList);*/
 
@@ -133,6 +138,9 @@ public class MessageChatActivity extends BaseActivity {
                             if (task.isSuccessful()) {
                                 //  messageAdapter.add(new SendMessageItem(newMsg));
                                 binding.editText.setText("");
+                                SendPushHelper.sendPush(MessageChatActivity.this, chatUserDetail.getDeviceToken(), mLoginDetail.getFullName()
+                                        , messageText);
+
                             }
                         }
 
