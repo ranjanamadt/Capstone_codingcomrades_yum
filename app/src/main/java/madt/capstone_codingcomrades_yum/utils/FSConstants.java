@@ -25,6 +25,7 @@ public class FSConstants {
         String LAST_MESSAGE="lastMessage";
         String LAST_MESSAGE_TIMESTAMP="lastMessageTimeStamp";
         String REPORT_LIST = "report_list";
+        String MATCHED_USERS = "matched_users";
     }
 
     public interface PREFERENCE{
