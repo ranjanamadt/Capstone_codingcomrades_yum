@@ -86,7 +86,7 @@ public class MessageChatActivity extends BaseActivity {
                             mLoginDetail.getLastName(),
                             System.currentTimeMillis() + "",
                             messageText,
-                            mLoginDetail.getProfileImage(),
+                            mLoginDetail.getProfileImage().get(0),
                             chatUserDetail.receiverId,
                             mLoginDetail.getUuid(),
                             AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN)

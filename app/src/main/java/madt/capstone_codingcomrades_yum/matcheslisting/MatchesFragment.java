@@ -85,7 +85,7 @@ public class MatchesFragment extends BaseFragment {
                         mLoginDetail.getUuid(),
                         System.currentTimeMillis() + "",
                         "Hello",
-                        mLoginDetail.getProfileImage());
+                        mLoginDetail.getProfileImage().get(0));
                 List<Message> messageList = new ArrayList<Message>();
                 messageList.add(firstMessage);
 
@@ -97,7 +97,7 @@ public class MatchesFragment extends BaseFragment {
                         matchesList.get(position).getLastName(),
                         System.currentTimeMillis() + "",
                         getString(R.string.initial_chat_message),
-                        matchesList.get(position).getProfileImage(),
+                        matchesList.get(position).getProfileImage().get(0),
                         mLoginDetail.getUuid(),
                         matchesList.get(position).getUuid(),
                         matchesList.get(position).getDeviceToken()
@@ -117,7 +117,7 @@ public class MatchesFragment extends BaseFragment {
                         mLoginDetail.getLastName(),
                         System.currentTimeMillis() + "",
                         getString(R.string.initial_chat_message),
-                        mLoginDetail.getProfileImage(),
+                        mLoginDetail.getProfileImage().get(0),
                         matchesList.get(position).getUuid(),
                         mLoginDetail.getUuid(),
                        AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN)
@@ -188,6 +188,7 @@ public class MatchesFragment extends BaseFragment {
                     } else if (matched != null && matched.contains(document.getId())) {
                         Log.e("Matched :", document.getId());
                     } else {
+                        yLog("document matchlist: ", document.toString());
                         matchesList.add(new User(document));
                     }
 

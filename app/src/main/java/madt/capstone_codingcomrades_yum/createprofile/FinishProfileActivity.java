@@ -87,7 +87,7 @@ public class FinishProfileActivity extends BaseActivity {
     private static final int LOCATION_REQUEST_CODE = 1;
     private static final int PROFILE_RESULT_CODE = 2;
     List<String> preferences=new ArrayList<>();
-
+    List<String> profileImgStringList = new ArrayList<>();
 
     String latitude = "";
     String longitude = "";
@@ -181,13 +181,13 @@ public class FinishProfileActivity extends BaseActivity {
                 }
 
                 yLog("image uri", uri.toString());
-                yLog("profileImageString", profileImgString);
+                yLog("profileImgStringList: ", profileImgStringList.toString());
 
                 Map<String, Object> finishProfile = new HashMap<>();
                 finishProfile.put(FSConstants.USER.LATITUDE, latitude);
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
-                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgString);
+                finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgStringList);
                 finishProfile.put(FSConstants.USER.PREFERENCES, preferences);
 
                 CommonUtils.showProgress(FinishProfileActivity.this);
@@ -284,6 +284,7 @@ public class FinishProfileActivity extends BaseActivity {
             profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] profileImgByte = baos.toByteArray();
             profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
+            profileImgStringList.add(profileImgString);
         }
     }
 

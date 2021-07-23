@@ -24,7 +24,7 @@ public class User {
     String gender;
     String sePref;
     String aboutMe;
-    String profileImage;
+    List<String> profileImage;
 
     public String getDeviceToken() {
         return deviceToken;
@@ -53,11 +53,11 @@ public class User {
 
     List<String> preferences;
 
-    public String getProfileImage() {
+    public List<String> getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(String profileImage) {
+    public void setProfileImage(List<String> profileImage) {
         this.profileImage = profileImage;
     }
 
@@ -76,7 +76,7 @@ public class User {
         this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
         this.deviceToken=document.get(FSConstants.USER.DEVICE_TOKEN).toString();
         this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
-        this.profileImage = document.get(FSConstants.USER.PROFILE_IMAGE) != null ? document.get(FSConstants.USER.PROFILE_IMAGE).toString() : null;
+        this.profileImage = (List<String>)document.get(FSConstants.USER.PROFILE_IMAGE);
         this.interest =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.INTEREST);
         this.not_eat = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
         this.not_talk =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
@@ -182,7 +182,7 @@ public class User {
     }
 
     public Bitmap getProfileBitmapImage() {
-        byte[] decodedString = Base64.decode(this.getProfileImage(), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(this.getProfileImage().get(0), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 

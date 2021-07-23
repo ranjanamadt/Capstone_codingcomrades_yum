@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -53,6 +54,7 @@ import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
 import madt.capstone_codingcomrades_yum.databinding.FragmentProfileBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
@@ -67,6 +69,8 @@ public class ProfileFragment extends BaseFragment {
     List<Bitmap> profileImagesUriList = new ArrayList<>();
     List<String> profileImagesStringList = new ArrayList<>();
     ActivityResultLauncher<Intent> someActivityResultLauncher;
+    LoginUserDetail userDetail;
+    //JSONObject userDetailJson;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,75 +78,67 @@ public class ProfileFragment extends BaseFragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
-        String userDetailStr = AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL);
+        userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
 
-        yLog("userDetailStr : ", userDetailStr);
-        if(userDetailStr != null && userDetailStr.length() > 0){
-            JSONObject userDetailJson = new JSONObject();
+        try {
+            String fullName = userDetail.getFullName();
+            binding.proUserName.setText(fullName);
+
+            Date dobObj = null;
+            long age = 0;
             try {
-                userDetailJson = new JSONObject(userDetailStr);
-            } catch (JSONException e) {
+                dobObj = new SimpleDateFormat("MMM d, yyyy").parse(userDetail.getDob());
+                Date today = new Date();
+                long difference_In_Time = today.getTime() - dobObj.getTime();
+                age = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
-            try {
-                String fullName = userDetailJson.getString("firstName") + " " + userDetailJson.getString("lastName");
-                binding.proUserName.setText(fullName);
+            binding.proAge.setText(String.valueOf(age) + " years");
 
-                Date dobObj = null;
-                long age = 0;
-                try {
-                    dobObj = new SimpleDateFormat("MMM d, yyyy").parse(userDetailJson.getString("dob"));
-                    Date today = new Date();
-                    long difference_In_Time = today.getTime() - dobObj.getTime();
-                    age = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+
+            yLog("userDetail.getProfileImage().size(): ", String.valueOf(userDetail.getProfileImage().size()));
+            if(userDetail.getProfileImage().size() > 0){
+                profileImagesStringList = new ArrayList<>();
+
+                for (int i = 0; i < userDetail.getProfileImage().size(); i++){
+                    byte[] fireStoreImg = userDetail.getProfileImage().get(i).getBytes();
+                    String fireStoreStr = new String(fireStoreImg, "UTF-8");
+                    byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
+                    Bitmap fireStoreBitmap = BitmapFactory.decodeByteArray(fireStoreEncodeByte, 0, fireStoreEncodeByte.length);
+                    profileImagesUriList.add(fireStoreBitmap);
+                    profileImagesStringList.add(userDetail.getProfileImage().get(i));
                 }
-                binding.proAge.setText(String.valueOf(age) + " years");
 
+                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                binding.imageSlider.setSliderAdapter(sliderAdapter);
+                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                binding.imageSlider.startAutoCycle();
 
-                yLog("userDetailJson profile image: ", userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE));
-                /*if(userDetailJson.getJSONArray(FSConstants.USER.PROFILE_IMAGE).get > 0){
+            } /*else if (userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE) != null){
+                byte[] previousImg = userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE).getBytes();
+                String previousStr = new String(previousImg, "UTF-8");
+                byte[] encodeByte = Base64.decode(previousStr, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                profileImagesUriList.add(bitmap);
 
-                    for (int i = 0; i<userDetailJson.getJSONArray(FSConstants.USER.PROFILE_IMAGE).length(); i++){
-                        byte[] fireStoreImg = userDetailJson.getJSONArray(FSConstants.USER.PROFILE_IMAGE).getString(i).getBytes();
-                        String fireStoreStr = new String(fireStoreImg, "UTF-8");
-                        byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
-                        Bitmap fireStoreBitmap = BitmapFactory.decodeByteArray(fireStoreEncodeByte, 0, fireStoreEncodeByte.length);
-                        profileImagesUriList.add(fireStoreBitmap);
-                    }
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] profileImgByte = baos.toByteArray();
+                String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
+                profileImagesStringList.add(profileImgString);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                    binding.imageSlider.setSliderAdapter(sliderAdapter);
-                    binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                    //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                    binding.imageSlider.startAutoCycle();
-
-                } else */if (userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE) != null){
-                    byte[] previousImg = userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE).getBytes();
-                    String previousStr = new String(previousImg, "UTF-8");
-                    byte[] encodeByte = Base64.decode(previousStr, Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                    profileImagesUriList.add(bitmap);
-
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] profileImgByte = baos.toByteArray();
-                    String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
-                    profileImagesStringList.add(profileImgString);
-
-                    SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                    binding.imageSlider.setSliderAdapter(sliderAdapter);
-                    binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                    //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                    binding.imageSlider.startAutoCycle();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                binding.imageSlider.setSliderAdapter(sliderAdapter);
+                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                binding.imageSlider.startAutoCycle();
+            }*/
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+
 
         binding.addPictures.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +164,6 @@ public class ProfileFragment extends BaseFragment {
                             e.printStackTrace();
                         }
 
-                        yLog("profileImagesUriList : ", profileImagesUriList.toString());
                         SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
                         binding.imageSlider.setSliderAdapter(sliderAdapter);
                         binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
@@ -197,9 +192,9 @@ public class ProfileFragment extends BaseFragment {
                         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), addImages).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                //ySnackbar(FinishProfileActivity.this, "data saved successfully");
-
-                                //getCurrentUser();
+                                //userDetailJson.put(FSConstants.USER.PROFILE_IMAGE, profileImagesStringList);
+                                userDetail.setProfileImage(profileImagesStringList);
+                                AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(userDetail).toString());
                             }
 
                         }).addOnFailureListener(new OnFailureListener() {
