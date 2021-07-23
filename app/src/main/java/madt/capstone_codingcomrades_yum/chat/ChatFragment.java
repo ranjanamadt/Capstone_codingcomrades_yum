@@ -164,6 +164,7 @@ public class ChatFragment extends BaseFragment {
                 timeTV = itemView.findViewById(R.id.tv_time);
                 lastMessageTV = itemView.findViewById(R.id.tv_description);
                 chatPicture = itemView.findViewById(R.id.chatPicture);
+
             }
         }
 

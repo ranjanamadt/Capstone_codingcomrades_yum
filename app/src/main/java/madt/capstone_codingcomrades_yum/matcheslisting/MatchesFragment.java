@@ -172,6 +172,7 @@ public class MatchesFragment extends BaseFragment {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
+                matchesList.clear();
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                     matchesList.add(new User(document));
                 }
