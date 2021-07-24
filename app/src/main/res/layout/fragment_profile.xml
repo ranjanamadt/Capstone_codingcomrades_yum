@@ -40,7 +40,6 @@
                     app:sliderIndicatorGravity="center_horizontal|bottom"
                     app:sliderIndicatorMargin="@dimen/_15sdp"
                     app:sliderIndicatorOrientation="horizontal"
-
                     app:sliderIndicatorRadius="@dimen/_2sdp"
                     app:sliderIndicatorSelectedColor="#5A5A5A"
                     app:sliderIndicatorUnselectedColor="#FFF"
@@ -48,16 +47,15 @@
                     app:sliderStartAutoCycle="true"
                     tools:ignore="MissingConstraints"/>
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/imageProfile"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_250sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_imageicon" />
+                    app:layout_constraintTop_toTopOf="@+id/imageSlider"
+                    app:srcCompat="@drawable/ic_imageicon" />-->
 
 
                 <TextView

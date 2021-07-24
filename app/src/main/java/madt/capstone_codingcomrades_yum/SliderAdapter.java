@@ -1,5 +1,6 @@
 package madt.capstone_codingcomrades_yum;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,9 @@ import java.util.List;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 
-    List<Uri> images;
+    List<Bitmap> images;
 
-    public SliderAdapter(List<Uri> images){
+    public SliderAdapter(List<Bitmap> images){
         this.images = images;
     }
 
@@ -27,7 +28,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder viewHolder, int position) {
-        viewHolder.imageView.setImageURI(images.get(position));
+        viewHolder.imageView.setImageBitmap(images.get(position));
     }
 
     @Override

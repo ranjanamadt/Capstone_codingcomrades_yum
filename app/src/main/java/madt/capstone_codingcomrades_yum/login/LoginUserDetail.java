@@ -13,7 +13,7 @@ public class LoginUserDetail {
     String gender;
     String sePref;
     String aboutMe;
-    String profileImage;
+    List<String> profileImage;
     List<String> interest;
     List<String> not_eat;
     List<String> not_talk;
@@ -24,7 +24,7 @@ public class LoginUserDetail {
     List<String> preferences;
     List<String> report_list;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users) {
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, List<String> profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,8 +81,12 @@ public class LoginUserDetail {
         return aboutMe;
     }
 
-    public String getProfileImage() {
+    public List<String> getProfileImage() {
         return profileImage;
+    }
+
+    public void setProfileImage(List<String> profileImage) {
+        this.profileImage = profileImage;
     }
 
     public List<String> getInterest() {
