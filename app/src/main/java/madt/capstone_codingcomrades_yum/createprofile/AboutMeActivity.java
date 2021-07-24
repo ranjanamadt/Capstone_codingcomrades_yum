@@ -43,6 +43,7 @@ public class AboutMeActivity extends BaseActivity {
     public static String stringDate = "";
     public boolean isUserExist = false;
     public static boolean dateSelected = false;
+    public static String phoneNumber = "";
 
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight", "Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -133,6 +134,7 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.DOB, dob);
                     user.put(FSConstants.USER.GENDER, gender);
                     user.put(FSConstants.USER.SEX_PREFER, sePref);
+                    user.put(FSConstants.USER.PHONE_NUMBER, phoneNumber);
                     user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
                     Log.e("is exist :", isUserExist + "//");
                     if (isUserExist) {
@@ -192,6 +194,7 @@ public class AboutMeActivity extends BaseActivity {
         super.onDestroy();
         LoginActivity.first_name = "";
         LoginActivity.last_name = "";
+        phoneNumber="";
     }
 
     @Override

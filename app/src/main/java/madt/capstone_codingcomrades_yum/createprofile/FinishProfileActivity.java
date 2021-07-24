@@ -234,7 +234,6 @@ public class FinishProfileActivity extends BaseActivity {
 
                 if (documentSnapshot.exists()) {
 
-
                     User user = new User(documentSnapshot);
 
                     LoginUserDetail loginUserDetail = new LoginUserDetail(
@@ -245,6 +244,7 @@ public class FinishProfileActivity extends BaseActivity {
                             user.getGender(),
                             user.getSePref(),
                             user.getAboutMe(),
+                            user.getPhoneNumber(),
                             user.getProfileImage(),
                             user.getInterest(),
                             user.getNot_eat(),

@@ -24,15 +24,17 @@ public class User {
     String gender;
     String sePref;
     String aboutMe;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    String phoneNumber;
     List<String> profileImage;
-
-    public String getDeviceToken() {
-        return deviceToken;
-    }
-
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
 
     String deviceToken;
     List<String> interest;
@@ -42,6 +44,14 @@ public class User {
     List<String> enjoy_eating;
     List<String> report_list;
     List<String> matched_users;
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
 
     public List<String> getPreferences() {
         return preferences;
@@ -75,6 +85,7 @@ public class User {
         this.gender = document.get(FSConstants.USER.GENDER).toString();
         this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
         this.deviceToken=document.get(FSConstants.USER.DEVICE_TOKEN).toString();
+        this.phoneNumber=document.get(FSConstants.USER.PHONE_NUMBER).toString();
         this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
         this.profileImage = (List<String>)document.get(FSConstants.USER.PROFILE_IMAGE);
         this.interest =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.INTEREST);

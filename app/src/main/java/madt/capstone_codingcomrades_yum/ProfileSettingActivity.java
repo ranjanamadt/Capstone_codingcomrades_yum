@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -45,6 +46,7 @@ import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
 import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityProfileSettingBinding;
 import madt.capstone_codingcomrades_yum.login.LoginActivity;
+import madt.capstone_codingcomrades_yum.login.LoginWithPhoneNumberActivity;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
@@ -53,10 +55,6 @@ public class ProfileSettingActivity extends BaseActivity {
 
     ActivityProfileSettingBinding binding;
 
-    ChipGroup chipGroupEatingPref, chipGroupTastePref, chipGroupTalkPref, chipGroupNoEatPref, chipGroupNoTalkPref;
-    Spinner spnEatingPref, spnTastePref, spnTalkPref, spnNoEatPref, spnNoTalkPref, preference_looking;
-    SeekBar seekBar_distance,seekbarMinAge,seekbarMaxAge;
-    TextView mylocation, maxDistance, minimumAge, maximumAge;
     private List<String> enjoyEatingList, tasteList, interestList, notEatList, notTalkList;
     List<String> resultEating = new ArrayList<>();
     List<String> resultTastes = new ArrayList<>();
@@ -76,24 +74,6 @@ public class ProfileSettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_setting);
 
-        chipGroupEatingPref = findViewById(R.id.chipGroupEatingPref);
-        chipGroupTastePref = findViewById(R.id.chipGroupTastePref);
-        chipGroupTalkPref = findViewById(R.id.chipGroupTalkPref);
-        chipGroupNoEatPref = findViewById(R.id.chipGroupNoEatPref);
-        chipGroupNoTalkPref = findViewById(R.id.chipGroupNoTalkPref);
-        spnEatingPref = findViewById(R.id.spnEatingPref);
-        spnTastePref = findViewById(R.id.spnTastePref);
-        spnTalkPref = findViewById(R.id.spnTalkPref);
-        spnNoEatPref = findViewById(R.id.spnNoEatPref);
-        spnNoTalkPref = findViewById(R.id.spnNoTalkPref);
-        preference_looking = findViewById(R.id.preference_looking);
-        seekBar_distance = findViewById(R.id.seekbar_distance);
-        seekbarMinAge = findViewById(R.id.seekbarMinAge);
-        seekbarMaxAge = findViewById(R.id.seekbarMaxAge);
-        minimumAge = findViewById(R.id.minimumAge);
-        maximumAge = findViewById(R.id.maximumAge);
-        maxDistance = findViewById(R.id.maxDistance);
-        mylocation = findViewById(R.id.myLocation);
 
         binding.preferenceLooking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
@@ -115,6 +95,16 @@ public class ProfileSettingActivity extends BaseActivity {
             }
         });
 
+        binding.imgEditPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileSettingActivity.this,
+                        LoginWithPhoneNumberActivity.class);
+                LoginWithPhoneNumberActivity.isEdit=true;
+                LoginWithPhoneNumberActivity.phoneNumber= binding.phNumber.getText().toString().split(" ")[1];
+                startActivity(i);
+            }
+        });
         binding.seekbarMinAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -280,14 +270,18 @@ public class ProfileSettingActivity extends BaseActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+
                 addEnjoyEating((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING));
                 addTaste((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE));
                 addTalkAbout((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
+                binding.phNumber.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
 
                 String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
                 String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
+
+
                 getuserlocation(Double.parseDouble(latitude), Double.parseDouble(longitude));
             }
         }).addOnFailureListener(new OnFailureListener() {

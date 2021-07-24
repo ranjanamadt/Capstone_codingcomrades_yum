@@ -2,7 +2,6 @@ package madt.capstone_codingcomrades_yum.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
@@ -47,6 +44,9 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private String[] countryCodes = {"+91", "+1"};
     private String selectedCountryCode = "";
+    public static boolean isEdit = false;
+    public static String phoneNumber = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,11 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
         auth = FirebaseAuth.getInstance();
         setTopBar();
         setCountryCodeSpinner();
+
+        if (isEdit) {
+            yLog("phone number :", phoneNumber);
+            binding.txtPhnEntry.setText(phoneNumber);
+        }
 
         binding.btnGetCode.setOnClickListener(v -> {
             if (binding.txtPhnEntry.getText().toString().isEmpty()) {
@@ -184,38 +189,29 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d("signInWithCredential", ":success");
 
                             FirebaseUser user = task.getResult().getUser();
-                            yLog("user", user.toString() + "//");
 
                             AppSharedPreferences.getInstance().setString(SharedConstants.FS_AUTH_ID, user.getUid());
 
                             FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, user.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                                    Intent i = null;
-                                 /*   if (task.getResult().exists()) {
-                                        i = new Intent(LoginWithPhoneNumberActivity.this,
-                                                HomeActivity.class);
-                                    } else {*/
 
-                                        i = new Intent(LoginWithPhoneNumberActivity.this,
-                                                AboutMeActivity.class);
+                                    Intent i = new Intent(LoginWithPhoneNumberActivity.this,
+                                            AboutMeActivity.class);
                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                 //   }
+                                    AboutMeActivity.phoneNumber = selectedCountryCode + " " + binding.txtPhnEntry.getText().toString();
+
                                     startActivity(i);
                                     finish();
                                     yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
                                     CommonUtils.hideProgress();
 
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull @NotNull Exception e) {
-                                    ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
-                                    CommonUtils.hideProgress();
-                                }
+                            }).addOnFailureListener(e -> {
+                                ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
+                                CommonUtils.hideProgress();
                             });
 
 

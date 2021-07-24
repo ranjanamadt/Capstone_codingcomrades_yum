@@ -13,6 +13,7 @@ public class LoginUserDetail {
     String gender;
     String sePref;
     String aboutMe;
+    String phoneNumber;
     List<String> profileImage;
     List<String> interest;
     List<String> not_eat;
@@ -20,11 +21,10 @@ public class LoginUserDetail {
     List<String> taste;
     List<String> enjoy_eating;
     List<String> matched_users;
-
     List<String> preferences;
     List<String> report_list;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, List<String> profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users) {
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String phoneNumber, List<String> profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,6 +37,7 @@ public class LoginUserDetail {
         this.not_eat = not_eat;
         this.not_talk = not_talk;
         this.taste = taste;
+        this.phoneNumber=phoneNumber;
         this.enjoy_eating = enjoy_eating;
         this.preferences=preferences;
         this.report_list = report_list != null ? report_list : new ArrayList<>();

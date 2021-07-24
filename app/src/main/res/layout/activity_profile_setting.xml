@@ -106,16 +106,16 @@
 
                 <TextView
                     android:id="@+id/number"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="+16471112222"
+                    android:text=""
+                  
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintEnd_toStartOf="@+id/imgEditPhone"
                     app:layout_constraintStart_toEndOf="@+id/ph_number"
                     app:layout_constraintTop_toBottomOf="@+id/account_settings" />
 
@@ -507,6 +507,17 @@
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toEndOf="@+id/seekbar_distance"
                     app:layout_constraintTop_toBottomOf="@+id/distance" />
+
+                <ImageView
+                    android:id="@+id/imgEditPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/number"
+                    app:srcCompat="@drawable/ic_baseline_edit_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
