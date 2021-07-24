@@ -134,4 +134,5 @@
     <string name="report_confirmation">The user was reported and will not appear on you match screen again</string>
     <string name="new_like">New Like Received</string>
     <string name="or">OR</string>
+    <string name="phone_updated_successfully">Phone number Updated Successfully</string>
 </resources>

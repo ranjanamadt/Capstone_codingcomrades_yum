@@ -10,9 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -22,6 +23,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import madt.capstone_codingcomrades_yum.R;
@@ -60,7 +65,9 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
 
         if (isEdit) {
             yLog("phone number :", phoneNumber);
-            binding.txtPhnEntry.setText(phoneNumber);
+            String[] phoneNumberArray = phoneNumber.split(" ");
+            binding.txtPhnEntry.setText(phoneNumberArray[1]);
+            binding.spnCountryCode.setSelection(Arrays.asList(countryCodes).indexOf(phoneNumberArray[0]));
         }
 
         binding.btnGetCode.setOnClickListener(v -> {
@@ -110,10 +117,55 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
             if (!verificationId.isEmpty()) {
                 CommonUtils.showProgress(LoginWithPhoneNumberActivity.this);
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-                signInWithPhoneAuthCredential(credential);
+                if (isEdit)
+                    // Edit Phone Number
+                    updatePhoneNumber(credential);
+
+                else
+                    // Create new User with phone Number
+                    signInWithPhoneAuthCredential(credential);
             }
         }
         // [END verify_with_code]
+    }
+
+    private void updatePhoneNumber(PhoneAuthCredential credential) {
+
+        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).updatePhoneNumber(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                updatePhoneInDB();
+
+            }
+
+            private void updatePhoneInDB() {
+
+                Map<String, Object> updateNumber = new HashMap<>();
+                updateNumber.put(FSConstants.USER.PHONE_NUMBER, selectedCountryCode + " " + binding.txtPhnEntry.getText().toString());
+
+                FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), updateNumber).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        finish();
+                        yToast(LoginWithPhoneNumberActivity.this, getString(R.string.phone_updated_successfully));
+                        CommonUtils.hideProgress();
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                        CommonUtils.hideProgress();
+                        ySnackbar(LoginWithPhoneNumberActivity.this, getString(R.string.error_saving_user));
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                ySnackbar(LoginWithPhoneNumberActivity.this, e.getLocalizedMessage());
+                CommonUtils.hideProgress();
+            }
+        });
     }
 
     private void setAuthCallback() {
@@ -128,7 +180,10 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
                 //     detect the incoming verification SMS and perform verification without
                 //     user action.
                 yLog("onVerificationCompleted:", credential.toString());
-                signInWithPhoneAuthCredential(credential);
+                if (!isEdit)
+                    signInWithPhoneAuthCredential(credential);
+                else
+                    updatePhoneNumber(credential);
 
             }
 
@@ -185,40 +240,34 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = task.getResult().getUser();
+                        AppSharedPreferences.getInstance().setString(SharedConstants.FS_AUTH_ID, user.getUid());
+                        FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, user.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
 
-                            FirebaseUser user = task.getResult().getUser();
+                                Intent i = new Intent(LoginWithPhoneNumberActivity.this,
+                                        AboutMeActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                AboutMeActivity.phoneNumber = selectedCountryCode + " " + binding.txtPhnEntry.getText().toString();
 
-                            AppSharedPreferences.getInstance().setString(SharedConstants.FS_AUTH_ID, user.getUid());
-
-                            FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, user.getUid()).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-
-                                    Intent i = new Intent(LoginWithPhoneNumberActivity.this,
-                                            AboutMeActivity.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    AboutMeActivity.phoneNumber = selectedCountryCode + " " + binding.txtPhnEntry.getText().toString();
-
-                                    startActivity(i);
-                                    finish();
-                                    yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
-                                    CommonUtils.hideProgress();
-
-                                }
-                            }).addOnFailureListener(e -> {
-                                ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
+                                startActivity(i);
+                                finish();
+                                yToast(LoginWithPhoneNumberActivity.this, getString(R.string.logged_in_successfully));
                                 CommonUtils.hideProgress();
-                            });
 
-
-                        } else {
+                            }
+                        }).addOnFailureListener(e -> {
                             ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
                             CommonUtils.hideProgress();
-                        }
+                        });
+
+
+                    } else {
+                        ySnackbar(LoginWithPhoneNumberActivity.this, task.getException().getLocalizedMessage());
+                        CommonUtils.hideProgress();
                     }
                 });
     }
@@ -248,4 +297,5 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }

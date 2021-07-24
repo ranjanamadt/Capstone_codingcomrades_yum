@@ -101,7 +101,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 Intent i = new Intent(ProfileSettingActivity.this,
                         LoginWithPhoneNumberActivity.class);
                 LoginWithPhoneNumberActivity.isEdit=true;
-                LoginWithPhoneNumberActivity.phoneNumber= binding.phNumber.getText().toString().split(" ")[1];
+                LoginWithPhoneNumberActivity.phoneNumber= binding.phNumber.getText().toString();
                 startActivity(i);
             }
         });
@@ -265,6 +265,17 @@ public class ProfileSettingActivity extends BaseActivity {
         getNotTalkPreferences();
         getInterestsPreferences();
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCurrentUserInfo();
+    }
+
+    private void getCurrentUserInfo() {
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -291,7 +302,6 @@ public class ProfileSettingActivity extends BaseActivity {
                 ySnackbar(ProfileSettingActivity.this, getString(R.string.error_saving_not_eat));
             }
         });
-
     }
 
     private void getuserlocation(Double latitude, Double longitude) {
