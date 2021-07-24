@@ -101,6 +101,8 @@ public class FinishProfileActivity extends BaseActivity {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        binding.btnChangePP.setVisibility(View.GONE);
+
         if (!hasLocationPermission())
             requestLocationPermission();
         else
@@ -158,6 +160,17 @@ public class FinishProfileActivity extends BaseActivity {
         });
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.with(FinishProfileActivity.this)
+                        .crop(4f, 3f)                    //Crop image(Optional), Check Customization for more option
+                        .compress(1024)            //Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
+                        .start(PROFILE_RESULT_CODE);
+            }
+        });
+
+        binding.btnChangePP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImagePicker.with(FinishProfileActivity.this)
@@ -272,6 +285,8 @@ public class FinishProfileActivity extends BaseActivity {
         if (requestCode == PROFILE_RESULT_CODE) {
             uri = data.getData();
             binding.imageBtn.setImageURI(uri);
+            binding.fab.setVisibility(View.GONE);
+            binding.btnChangePP.setVisibility(View.VISIBLE);
 
             InputStream imageStream = null;
             try {
@@ -284,6 +299,9 @@ public class FinishProfileActivity extends BaseActivity {
             profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] profileImgByte = baos.toByteArray();
             profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
+            if(profileImgStringList.size() > 0){
+                profileImgStringList.remove(0);
+            }
             profileImgStringList.add(profileImgString);
         }
     }
