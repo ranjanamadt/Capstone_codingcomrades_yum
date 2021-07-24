@@ -104,7 +104,7 @@ public class MatchesFragment extends BaseFragment {
 
                 ));
 
-                // Method to create chat room for Logged In User
+                // CHATROOM ADDED IN DB FOR CURRENT USER
                 ChatMessagesHelper.createCurrentUserChatRoom(mLoginDetail.getUuid() +
                         matchesList.get(position).getUuid(), currentChatList);
 
@@ -128,7 +128,7 @@ public class MatchesFragment extends BaseFragment {
                         , mLoginDetail.getFullName() + " liked your profile!");
 
 
-                // Method to create chat room for Liked User
+                // CHATROOM ADDED IN DB FOR OTHER USER
                 ChatMessagesHelper.createLikedUserChatRoom(
                         matchesList.get(position).getUuid(),matchesList.get(position).getUuid() + mLoginDetail.getUuid(),  likedChatList);
             }

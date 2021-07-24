@@ -42,6 +42,8 @@
             android:fontFamily="@font/segoe_ui"
             android:textColor="@color/black"
             android:textSize="@dimen/_14sdp"
+            android:maxLines="3"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="@+id/mtcTasteChip"
             app:layout_constraintStart_toStartOf="@+id/mtcUserName"
             app:layout_constraintTop_toBottomOf="@+id/mtcTasteChip" />
@@ -104,14 +106,17 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:clickable="true"
+
             android:fontFamily="@font/segoe_ui_bold"
             android:text="@string/info_btn"
             android:textColor="@color/facebook_blue"
             android:textSize="@dimen/_14sdp"
+            app:layout_constraintBottom_toTopOf="@+id/reject_btn2"
             app:layout_constraintEnd_toEndOf="@+id/mtcBio"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mtcBio" />
+            app:layout_constraintTop_toBottomOf="@+id/mtcBio"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/mtdAge"

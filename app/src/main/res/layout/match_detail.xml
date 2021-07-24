@@ -39,7 +39,7 @@
                         android:id="@+id/image_btn"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_250sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
@@ -186,6 +186,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdDontTalk" />
@@ -195,14 +196,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_35sdp"
+                        android:layout_marginBottom="@dimen/_90sdp"
                         android:fontFamily="@font/segoe_ui"
                         android:text="@string/report_user"
-                        android:textColor="@color/paragraph_gray"
+                        android:textColor="@color/red_log"
                         android:textSize="@dimen/_15sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chipDontTalk" />
+                        app:layout_constraintTop_toBottomOf="@+id/chipDontTalk"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/textView23"
