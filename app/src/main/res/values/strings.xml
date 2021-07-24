@@ -112,7 +112,7 @@
     <string name="report_user">Report user</string>
     <string name="payment_plan">Payment Plans: Subscription</string>
     <string name="acc_settings">Account Settings</string>
-    <string name="ph_no">Phone Number</string>
+    <string name="ph_no">Phone Number : </string>
     <string name="disc_settings">Discovery Settings</string>
     <string name="location">Location</string>
     <string name="my_location">My Location</string>
@@ -135,4 +135,10 @@
     <string name="new_like">New Like Received</string>
     <string name="or">OR</string>
     <string name="phone_updated_successfully">Phone number Updated Successfully</string>
+    <string name="age_prefer">Age Preference</string>
+    <string name="current_location">Current Location</string>
+    <string name="add_more_locations">Add More Location</string>
+    <string name="update">Update</string>
+    <string name="apply_changes">Apply changes</string>
+    <string name="edit_settings">Edit Settings</string>
 </resources>

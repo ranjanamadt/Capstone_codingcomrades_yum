@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ProfileSettingActivity">
+
     <data></data>
 
     <LinearLayout
@@ -36,10 +37,11 @@
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginBottom="@dimen/_25sdp"
-                    android:fontFamily="@font/segoe_ui"
+                    android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/logout"
+
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -68,62 +70,52 @@
                     android:id="@+id/applyChangesBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:backgroundTint="@color/facebook_blue"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/confirm_button"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="Apply Changes"
+                    android:paddingHorizontal="@dimen/_20sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="@string/apply_changes"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_12sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/seekbar_distance" />
 
                 <TextView
-                    android:id="@+id/account_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:fontFamily="@font/segoe_ui_bold"
-                    android:text="@string/acc_settings"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="@+id/ph_number"
-                    app:layout_constraintTop_toBottomOf="@+id/payment_Btn" />
-
-                <TextView
                     android:id="@+id/ph_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="@string/ph_no"
+                    android:layout_marginTop="@dimen/_6sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/account_settings"
                     app:layout_constraintTop_toBottomOf="@+id/account_settings" />
 
                 <TextView
                     android:id="@+id/number"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
                     android:text=""
-                  
+
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintEnd_toStartOf="@+id/imgEditPhone"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/ph_number"
-                    app:layout_constraintTop_toBottomOf="@+id/account_settings" />
+                    app:layout_constraintTop_toTopOf="@+id/ph_number" />
 
                 <TextView
                     android:id="@+id/discovery_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/disc_settings"
                     android:textColor="@color/black"
@@ -132,13 +124,26 @@
                     app:layout_constraintTop_toBottomOf="@+id/number" />
 
                 <TextView
+                    android:id="@+id/account_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="@string/disc_settings"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/payment_Btn" />
+
+                <TextView
                     android:id="@+id/settings_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
                     android:fontFamily="@font/segoe_ui"
-                    android:text="@string/location"
+                    android:text="@string/current_location"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -146,61 +151,59 @@
 
                 <TextView
                     android:id="@+id/myLocation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:fontFamily="@font/segoe_ui"
-                    android:text="@string/my_location"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    android:text="ghfjhfhjfjh"
+                    android:textColor="@color/location_green"
+                    android:textSize="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/settings_location"
+                    app:layout_constraintEnd_toEndOf="@+id/new_location"
                     app:layout_constraintStart_toEndOf="@+id/settings_location"
-                    app:layout_constraintTop_toBottomOf="@+id/discovery_settings" />
+                    app:layout_constraintTop_toTopOf="@+id/settings_location" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupCity"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/settings_location"
+
+                    app:layout_constraintEnd_toEndOf="@+id/myLocation"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/settings_location"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_location">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/settings_location" />
 
                 <TextView
                     android:id="@+id/new_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="@string/add_new_loc"
+                    android:text="@string/add_more_locations"
                     android:textColor="@color/facebook_blue"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroupCity" />
+                    app:layout_constraintEnd_toEndOf="@+id/imgEditPhone"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/discovery_settings"
+                    app:layout_constraintTop_toTopOf="@+id/discovery_settings" />
 
                 <TextView
                     android:id="@+id/eatingPreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="Eating Preference"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toStartOf="@+id/new_location"
-                    app:layout_constraintTop_toBottomOf="@+id/new_location" />
+                    app:layout_constraintStart_toStartOf="@+id/settings_location"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupCity" />
 
                 <Spinner
                     android:id="@+id/spnEatingPref"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -210,20 +213,19 @@
                     android:id="@+id/chipGroupEatingPref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnEatingPref">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/spnEatingPref"></com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:id="@+id/tastePreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="Taste Preference"
                     android:textColor="@color/black"
@@ -235,8 +237,8 @@
                     android:id="@+id/spnTastePref"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -246,20 +248,19 @@
                     android:id="@+id/chipGroupTastePref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnTastePref">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/spnTastePref"></com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:id="@+id/talkPreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="Talk Preference"
                     android:textColor="@color/black"
@@ -271,8 +272,8 @@
                     android:id="@+id/spnTalkPref"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -282,20 +283,19 @@
                     android:id="@+id/chipGroupTalkPref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnTalkPref">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/spnTalkPref"></com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:id="@+id/noEatPreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="No Eat Preference"
                     android:textColor="@color/black"
@@ -307,8 +307,8 @@
                     android:id="@+id/spnNoEatPref"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -318,20 +318,19 @@
                     android:id="@+id/chipGroupNoEatPref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnNoEatPref">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoEatPref"></com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:id="@+id/noTalkPreference"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="No Talk Preference"
                     android:textColor="@color/black"
@@ -343,8 +342,8 @@
                     android:id="@+id/spnNoTalkPref"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -354,22 +353,21 @@
                     android:id="@+id/chipGroupNoTalkPref"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_20sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spnNoTalkPref">
-                </com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toBottomOf="@+id/spnNoTalkPref"></com.google.android.material.chip.ChipGroup>
 
                 <TextView
                     android:id="@+id/settings_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="@string/age"
+                    android:text="@string/age_prefer"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -390,27 +388,26 @@
 
                 <SeekBar
                     android:id="@+id/seekbarMinAge"
-                    android:layout_width="@dimen/_179sdp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:max="32"
                     android:progress="2"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/minimumAge"
                     app:layout_constraintHorizontal_bias="0.146"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/minAgeTV"
                     app:layout_constraintTop_toBottomOf="@+id/minAgeTV" />
 
                 <TextView
                     android:id="@+id/minimumAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="18 Years"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toEndOf="@+id/seekbarMinAge"
+                    app:layout_constraintBottom_toBottomOf="@+id/seekbarMinAge"
+                    app:layout_constraintEnd_toEndOf="@+id/spnNoTalkPref"
                     app:layout_constraintTop_toBottomOf="@+id/minAgeTV" />
 
                 <TextView
@@ -428,34 +425,33 @@
 
                 <SeekBar
                     android:id="@+id/seekbarMaxAge"
-                    android:layout_width="@dimen/_179sdp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:max="32"
                     android:progress="2"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/maximumAge"
                     app:layout_constraintHorizontal_bias="0.146"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/maxAgeTV"
                     app:layout_constraintTop_toBottomOf="@+id/maxAgeTV" />
 
                 <TextView
                     android:id="@+id/maximumAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="18 Years"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toEndOf="@+id/seekbarMinAge"
+                    app:layout_constraintBottom_toBottomOf="@+id/seekbarMaxAge"
+                    app:layout_constraintEnd_toEndOf="@+id/minimumAge"
                     app:layout_constraintTop_toBottomOf="@+id/maxAgeTV" />
 
                 <TextView
                     android:id="@+id/settings_bio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/i_am_looking"
                     android:textColor="@color/black"
@@ -468,7 +464,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/segoe_ui_bold"
                     android:text="@string/distance"
                     android:textColor="@color/black"
@@ -478,42 +474,43 @@
 
                 <Spinner
                     android:id="@+id/preference_looking"
-                    android:layout_width="192dp"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/maximumAge"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/minAgeTV"
                     app:layout_constraintTop_toBottomOf="@+id/settings_bio" />
 
                 <SeekBar
                     android:id="@+id/seekbar_distance"
-                    android:layout_width="@dimen/_179sdp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
                     android:max="48"
                     android:progress="2"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/maxDistance"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/distance"
                     app:layout_constraintTop_toBottomOf="@+id/distance" />
 
                 <TextView
                     android:id="@+id/maxDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
                     android:fontFamily="@font/segoe_ui_bold"
-                    android:text="2 Miles"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    app:layout_constraintStart_toEndOf="@+id/seekbar_distance"
-                    app:layout_constraintTop_toBottomOf="@+id/distance" />
+                    app:layout_constraintBottom_toBottomOf="@+id/seekbar_distance"
+                    app:layout_constraintEnd_toEndOf="@+id/maximumAge"
+                    app:layout_constraintTop_toTopOf="@+id/seekbar_distance" />
 
                 <ImageView
                     android:id="@+id/imgEditPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_3sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_3sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/number"

@@ -1,11 +1,5 @@
 package madt.capstone_codingcomrades_yum;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,38 +12,34 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
-import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
-import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityProfileSettingBinding;
-import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.login.LoginWithPhoneNumberActivity;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
+import madt.capstone_codingcomrades_yum.utils.YumTopBar;
 
 public class ProfileSettingActivity extends BaseActivity {
 
@@ -81,7 +71,7 @@ public class ProfileSettingActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 maxDistanceSeekBar = progress + 2;
-                binding.maxDistance.setText(String.valueOf(progress+2) + " Miles");
+                binding.maxDistance.setText(String.valueOf(progress + 2) + " Miles");
             }
 
             @Override
@@ -100,8 +90,8 @@ public class ProfileSettingActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent i = new Intent(ProfileSettingActivity.this,
                         LoginWithPhoneNumberActivity.class);
-                LoginWithPhoneNumberActivity.isEdit=true;
-                LoginWithPhoneNumberActivity.phoneNumber= binding.phNumber.getText().toString();
+                LoginWithPhoneNumberActivity.isEdit = true;
+                LoginWithPhoneNumberActivity.phoneNumber = binding.number.getText().toString();
                 startActivity(i);
             }
         });
@@ -110,7 +100,7 @@ public class ProfileSettingActivity extends BaseActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 minAgeSeekBar = progress + 18;
                 binding.minimumAge.setText(String.valueOf(progress + 18) + " Years");
-                if(maxAgeSeekBar < minAgeSeekBar){
+                if (maxAgeSeekBar < minAgeSeekBar) {
                     maxAgeSeekBar = progress + 18;
                     binding.maximumAge.setText(String.valueOf(progress + 18) + " Years");
                 }
@@ -171,9 +161,9 @@ public class ProfileSettingActivity extends BaseActivity {
 
                         Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
                         try {
-                            List<Address> addresses = geocoder.getFromLocationName(cityName,1);
+                            List<Address> addresses = geocoder.getFromLocationName(cityName, 1);
 
-                            if (addresses.size() > 0){
+                            if (addresses.size() > 0) {
                                 Address address = addresses.get(0);
 
                                 Double latitude = address.getLatitude();
@@ -192,14 +182,13 @@ public class ProfileSettingActivity extends BaseActivity {
                                 }
 
                                 yLog("other locations: ", otherLocations.toString());
-                                ySnackbar(ProfileSettingActivity.this, "other locations: "+ otherLocations.toString());
-                            } else{
+                                ySnackbar(ProfileSettingActivity.this, "other locations: " + otherLocations.toString());
+                            } else {
                                 alertDialog.dismiss();
                                 ySnackbar(ProfileSettingActivity.this, getString(R.string.err_city_not_found));
                                 return;
                             }
-                        }
-                        catch (IOException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                         alertDialog.dismiss();
@@ -211,23 +200,23 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.applyChangesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(resultEating.isEmpty()){
+                if (resultEating.isEmpty()) {
                     ySnackbar(ProfileSettingActivity.this, getString(R.string.err_enjoy_eating_chip_empty));
                     return;
                 }
-                if(resultTastes.isEmpty()){
+                if (resultTastes.isEmpty()) {
                     ySnackbar(ProfileSettingActivity.this, getString(R.string.err_enjoy_taste_chip_empty));
                     return;
                 }
-                if(resultInterest.isEmpty()){
+                if (resultInterest.isEmpty()) {
                     ySnackbar(ProfileSettingActivity.this, getString(R.string.err_interest_chip_empty));
                     return;
                 }
-                if(resultNotEat.isEmpty()){
+                if (resultNotEat.isEmpty()) {
                     ySnackbar(ProfileSettingActivity.this, getString(R.string.err_not_eat_chip_empty));
                     return;
                 }
-                if(resultNotTalk.isEmpty()){
+                if (resultNotTalk.isEmpty()) {
                     ySnackbar(ProfileSettingActivity.this, getString(R.string.err_not_talk_chip_empty));
                     return;
                 }
@@ -266,16 +255,28 @@ public class ProfileSettingActivity extends BaseActivity {
         getInterestsPreferences();
 
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getCurrentUserInfo();
+        setTopBar();
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.logoutNow(ProfileSettingActivity.this);
+            }
+        });
     }
 
     private void getCurrentUserInfo() {
+        resultEating.clear();
+        resultTastes.clear();
+        resultInterest.clear();
+        resultNotEat.clear();
+        resultNotTalk.clear();
+        otherLocations.clear();
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -287,7 +288,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 addTalkAbout((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
-                binding.phNumber.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
+                binding.number.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
 
                 String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
                 String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
@@ -329,14 +330,14 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.spnEatingPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(checkEating){
+                        if (checkEating) {
                             if (resultEating != null && !resultEating.isEmpty()) {
                                 if (!resultEating.contains(enjoyEatingList.get(position)))
                                     addEatingChip(enjoyEatingList.get(position));
                             } else {
                                 addEatingChip(enjoyEatingList.get(position));
                             }
-                        } else{
+                        } else {
                             checkEating = true;
                         }
                     }
@@ -362,14 +363,14 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.spnTastePref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(checkTaste){
+                        if (checkTaste) {
                             if (resultTastes != null && !resultTastes.isEmpty()) {
                                 if (!resultTastes.contains(tasteList.get(position)))
                                     addTastesChip(tasteList.get(position));
                             } else {
                                 addTastesChip(tasteList.get(position));
                             }
-                        } else{
+                        } else {
                             checkTaste = true;
                         }
 
@@ -395,14 +396,14 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.spnNoEatPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(checkNoEat){
+                        if (checkNoEat) {
                             if (resultNotEat != null && !resultNotEat.isEmpty()) {
                                 if (!resultNotEat.contains(notEatList.get(position)))
                                     addNoEatChip(notEatList.get(position));
                             } else {
                                 addNoEatChip(notEatList.get(position));
                             }
-                        } else{
+                        } else {
                             checkNoEat = true;
                         }
                     }
@@ -434,14 +435,14 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.spnNoTalkPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(checkNoTalk){
+                        if (checkNoTalk) {
                             if (resultNotTalk != null && !resultNotTalk.isEmpty()) {
                                 if (!resultNotTalk.contains(notTalkList.get(position)))
                                     addNoTalkChip(notTalkList.get(position));
                             } else {
                                 addNoTalkChip(notTalkList.get(position));
                             }
-                        } else{
+                        } else {
                             checkNoTalk = true;
                         }
                     }
@@ -472,14 +473,14 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.spnTalkPref.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(checkInterest){
+                        if (checkInterest) {
                             if (resultInterest != null && !resultInterest.isEmpty()) {
                                 if (!resultInterest.contains(interestList.get(position)))
                                     addInterestChip(interestList.get(position));
                             } else {
                                 addInterestChip(interestList.get(position));
                             }
-                        } else{
+                        } else {
                             checkInterest = true;
                         }
                     }
@@ -682,6 +683,17 @@ public class ProfileSettingActivity extends BaseActivity {
 
     @Override
     protected void setTopBar() {
-
+        YumTopBar.setToolbar(
+                binding.topBar,
+                R.drawable.ic_back_arrow,
+                getString(R.string.edit_settings),
+                true,
+                true,
+                new YumTopBar.OnToolbarClickListener() {
+                    @Override
+                    public void onLeftIconClick() {
+                        finish();
+                    }
+                });
     }
 }

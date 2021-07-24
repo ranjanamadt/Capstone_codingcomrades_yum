@@ -215,13 +215,6 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonUtils.logoutNow(getActivity());
-
-            }
-        });
 
         return binding.getRoot();
     }

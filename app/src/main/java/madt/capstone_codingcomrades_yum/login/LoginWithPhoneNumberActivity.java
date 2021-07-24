@@ -65,9 +65,11 @@ public class LoginWithPhoneNumberActivity extends BaseActivity implements Adapte
 
         if (isEdit) {
             yLog("phone number :", phoneNumber);
-            String[] phoneNumberArray = phoneNumber.split(" ");
-            binding.txtPhnEntry.setText(phoneNumberArray[1]);
-            binding.spnCountryCode.setSelection(Arrays.asList(countryCodes).indexOf(phoneNumberArray[0]));
+            if(!phoneNumber.isEmpty()) {
+                String[] phoneNumberArray = phoneNumber.split(" ");
+                binding.txtPhnEntry.setText(phoneNumberArray[1]);
+                binding.spnCountryCode.setSelection(Arrays.asList(countryCodes).indexOf(phoneNumberArray[0]));
+            }
         }
 
         binding.btnGetCode.setOnClickListener(v -> {
