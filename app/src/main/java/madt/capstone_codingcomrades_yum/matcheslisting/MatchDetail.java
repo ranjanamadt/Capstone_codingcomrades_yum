@@ -50,12 +50,12 @@ public class MatchDetail extends BaseActivity {
                 public void onSuccess(DocumentSnapshot document) {
                     matchUser = new User(document);
                     binding.mdUserName.setText(matchUser.getFullName());
-                    binding.mdAge.setText(String.valueOf(matchUser.getAge()));
+                    binding.mdAge.setText(String.valueOf(matchUser.getAge()) + " Years");
                     binding.mdBio.setText( matchUser.getAboutMe() );
-                    addNotEat(Arrays.asList(matchUser.getNot_eat()));
-                    addEnjoyEating(Arrays.asList(matchUser.getEnjoy_eating()));
-                    addInterests(Arrays.asList(matchUser.getInterest()));
-                    addNotTalk(Arrays.asList(matchUser.getNot_talk()));
+                    addNotEat((List<String>)matchUser.getNot_eat());
+                    addEnjoyEating((List<String>)matchUser.getEnjoy_eating());
+                    addInterests((List<String>)matchUser.getInterest());
+                    addNotTalk((List<String>)matchUser.getNot_talk());
 
                     if(matchUser.getProfileImage() != null){
                         binding.imageBtn.setImageBitmap(matchUser.getProfileBitmapImage());
@@ -131,16 +131,16 @@ public class MatchDetail extends BaseActivity {
         });
     }
 
-    private void addEnjoyEating(List<Object> enjoyEatingList) {
-        for (Object enjoyEat : enjoyEatingList) {
+    private void addEnjoyEating(List<String> enjoyEatingList) {
+        for (String enjoyEat : enjoyEatingList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipLikes, false);
             newChip.setText(enjoyEat.toString());
             binding.chipLikes.addView(newChip);
         }
     }
 
-    private void addInterests(List<Object> tasteList) {
-        for (Object taste : tasteList) {
+    private void addInterests(List<String> tasteList) {
+        for (String taste : tasteList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipTopics, false);
             newChip.setText(taste.toString());
             binding.chipTopics.addView(newChip);
@@ -148,8 +148,8 @@ public class MatchDetail extends BaseActivity {
     }
 
 
-    private void addNotEat(List<Object> notEatList) {
-        for (Object notEat : notEatList) {
+    private void addNotEat(List<String> notEatList) {
+        for (String notEat : notEatList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipDontEat, false);
             newChip.setText(notEat.toString());
             binding.chipDontEat.addView(newChip);
@@ -157,8 +157,8 @@ public class MatchDetail extends BaseActivity {
 
     }
 
-    private void addNotTalk(List<Object> notTalkList) {
-        for (Object notTalk : notTalkList) {
+    private void addNotTalk(List<String> notTalkList) {
+        for (String notTalk : notTalkList) {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipDontTalk, false);
             newChip.setText(notTalk.toString());
             binding.chipDontTalk.addView(newChip);

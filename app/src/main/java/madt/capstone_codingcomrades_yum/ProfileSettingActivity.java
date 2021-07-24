@@ -285,8 +285,10 @@ public class ProfileSettingActivity extends BaseActivity {
                 addTalkAbout((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
-                //getuserlocation((Double)documentSnapshot.get(FSConstants.USER.LATITUDE), (Double)documentSnapshot.get(FSConstants.USER.LONGITUDE));
 
+                String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
+                String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
+                getuserlocation(Double.parseDouble(latitude), Double.parseDouble(longitude));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -304,7 +306,7 @@ public class ProfileSettingActivity extends BaseActivity {
         try {
             addresses = gcd.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
-                binding.myLocation.setText(addresses.get(0).getLocality());
+                binding.myLocation.setText(addresses.get(0).getSubLocality());
             }
         } catch (IOException e) {
             e.printStackTrace();
