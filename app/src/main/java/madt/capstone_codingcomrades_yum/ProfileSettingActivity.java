@@ -52,6 +52,7 @@ public class ProfileSettingActivity extends BaseActivity {
     List<String> resultNotEat = new ArrayList<>();
     List<String> resultNotTalk = new ArrayList<>();
     List<String> otherLocations = new ArrayList<>();
+    List<String> profileImageList = new ArrayList<>();
     Boolean checkEating = false, checkTaste = false, checkInterest = false, checkNoEat = false, checkNoTalk = false;
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Any"};
     int minAgeSeekBar = 18;
@@ -289,6 +290,10 @@ public class ProfileSettingActivity extends BaseActivity {
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
                 binding.number.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
+
+                profileImageList = ((List<String>) documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE));
+                ImageGridAdapter imageGridAdapter = new ImageGridAdapter(getApplicationContext(), profileImageList);
+                binding.simpleGridView.setAdapter(imageGridAdapter);
 
                 String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
                 String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
