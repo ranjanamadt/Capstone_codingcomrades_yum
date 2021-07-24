@@ -86,7 +86,7 @@
                         android:fontFamily="@font/segoe_ui"
                         android:text="Looking for a partner fon!"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="@dimen/_16sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -113,7 +113,7 @@
                         android:id="@+id/chipLikes"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdLikes" />
@@ -137,7 +137,7 @@
                         android:id="@+id/chipTopics"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdTopics" />
@@ -161,7 +161,7 @@
                         android:id="@+id/chipDontEat"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdDontEat" />
@@ -208,6 +208,7 @@
                         android:id="@+id/textView23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/_14sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:text="@string/about_me"
                         app:layout_constraintStart_toStartOf="@+id/mdUserName"
