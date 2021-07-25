@@ -24,7 +24,18 @@ public class User {
     String gender;
     String sePref;
     String aboutMe;
-
+    String phoneNumber;
+    List<String> profileImage;
+    Boolean activeStatus;
+    List<String> interest;
+    List<String> not_eat;
+    List<String> not_talk;
+    List<String> taste;
+    List<String> enjoy_eating;
+    List<String> report_list;
+    List<String> matched_users;
+    String deviceToken;
+    List<String> preferences;
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -33,10 +44,9 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    String phoneNumber;
-    List<String> profileImage;
 
-    String deviceToken;
+
+
 
     public Boolean getActiveStatus() {
         return activeStatus;
@@ -46,14 +56,7 @@ public class User {
         this.activeStatus = activeStatus;
     }
 
-    Boolean activeStatus;
-    List<String> interest;
-    List<String> not_eat;
-    List<String> not_talk;
-    List<String> taste;
-    List<String> enjoy_eating;
-    List<String> report_list;
-    List<String> matched_users;
+
 
     public String getDeviceToken() {
         return deviceToken;
@@ -71,7 +74,7 @@ public class User {
         this.preferences = preferences;
     }
 
-    List<String> preferences;
+
 
     public List<String> getProfileImage() {
         return profileImage;
@@ -105,7 +108,6 @@ public class User {
         this.taste =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.TASTE);
         this.enjoy_eating = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
         this.preferences = (List<String>)document.get(FSConstants.USER.PREFERENCES);
-
         this.report_list =  (List<String>)document.get(FSConstants.USER.REPORT_LIST) != null  ? (List<String>)document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
         this.matched_users =  (List<String>)document.get(FSConstants.USER.MATCHED_USERS) != null  ? (List<String>)document.get(FSConstants.USER.MATCHED_USERS) : new ArrayList<>();
     }
