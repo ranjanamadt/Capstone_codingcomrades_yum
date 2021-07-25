@@ -136,6 +136,7 @@ public class FinishProfileActivity extends BaseActivity {
                 addTaste((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE));
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
+                addInterest((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
 
                 preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING));
                 preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.TASTE));
@@ -470,7 +471,7 @@ public class FinishProfileActivity extends BaseActivity {
 
     private void addNotEat(List<String> notEatList) {
         for (String notEat : notEatList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipGroupNotEat, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.purple_chip_without_close, binding.chipGroupNotEat, false);
             newChip.setText(notEat);
             binding.chipGroupNotEat.addView(newChip);
         }
@@ -480,7 +481,7 @@ public class FinishProfileActivity extends BaseActivity {
 
     private void addNotTalk(List<String> notTalkList) {
         for (String notTalk : notTalkList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipGroupNotTalk, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipGroupNotTalk, false);
             newChip.setText(notTalk);
             binding.chipGroupNotTalk.addView(newChip);
 
@@ -490,6 +491,14 @@ public class FinishProfileActivity extends BaseActivity {
                     binding.chipGroupNotTalk.removeView(v);
                 }
             });
+        }
+    }
+
+    private void addInterest(List<String> interestList) {
+        for (String interest : interestList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipGroupTopic, false);
+            newChip.setText(interest);
+            binding.chipGroupTopic.addView(newChip);
         }
     }
 }

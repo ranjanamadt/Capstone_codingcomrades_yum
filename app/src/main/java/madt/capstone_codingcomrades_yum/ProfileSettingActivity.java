@@ -188,7 +188,7 @@ public class ProfileSettingActivity extends BaseActivity {
                                 Double longitude = address.getLongitude();
                                 editedLat = address.getLatitude();
                                 editedLng = address.getLongitude();
-                                binding.myLocation.setText(cityName);
+                                binding.myLocation.setText(cityName.substring(0, 1).toUpperCase() + cityName.substring(1));
 
                                 /*if (otherLocations != null && !otherLocations.isEmpty()) {
                                     if (!otherLocations.contains(cityName)) {
@@ -369,8 +369,8 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.simpleGridView.setAdapter(imageGridAdapter);
 
 
-                String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
-                String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
+                String latitude = documentSnapshot.get(FSConstants.USER.LATITUDE).toString();
+                String longitude = documentSnapshot.get(FSConstants.USER.LONGITUDE).toString();
                 editedLat = Double.parseDouble(latitude);
                 editedLng = Double.parseDouble(longitude);
 
@@ -391,7 +391,7 @@ public class ProfileSettingActivity extends BaseActivity {
         try {
             addresses = gcd.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
-                binding.myLocation.setText(addresses.get(0).getSubLocality());
+                binding.myLocation.setText(addresses.get(0).getLocality());
             }
         } catch (IOException e) {
             e.printStackTrace();
