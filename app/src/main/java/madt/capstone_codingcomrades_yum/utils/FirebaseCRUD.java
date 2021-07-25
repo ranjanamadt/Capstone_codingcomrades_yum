@@ -83,10 +83,9 @@ public class FirebaseCRUD {
         return db.collection(collection).document(documentId).delete();
     }
 
-    public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer,  List<? extends Object> reportedUsers) {
+    public Task<QuerySnapshot> findMatches() {
         Query queryResult = db.collection(FSConstants.Collections.USERS)
                 .whereNotEqualTo(FieldPath.documentId(), FirebaseAuth.getInstance().getUid());
-
         return queryResult.get();
                 // already matched
 //                .whereNotIn(FieldPath.documentId(),FirebaseAuth.getInstance().getUid())

@@ -3,6 +3,7 @@ package madt.capstone_codingcomrades_yum.matcheslisting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -170,11 +171,7 @@ public class MatchesFragment extends BaseFragment {
         CommonUtils.showProgress(getActivity());
 
         FirebaseCRUD.getInstance().
-                findMatches(FSConstants.Collections.USERS,
-                        mLoginDetail.getPreferences(),
-                        mLoginDetail.getReport_list()
-
-                ).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                findMatches().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
@@ -182,16 +179,45 @@ public class MatchesFragment extends BaseFragment {
                 List<String> reported = mLoginDetail.getReport_list();
                 List<String> matched = mLoginDetail.getMatched_users();
                 List<String> myPreferences = mLoginDetail.getPreferences();
+                int maxDistance = mLoginDetail.getMaxDistance();
+                int mLoginDetailMaxAge = mLoginDetail.getMaxAge();
+                int mLoginDetailMinAge = mLoginDetail.getMaxAge();
+                String mLoginDetailLookingFor = mLoginDetail.getLookingFor();
+
+                Location locationLoginUser = new Location("locationA");// creates the location a object
+//                locationLoginUser.setLatitude(mLoginDetail.getLatitude());// sets the location a latitude
+//                locationLoginUser.setLongitude(mLoginDetail.getLongitude());// sets the location a longitude
+                Log.d("MATCHES ITERATION :", "************************************************************************");
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                     List<String> matchPreferences = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.TASTE);
                     Boolean active = document.get(FSConstants.USER.ACTIVE_STATUS) != null ? (Boolean) document.get(FSConstants.USER.ACTIVE_STATUS) : false ;
+                    // Match Location variables
+//                    Location matchLocation = new Location("locationB");
+//                    locationLoginUser.setLatitude((Double) document.get(FSConstants.USER.LATITUDE));// sets the location a latitude
+//                    locationLoginUser.setLongitude((Double) document.get(FSConstants.USER.LONGITUDE));// sets the location a longitude
+//                    Float distances = locationLoginUser.distanceTo(matchLocation);
+//                    // Match Age variables
+//                    int matchMinAge = (int) document.get(FSConstants.USER.MIN_AGE_PREFERENCE) ;
+//                    int matchMaxAge = (int) document.get(FSConstants.USER.MAX_AGE_PREFERENCE) ;
+//                    // Match Looking for variables
+//                    String matchGender = document.get(FSConstants.USER.GENDER).toString() ;
 
                     if(!active){
                         Log.e("Inactive :", document.getId());
-                    }else if (reported != null && reported.contains(document.getId())) {
+                    }
+//                    else if(distances > (float) maxDistance){
+//                        Log.e("Distances :", document.getId());
+//                    }else if (mLoginDetailMinAge < matchMinAge) {
+//                        Log.e("Older :", document.getId());
+//                    }else if (mLoginDetailMaxAge > matchMaxAge) {
+//                        Log.e("Younger :", document.getId());
+//                    }else if (!mLoginDetailLookingFor.equalsIgnoreCase(matchGender)) {
+//                        Log.e("Different gender :", document.getId());
+//                    }
+                    else if (reported != null && reported.contains(document.getId())) {
                         Log.e("Reported :", document.getId());
                     } else if (matched != null && matched.contains(document.getId())) {
-                        Log.e("Matched :", document.getId());
+                        Log.e("Already Matched :", document.getId());
                     } else if (matchPreferences != null && !validatePreferences(myPreferences, matchPreferences)) {
                         Log.e("Not common preferences:", document.getId());
                     } else {
