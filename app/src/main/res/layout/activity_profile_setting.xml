@@ -503,7 +503,7 @@
                     <Spinner
                         android:id="@+id/preference_looking"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="@dimen/_30sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="@+id/maximumAge"
                         app:layout_constraintHorizontal_bias="0.0"
