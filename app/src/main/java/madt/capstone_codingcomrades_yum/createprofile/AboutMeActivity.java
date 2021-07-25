@@ -134,6 +134,7 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.DOB, dob);
                     user.put(FSConstants.USER.GENDER, gender);
                     user.put(FSConstants.USER.SEX_PREFER, sePref);
+                    user.put(FSConstants.USER.ACTIVE_STATUS,true);
                     user.put(FSConstants.USER.PHONE_NUMBER, phoneNumber);
                     user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
                     Log.e("is exist :", isUserExist + "//");

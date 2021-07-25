@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +37,10 @@ import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
 import madt.capstone_codingcomrades_yum.databinding.ActivityProfileSettingBinding;
+import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.login.LoginWithPhoneNumberActivity;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
@@ -58,12 +63,17 @@ public class ProfileSettingActivity extends BaseActivity {
     int minAgeSeekBar = 18;
     int maxAgeSeekBar = 18;
     int maxDistanceSeekBar = 2;
+    Boolean activeStatus= false;
+    Boolean statusCheck=false;
 
-
+    LoginUserDetail userDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_setting);
+
+         userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
+
 
 
         binding.preferenceLooking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
@@ -133,6 +143,16 @@ public class ProfileSettingActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+        binding.switchAvailable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(statusCheck) {
+                        changeActiveStatus(isChecked);
+                }else {
+                    statusCheck=true;
+                }
             }
         });
 
@@ -234,10 +254,14 @@ public class ProfileSettingActivity extends BaseActivity {
                 editProfile.put(FSConstants.USER.LOOKING_FOR, binding.preferenceLooking.getSelectedItem());
                 editProfile.put(FSConstants.USER.MAX_DISTANCE, maxDistanceSeekBar);
 
+
+
+
+
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), editProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        ySnackbar(ProfileSettingActivity.this, getString(R.string.success_updating_user));
+                        yToast(ProfileSettingActivity.this, getString(R.string.success_updating_user));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -256,6 +280,27 @@ public class ProfileSettingActivity extends BaseActivity {
         getInterestsPreferences();
 
 
+    }
+
+    private void changeActiveStatus(Boolean activeStatus) {
+
+        Map<String, Object> activeStatusRequest = new HashMap<>();
+        activeStatusRequest.put(FSConstants.USER.ACTIVE_STATUS, activeStatus);
+
+
+
+        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), activeStatusRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                yToast(ProfileSettingActivity.this, getString(R.string.status_updated_sucessfully));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                CommonUtils.hideProgress();
+                ySnackbar(ProfileSettingActivity.this, getString(R.string.error_saving_user));
+            }
+        });
     }
 
     @Override
@@ -296,6 +341,8 @@ public class ProfileSettingActivity extends BaseActivity {
                 addNotEat((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_EAT));
                 addNotTalk((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
                 binding.number.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
+                activeStatus =(Boolean) documentSnapshot.get(FSConstants.USER.ACTIVE_STATUS);
+                binding.switchAvailable.setChecked(activeStatus);
 
                 profileImageList = ((List<String>) documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE));
                 if(profileImageList.size() == 1){

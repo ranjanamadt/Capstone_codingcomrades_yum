@@ -152,4 +152,6 @@
     <string name="no_talk_preference">No Talk Preference</string>
     <string name="minimum_age">Minimum age</string>
     <string name="maximum_age">Maximum age</string>
+    <string name="available">Available</string>
+    <string name="status_updated_sucessfully">"Status Updated Successfully "</string>
 </resources>

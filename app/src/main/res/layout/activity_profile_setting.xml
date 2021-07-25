@@ -156,13 +156,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_16sdp"
                         android:fontFamily="@font/segoe_ui_bold"
+                        android:layout_marginTop="@dimen/_20sdp"
                         android:text="@string/disc_settings"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/payment_Btn" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtAvailable" />
 
                     <TextView
                         android:id="@+id/settings_location"
@@ -537,12 +537,39 @@
                         android:id="@+id/imgEditPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
                         android:padding="@dimen/_3sdp"
                         app:layout_constraintBottom_toBottomOf="@+id/number"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/number"
                         app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+                    <TextView
+                        android:id="@+id/txtAvailable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:text="@string/available"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp"
+                        android:fontFamily="@font/segoe_ui_bold"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        app:layout_constraintEnd_toStartOf="@+id/switchAvailable"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/payment_Btn" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchAvailable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:text=""
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/txtAvailable"
+                        app:layout_constraintTop_toTopOf="@+id/txtAvailable" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

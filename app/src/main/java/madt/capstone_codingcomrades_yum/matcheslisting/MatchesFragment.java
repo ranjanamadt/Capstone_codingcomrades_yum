@@ -295,8 +295,6 @@ public class MatchesFragment extends BaseFragment {
                         launcher.launch(i);
                     }
                 });
-
-
             }
 
 

@@ -253,7 +253,8 @@ public class FinishProfileActivity extends BaseActivity {
                             user.getEnjoy_eating(),
                             user.getReport_list(),
                             user.getPreferences(),
-                            user.getMatched_users()
+                            user.getMatched_users(),
+                            user.getActiveStatus()
                     );
 
                     yLog("loginUserDetail: ", new Gson().toJson(loginUserDetail));

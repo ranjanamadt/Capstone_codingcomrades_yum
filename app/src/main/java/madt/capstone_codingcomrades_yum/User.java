@@ -37,6 +37,16 @@ public class User {
     List<String> profileImage;
 
     String deviceToken;
+
+    public Boolean getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(Boolean activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
+    Boolean activeStatus;
     List<String> interest;
     List<String> not_eat;
     List<String> not_talk;
@@ -86,6 +96,7 @@ public class User {
         this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
         this.deviceToken=document.get(FSConstants.USER.DEVICE_TOKEN).toString();
         this.phoneNumber=document.get(FSConstants.USER.PHONE_NUMBER).toString();
+        this.activeStatus= (Boolean) document.get(FSConstants.USER.ACTIVE_STATUS);
         this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
         this.profileImage = (List<String>)document.get(FSConstants.USER.PROFILE_IMAGE);
         this.interest =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.INTEREST);
