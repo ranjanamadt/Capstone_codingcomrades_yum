@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void yToast(Activity activity, String message) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     protected static void ySnackbar(Activity activity, String message) {
