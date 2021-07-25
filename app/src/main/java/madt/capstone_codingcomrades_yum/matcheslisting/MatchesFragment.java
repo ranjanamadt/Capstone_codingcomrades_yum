@@ -184,8 +184,11 @@ public class MatchesFragment extends BaseFragment {
                 List<String> myPreferences = mLoginDetail.getPreferences();
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
                     List<String> matchPreferences = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.TASTE);
+                    Boolean active = document.get(FSConstants.USER.ACTIVE_STATUS) != null ? (Boolean) document.get(FSConstants.USER.ACTIVE_STATUS) : false ;
 
-                    if (reported != null && reported.contains(document.getId())) {
+                    if(!active){
+                        Log.e("Inactive :", document.getId());
+                    }else if (reported != null && reported.contains(document.getId())) {
                         Log.e("Reported :", document.getId());
                     } else if (matched != null && matched.contains(document.getId())) {
                         Log.e("Matched :", document.getId());

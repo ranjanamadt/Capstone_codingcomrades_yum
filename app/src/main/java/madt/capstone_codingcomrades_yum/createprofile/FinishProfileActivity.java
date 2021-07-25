@@ -254,7 +254,13 @@ public class FinishProfileActivity extends BaseActivity {
                             user.getReport_list(),
                             user.getPreferences(),
                             user.getMatched_users(),
-                            user.getActiveStatus()
+                            user.getActiveStatus(),
+                            user.getLatitude(),
+                            user.getLongitude(),
+                            user.getMinAge(),
+                            user.getMaxAge(),
+                            user.getLookingFor(),
+                            user.getMaxDistance()
                     );
 
                     yLog("loginUserDetail: ", new Gson().toJson(loginUserDetail));
