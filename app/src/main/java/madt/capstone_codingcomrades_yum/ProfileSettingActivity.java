@@ -65,16 +65,13 @@ public class ProfileSettingActivity extends BaseActivity {
     int maxDistanceSeekBar = 2;
     Boolean activeStatus= false;
     Boolean statusCheck=false;
-
+    Double editedLat, editedLng;
     LoginUserDetail userDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_setting);
-
-         userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
-
-
 
         binding.preferenceLooking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
@@ -156,7 +153,7 @@ public class ProfileSettingActivity extends BaseActivity {
             }
         });
 
-        binding.newLocation.setOnClickListener(new View.OnClickListener() {
+        binding.imgEditLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileSettingActivity.this);
@@ -189,8 +186,11 @@ public class ProfileSettingActivity extends BaseActivity {
 
                                 Double latitude = address.getLatitude();
                                 Double longitude = address.getLongitude();
+                                editedLat = address.getLatitude();
+                                editedLng = address.getLongitude();
+                                binding.myLocation.setText(cityName);
 
-                                if (otherLocations != null && !otherLocations.isEmpty()) {
+                                /*if (otherLocations != null && !otherLocations.isEmpty()) {
                                     if (!otherLocations.contains(cityName)) {
                                         otherLocations.add(cityName);
                                         addLocationChip(cityName);
@@ -200,10 +200,10 @@ public class ProfileSettingActivity extends BaseActivity {
                                 } else {
                                     otherLocations.add(cityName);
                                     addLocationChip(cityName);
-                                }
+                                }*/
 
-                                yLog("other locations: ", otherLocations.toString());
-                                ySnackbar(ProfileSettingActivity.this, "other locations: " + otherLocations.toString());
+                                //yLog("other locations: ", otherLocations.toString());
+                                //ySnackbar(ProfileSettingActivity.this, "other locations: " + otherLocations.toString());
                             } else {
                                 alertDialog.dismiss();
                                 ySnackbar(ProfileSettingActivity.this, getString(R.string.err_city_not_found));
@@ -248,19 +248,29 @@ public class ProfileSettingActivity extends BaseActivity {
                 editProfile.put(FSConstants.PREFERENCE_TYPE.INTEREST, resultInterest);
                 editProfile.put(FSConstants.PREFERENCE_TYPE.NOT_EAT, resultNotEat);
                 editProfile.put(FSConstants.PREFERENCE_TYPE.NOT_TALK, resultNotTalk);
-                editProfile.put(FSConstants.USER.OTHER_LOCATIONS, otherLocations);
+                editProfile.put(FSConstants.USER.LATITUDE, editedLat);
+                editProfile.put(FSConstants.USER.LONGITUDE, editedLng);
                 editProfile.put(FSConstants.USER.MIN_AGE_PREFERENCE, minAgeSeekBar);
                 editProfile.put(FSConstants.USER.MAX_AGE_PREFERENCE, maxAgeSeekBar);
-                editProfile.put(FSConstants.USER.LOOKING_FOR, binding.preferenceLooking.getSelectedItem());
+                editProfile.put(FSConstants.USER.LOOKING_FOR, binding.preferenceLooking.getSelectedItem().toString());
                 editProfile.put(FSConstants.USER.MAX_DISTANCE, maxDistanceSeekBar);
-
-
-
-
 
                 FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), editProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        userDetail.setEnjoy_eating(resultEating);
+                        userDetail.setTaste(resultTastes);
+                        userDetail.setInterest(resultInterest);
+                        userDetail.setNot_eat(resultNotEat);
+                        userDetail.setNot_talk(resultNotTalk);
+                        userDetail.setLatitude(editedLat);
+                        userDetail.setLongitude(editedLng);
+                        userDetail.setMinAge(minAgeSeekBar);
+                        userDetail.setMaxAge(maxAgeSeekBar);
+                        userDetail.setLookingFor(binding.preferenceLooking.getSelectedItem().toString());
+                        userDetail.setMaxDistance(maxDistanceSeekBar);
+                        AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(userDetail).toString());
+
                         yToast(ProfileSettingActivity.this, getString(R.string.success_updating_user));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -329,6 +339,9 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.chipGroupNoTalkPref.removeAllViews();
         binding.chipGroupTalkPref.removeAllViews();
         binding.chipGroupTastePref.removeAllViews();
+
+        userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
+
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -358,7 +371,8 @@ public class ProfileSettingActivity extends BaseActivity {
 
                 String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
                 String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
-
+                editedLat = Double.parseDouble(latitude);
+                editedLng = Double.parseDouble(longitude);
 
                 getuserlocation(Double.parseDouble(latitude), Double.parseDouble(longitude));
             }

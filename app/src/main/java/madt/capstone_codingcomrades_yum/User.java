@@ -3,6 +3,7 @@ package madt.capstone_codingcomrades_yum;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -24,6 +25,12 @@ public class User {
     String gender;
     String sePref;
     String aboutMe;
+    Double latitude;
+    Double longitude;
+    int minAge;
+    int maxAge;
+    String lookingFor;
+    int maxDistance;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -88,26 +95,36 @@ public class User {
     public User(DocumentSnapshot document) {
         this.document = document;
 
-        this.uuid = document.getId();
-        this.firstName = document.get(FSConstants.USER.FIRST_NAME).toString();
-        this.lastName = document.get(FSConstants.USER.LAST_NAME).toString();
-        this.dob = document.get(FSConstants.USER.DOB).toString();
-        this.gender = document.get(FSConstants.USER.GENDER).toString();
-        this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
-        this.deviceToken=document.get(FSConstants.USER.DEVICE_TOKEN).toString();
-        this.phoneNumber=document.get(FSConstants.USER.PHONE_NUMBER).toString();
-        this.activeStatus= (Boolean) document.get(FSConstants.USER.ACTIVE_STATUS);
-        this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
-        this.profileImage = (List<String>)document.get(FSConstants.USER.PROFILE_IMAGE);
-        this.interest =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.INTEREST);
-        this.not_eat = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
-        this.not_talk =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
-        this.taste =(List<String>)document.get(FSConstants.PREFERENCE_TYPE.TASTE);
-        this.enjoy_eating = (List<String>)document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
-        this.preferences = (List<String>)document.get(FSConstants.USER.PREFERENCES);
+        try {
+            this.uuid = document.getId();
+            this.firstName = document.get(FSConstants.USER.FIRST_NAME).toString();
+            this.lastName = document.get(FSConstants.USER.LAST_NAME).toString();
+            this.dob = document.get(FSConstants.USER.DOB).toString();
+            this.gender = document.get(FSConstants.USER.GENDER).toString();
+            this.sePref = document.get(FSConstants.USER.SEX_PREFER).toString();
+            this.deviceToken = document.get(FSConstants.USER.DEVICE_TOKEN).toString();
+            this.phoneNumber = document.get(FSConstants.USER.PHONE_NUMBER).toString();
+            this.aboutMe = document.get(FSConstants.USER.ABOUT_ME) != null ? document.get(FSConstants.USER.ABOUT_ME).toString() : "";
+            this.profileImage = (List<String>) document.get(FSConstants.USER.PROFILE_IMAGE);
+            this.interest = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.INTEREST);
+            this.not_eat = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.NOT_EAT);
+            this.not_talk = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.NOT_TALK);
+            this.taste = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.TASTE);
+            this.enjoy_eating = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
+            this.preferences = (List<String>) document.get(FSConstants.USER.PREFERENCES);
 
-        this.report_list =  (List<String>)document.get(FSConstants.USER.REPORT_LIST) != null  ? (List<String>)document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
-        this.matched_users =  (List<String>)document.get(FSConstants.USER.MATCHED_USERS) != null  ? (List<String>)document.get(FSConstants.USER.MATCHED_USERS) : new ArrayList<>();
+            this.report_list = (List<String>) document.get(FSConstants.USER.REPORT_LIST) != null ? (List<String>) document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
+            this.matched_users = (List<String>) document.get(FSConstants.USER.MATCHED_USERS) != null ? (List<String>) document.get(FSConstants.USER.MATCHED_USERS) : new ArrayList<>();
+            this.latitude = Double.parseDouble((String) document.get(FSConstants.USER.LATITUDE));
+            this.longitude = Double.parseDouble((String) document.get(FSConstants.USER.LONGITUDE));
+            Log.e("minAge: ", document.get(FSConstants.USER.MIN_AGE_PREFERENCE).toString());
+            this.minAge = Integer.parseInt(document.get(FSConstants.USER.MIN_AGE_PREFERENCE).toString());
+            this.maxAge = Integer.parseInt(document.get(FSConstants.USER.MAX_AGE_PREFERENCE).toString());
+            this.lookingFor = document.get(FSConstants.USER.LOOKING_FOR) != null ? document.get(FSConstants.USER.LOOKING_FOR).toString() : "Male";
+            this.maxDistance = Integer.parseInt((String) document.get(FSConstants.USER.MAX_DISTANCE));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public List<String> getMatched_users() {
@@ -242,6 +259,54 @@ public class User {
 
     public void setSePref(String sePref) {
         this.sePref = sePref;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
+    }
+
+    public int getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    public String getLookingFor() {
+        return lookingFor;
+    }
+
+    public void setLookingFor(String lookingFor) {
+        this.lookingFor = lookingFor;
+    }
+
+    public int getMaxDistance() {
+        return maxDistance;
+    }
+
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
     }
 
 
