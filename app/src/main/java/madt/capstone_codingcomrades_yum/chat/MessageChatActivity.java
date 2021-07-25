@@ -52,6 +52,8 @@ public class MessageChatActivity extends BaseActivity {
     public static ChatDetail chatUserDetail;
 
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,9 +131,6 @@ public class MessageChatActivity extends BaseActivity {
                     binding.editText.setText("");
 
 
-/*                    Map<String, Object> currentMessageList = new HashMap<>();
-                    currentMessageList.put(FSConstants.CHAT_List.MESSAGES, chatList);*/
-
                     FirebaseCRUD.getInstance().updateDoc(collectionID, mLoginDetail.getUuid() + chatUserDetail.receiverId, currentChatList).addOnCompleteListener(new OnCompleteListener<Void>() {
 
                         @Override
@@ -169,35 +168,19 @@ public class MessageChatActivity extends BaseActivity {
         if (getIntent().hasExtra(FSConstants.CHAT_List.CHAT_ID)) {
 
 
-           /* FirebaseCRUD.getInstance().getDocument(collectionID , getIntent().getStringExtra(FSConstants.CHAT_List.CHAT_ID)).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    chatList = (List<Message>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES);
-
-                    for (HashMap<String, Object> messageObj : (ArrayList<HashMap<String, Object>>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES)) {
-                        Message msg = new Message(messageObj);
-                        if(msg.getSenderId().equalsIgnoreCase(mLoginDetail.getUuid())){
-                            messageAdapter.add(new SendMessageItem(msg));
-                        }else{
-                            messageAdapter.add(new ReceiveMessageItem(msg));
-
-                        }
-                    }
-                }
-            });*/
-
-
             FirebaseFirestore.getInstance().collection(collectionID).document(getIntent().getStringExtra(FSConstants.CHAT_List.CHAT_ID))
                     .addSnapshotListener(MetadataChanges.INCLUDE, (documentSnapshot, e) -> {
                         yLog("in ", "event listener");
                         chatList.clear();
+                        // messageAdapter.notifyDataSetChanged();
+                        messageAdapter.clear();
                         messageAdapter.notifyDataSetChanged();
                         if (documentSnapshot.exists()) {
                             chatList = (List<Message>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES);
-
+                            yLog("list size: ", chatList.size() + "//");
                             for (HashMap<String, Object> messageObj : (ArrayList<HashMap<String, Object>>) documentSnapshot.get(FSConstants.CHAT_List.MESSAGES)) {
                                 Message msg = new Message(messageObj);
-                                yLog("sender id :",msg.getSenderId());
+                                yLog("sender id :", msg.getSenderId());
                                 if (msg.getSenderId().equalsIgnoreCase(mLoginDetail.getUuid())) {
                                     messageAdapter.add(new SendMessageItem(msg));
                                 } else {
@@ -206,6 +189,7 @@ public class MessageChatActivity extends BaseActivity {
                                 }
                             }
                         }
+                        binding.messagesChatRV.scrollToPosition(chatList.size()-1);
                     });
 
 

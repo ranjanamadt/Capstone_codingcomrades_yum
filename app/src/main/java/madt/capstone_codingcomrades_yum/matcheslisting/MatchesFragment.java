@@ -104,7 +104,7 @@ public class MatchesFragment extends BaseFragment {
 
                 ));
 
-                // Method to create chat room for Logged In User
+                // CHATROOM ADDED IN DB FOR CURRENT USER
                 ChatMessagesHelper.createCurrentUserChatRoom(mLoginDetail.getUuid() +
                         matchesList.get(position).getUuid(), currentChatList);
 
@@ -128,7 +128,7 @@ public class MatchesFragment extends BaseFragment {
                         , mLoginDetail.getFullName() + " liked your profile!");
 
 
-                // Method to create chat room for Liked User
+                // CHATROOM ADDED IN DB FOR OTHER USER
                 ChatMessagesHelper.createLikedUserChatRoom(
                         matchesList.get(position).getUuid(),matchesList.get(position).getUuid() + mLoginDetail.getUuid(),  likedChatList);
             }
@@ -179,16 +179,19 @@ public class MatchesFragment extends BaseFragment {
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
 //                        Log.e("matches :", task.getResult()+ "//");
                 matchesList.clear();
-
+                List<String> reported = mLoginDetail.getReport_list();
+                List<String> matched = mLoginDetail.getMatched_users();
+                List<String> myPreferences = mLoginDetail.getPreferences();
                 for (DocumentSnapshot document : task.getResult().getDocuments()) {
-                    List<String> reported = mLoginDetail.getReport_list();
-                    List<String> matched = mLoginDetail.getMatched_users();
+                    List<String> matchPreferences = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.TASTE);
+
                     if (reported != null && reported.contains(document.getId())) {
                         Log.e("Reported :", document.getId());
                     } else if (matched != null && matched.contains(document.getId())) {
                         Log.e("Matched :", document.getId());
+                    } else if (matchPreferences != null && !validatePreferences(myPreferences, matchPreferences)) {
+                        Log.e("Not common preferences:", document.getId());
                     } else {
-                        yLog("document matchlist: ", document.toString());
                         matchesList.add(new User(document));
                     }
 
@@ -210,6 +213,17 @@ public class MatchesFragment extends BaseFragment {
         });
 
 
+    }
+
+    public Boolean validatePreferences(List<String> myPreferences, List<String> matchPreferences){
+
+
+        for (String matchPref: matchPreferences) {
+            if(myPreferences.contains(matchPref)){
+                return true;
+            }
+        }
+        return false;
     }
 
     class MatchesAdapter extends BaseAdapter {

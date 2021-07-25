@@ -1,12 +1,9 @@
 package madt.capstone_codingcomrades_yum;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -20,47 +17,33 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.gson.Gson;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderView;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
-import madt.capstone_codingcomrades_yum.createprofile.FinishProfileActivity;
 import madt.capstone_codingcomrades_yum.databinding.FragmentProfileBinding;
-import madt.capstone_codingcomrades_yum.login.LoginActivity;
 import madt.capstone_codingcomrades_yum.login.LoginUserDetail;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
-import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
-import madt.capstone_codingcomrades_yum.utils.ProfileSettings;
 
 public class ProfileFragment extends BaseFragment {
     FragmentProfileBinding binding;
@@ -98,10 +81,10 @@ public class ProfileFragment extends BaseFragment {
 
 
             yLog("userDetail.getProfileImage().size(): ", String.valueOf(userDetail.getProfileImage().size()));
-            if(userDetail.getProfileImage().size() > 0){
+            if (userDetail.getProfileImage().size() > 0) {
                 profileImagesStringList = new ArrayList<>();
 
-                for (int i = 0; i < userDetail.getProfileImage().size(); i++){
+                for (int i = 0; i < userDetail.getProfileImage().size(); i++) {
                     byte[] fireStoreImg = userDetail.getProfileImage().get(i).getBytes();
                     String fireStoreStr = new String(fireStoreImg, "UTF-8");
                     byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
@@ -143,6 +126,12 @@ public class ProfileFragment extends BaseFragment {
         binding.addPictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(profileImagesStringList.size() > 1){
+                    ySnackbar(getActivity(), getString(R.string.not_more_than_2_images));
+                    return;
+                }
+
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -159,51 +148,52 @@ public class ProfileFragment extends BaseFragment {
                         // There are no request codes
                         Intent data = result.getData();
                         try {
-                            profileImagesUriList.add(MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), data.getData()));
+                            if (data != null) {
+                                profileImagesUriList.add(MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), data.getData()));
+
+
+                                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                                binding.imageSlider.setSliderAdapter(sliderAdapter);
+                                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                                binding.imageSlider.startAutoCycle();
+
+                                InputStream imageStream = null;
+
+                                if (data != null)
+                                    imageStream = applicationContext.getContentResolver().openInputStream(data.getData());
+
+                                Bitmap profileImgBitmap = BitmapFactory.decodeStream(imageStream);
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                byte[] profileImgByte = baos.toByteArray();
+                                String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
+                                profileImagesStringList.add(profileImgString);
+
+                                Map<String, Object> addImages = new HashMap<>();
+                                addImages.put(FSConstants.USER.PROFILE_IMAGE, profileImagesStringList);
+
+
+                                //CommonUtils.showProgress(FinishProfileActivity.this);
+                                yLog("profileImagesStringList length : ", String.valueOf(profileImagesStringList.size()));
+                                FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), addImages).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        //userDetailJson.put(FSConstants.USER.PROFILE_IMAGE, profileImagesStringList);
+                                        userDetail.setProfileImage(profileImagesStringList);
+                                        AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(userDetail).toString());
+                                    }
+
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                                        //CommonUtils.hideProgress();
+                                    }
+                                });
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                        binding.imageSlider.setSliderAdapter(sliderAdapter);
-                        binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                        //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                        binding.imageSlider.startAutoCycle();
-
-                        InputStream imageStream = null;
-                        try {
-                            imageStream = applicationContext.getContentResolver().openInputStream(data.getData());
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        Bitmap profileImgBitmap = BitmapFactory.decodeStream(imageStream);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        profileImgBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] profileImgByte = baos.toByteArray();
-                        String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
-                        profileImagesStringList.add(profileImgString);
-
-                        Map<String, Object> addImages = new HashMap<>();
-                        addImages.put(FSConstants.USER.PROFILE_IMAGE, profileImagesStringList);
-
-
-                        //CommonUtils.showProgress(FinishProfileActivity.this);
-                        yLog("profileImagesStringList length : ", String.valueOf(profileImagesStringList.size()));
-                        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid(), addImages).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                //userDetailJson.put(FSConstants.USER.PROFILE_IMAGE, profileImagesStringList);
-                                userDetail.setProfileImage(profileImagesStringList);
-                                AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(userDetail).toString());
-                            }
-
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
-                                //CommonUtils.hideProgress();
-                                //ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_user));
-                            }
-                        });
                     }
                 });
 
@@ -215,13 +205,6 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonUtils.logoutNow(getActivity());
-
-            }
-        });
 
         return binding.getRoot();
     }

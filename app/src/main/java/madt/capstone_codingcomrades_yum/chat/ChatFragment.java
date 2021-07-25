@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,14 +37,26 @@ public class ChatFragment extends BaseFragment {
     private FragmentChatBinding binding;
     private ChatElementAdapter chatAdapter;
     private ArrayList<ChatDetail> chatList = new ArrayList<>();
-    ;
+    public static String searchKey = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         binding.recyclerList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        binding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchKey = query;
+                getChatList(searchKey );
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         CommonUtils.showProgress(getActivity());
 
         return binding.getRoot();
@@ -53,23 +66,25 @@ public class ChatFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         chatList.clear();
-        getChatList();
+        getChatList(searchKey);
     }
 
-    private void getChatList() {
+    private void getChatList(String textFilter) {
         String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" +
                 FSConstants.Collections.CHATROOM;
-        FirebaseCRUD.getInstance()
-                .getAll(collectionID).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseCRUD.getInstance().getAll(collectionID).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    int i = task.getResult().getDocuments().size();
-
+                    chatList.removeAll(chatList);
                     for (DocumentSnapshot document : task.getResult()) {
-                        ChatDetail userDetail = new ChatDetail(document);
 
-                        chatList.add(userDetail);
+                        ChatDetail userDetail = new ChatDetail(document);
+                        if(userDetail.getFirstName().contains(textFilter) ||
+                           userDetail.getLastName().contains(textFilter) ||
+                           userDetail.getLastMessage().contains(textFilter)){
+                            chatList.add(userDetail);
+                        }
                     }
                     yLog("chats", chatList.size() + "");
 
@@ -103,7 +118,6 @@ public class ChatFragment extends BaseFragment {
             holder.usernameTV.setText(chatEl.getFirstName() + " " + chatEl.getLastName());
             holder.timeTV.setText(CommonUtils.getTimeFromTimeStamp(chatEl.getLastMessageTimeStamp()));
             holder.dateTV.setText(CommonUtils.getDateFromTimeStamp(chatEl.getLastMessageTimeStamp()));
-//            yLog("profile image :",chatEl.getProfileImage()+"//");
             if (chatEl.getProfileImage() != null && !chatEl.getProfileImage().isEmpty())
                 holder.chatPicture.setImageBitmap(CommonUtils.getBitmapImage(chatEl.getProfileImage()));
             holder.lastMessageTV.setText(chatList.get(position).getLastMessage());

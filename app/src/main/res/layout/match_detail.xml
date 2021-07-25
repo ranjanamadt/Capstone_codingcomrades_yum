@@ -39,7 +39,7 @@
                         android:id="@+id/image_btn"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_250sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/segoe_ui_bold"
-                        android:text="Kamila Papoulous"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/_18sdp"
                         android:textStyle="bold"
@@ -68,7 +68,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/segoe_ui"
-                        android:text="28"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/_18sdp"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -84,9 +84,9 @@
                         android:layout_marginTop="@dimen/_6sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:fontFamily="@font/segoe_ui"
-                        android:text="Looking for a partner fon!"
+                        android:text=""
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="@dimen/_16sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -113,7 +113,7 @@
                         android:id="@+id/chipLikes"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdLikes" />
@@ -137,7 +137,7 @@
                         android:id="@+id/chipTopics"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdTopics" />
@@ -161,7 +161,7 @@
                         android:id="@+id/chipDontEat"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdDontEat" />
@@ -186,6 +186,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdDontTalk" />
@@ -195,21 +196,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_35sdp"
+                        android:layout_marginBottom="@dimen/_90sdp"
                         android:fontFamily="@font/segoe_ui"
                         android:text="@string/report_user"
-                        android:textColor="@color/paragraph_gray"
+                        android:textColor="@color/red_log"
                         android:textSize="@dimen/_15sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chipDontTalk" />
+                        app:layout_constraintTop_toBottomOf="@+id/chipDontTalk"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/textView23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/_14sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:text="@string/about_me"
+                        android:text=""
                         app:layout_constraintStart_toStartOf="@+id/mdUserName"
                         app:layout_constraintTop_toBottomOf="@+id/mdUserName" />
 

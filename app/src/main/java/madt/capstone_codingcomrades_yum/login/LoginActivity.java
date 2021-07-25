@@ -106,6 +106,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this,
                         LoginWithPhoneNumberActivity.class);
+                LoginWithPhoneNumberActivity.isEdit=false;
                 startActivity(i);
             }
         });
