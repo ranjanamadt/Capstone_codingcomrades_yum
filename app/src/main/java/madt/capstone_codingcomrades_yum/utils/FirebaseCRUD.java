@@ -85,14 +85,11 @@ public class FirebaseCRUD {
 
     public Task<QuerySnapshot> findMatches(String collection, List<? extends Object> eatingPrefer,  List<? extends Object> reportedUsers) {
         Query queryResult = db.collection(FSConstants.Collections.USERS)
-                // avoid logged user
                 .whereNotEqualTo(FieldPath.documentId(), FirebaseAuth.getInstance().getUid());
 
         return queryResult.get();
                 // already matched
 //                .whereNotIn(FieldPath.documentId(),FirebaseAuth.getInstance().getUid())
-
-
 
     }
 

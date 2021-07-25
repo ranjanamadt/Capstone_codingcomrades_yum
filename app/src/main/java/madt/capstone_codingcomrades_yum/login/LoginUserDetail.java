@@ -14,6 +14,7 @@ public class LoginUserDetail {
     String sePref;
     String aboutMe;
     String phoneNumber;
+    Boolean activeStatus;
     List<String> profileImage;
     List<String> interest;
     List<String> not_eat;
@@ -24,7 +25,7 @@ public class LoginUserDetail {
     List<String> preferences;
     List<String> report_list;
 
-    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String phoneNumber, List<String> profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users) {
+    public LoginUserDetail(String uuid, String firstName, String lastName, String dob, String gender, String sePref, String aboutMe, String phoneNumber, List<String> profileImage, List<String> interest, List<String> not_eat, List<String> not_talk, List<String> taste, List<String> enjoy_eating,List<String> report_list,List<String> preferences,List<String> matched_users,Boolean activeStatus) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -113,6 +114,16 @@ public class LoginUserDetail {
     public List<String> getReport_list() {
         return report_list != null ? report_list : new ArrayList<>();
     }
+
+
+    public Boolean getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(Boolean activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
 
     public void setReport_list(List<String> report_list) {
         this.report_list = report_list;

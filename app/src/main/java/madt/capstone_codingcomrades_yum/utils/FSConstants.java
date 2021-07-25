@@ -19,6 +19,7 @@ public class FSConstants {
         String DEVICE_TOKEN="deviceToken";
         String LATITUDE="latitude";
         String LONGITUDE="longitude";
+        String ACTIVE_STATUS="activeStatus";
         String PHONE_NUMBER="phoneNumber";
         String ABOUT_ME="aboutMe";
         String PROFILE_IMAGE="profileImage";
