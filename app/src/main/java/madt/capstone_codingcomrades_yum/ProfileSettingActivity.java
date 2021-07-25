@@ -278,6 +278,12 @@ public class ProfileSettingActivity extends BaseActivity {
         resultNotEat.clear();
         resultNotTalk.clear();
         otherLocations.clear();
+        binding.chipGroupCity.removeAllViews();
+        binding.chipGroupEatingPref.removeAllViews();
+        binding.chipGroupNoEatPref.removeAllViews();
+        binding.chipGroupNoTalkPref.removeAllViews();
+        binding.chipGroupTalkPref.removeAllViews();
+        binding.chipGroupTastePref.removeAllViews();
         FirebaseCRUD.getInstance().getDocument(FSConstants.Collections.USERS, FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -294,6 +300,7 @@ public class ProfileSettingActivity extends BaseActivity {
                 profileImageList = ((List<String>) documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE));
                 ImageGridAdapter imageGridAdapter = new ImageGridAdapter(getApplicationContext(), profileImageList);
                 binding.simpleGridView.setAdapter(imageGridAdapter);
+
 
                 String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
                 String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);

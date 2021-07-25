@@ -52,6 +52,8 @@ public class MessageChatActivity extends BaseActivity {
     public static ChatDetail chatUserDetail;
 
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
