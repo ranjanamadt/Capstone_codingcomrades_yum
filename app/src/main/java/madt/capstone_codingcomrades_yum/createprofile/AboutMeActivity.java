@@ -44,6 +44,9 @@ public class AboutMeActivity extends BaseActivity {
     public boolean isUserExist = false;
     public static boolean dateSelected = false;
     public static String phoneNumber = "";
+    int minAge = 18;
+    int maxAge = 18;
+    int maxDistance = 2;
 
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Prefer not to say"};
     final static String[] preferences = {"Straight", "Gay", "Lesbian", "Bisexual", "Asexual", "Demisexual", "Pansexual", "Queer", "Questioning"};
@@ -137,6 +140,10 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.ACTIVE_STATUS,true);
                     user.put(FSConstants.USER.PHONE_NUMBER, phoneNumber);
                     user.put(FSConstants.USER.DEVICE_TOKEN, AppSharedPreferences.getInstance().getString(SharedConstants.DEVICE_TOKEN));
+                    user.put(FSConstants.USER.MIN_AGE_PREFERENCE, minAge);
+                    user.put(FSConstants.USER.MAX_AGE_PREFERENCE, maxAge);
+                    user.put(FSConstants.USER.MAX_DISTANCE, maxDistance);
+
                     Log.e("is exist :", isUserExist + "//");
                     if (isUserExist) {
                         CommonUtils.showProgress(AboutMeActivity.this);
