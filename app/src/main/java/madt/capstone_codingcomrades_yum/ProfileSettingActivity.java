@@ -369,8 +369,8 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.simpleGridView.setAdapter(imageGridAdapter);
 
 
-                String latitude = (String) documentSnapshot.get(FSConstants.USER.LATITUDE);
-                String longitude = (String) documentSnapshot.get(FSConstants.USER.LONGITUDE);
+                String latitude = documentSnapshot.get(FSConstants.USER.LATITUDE).toString();
+                String longitude = documentSnapshot.get(FSConstants.USER.LONGITUDE).toString();
                 editedLat = Double.parseDouble(latitude);
                 editedLng = Double.parseDouble(longitude);
 
