@@ -85,6 +85,7 @@ public class FirebaseCRUD {
 
     public Task<QuerySnapshot> findMatches() {
         Query queryResult = db.collection(FSConstants.Collections.USERS)
+
                 .whereNotEqualTo(FieldPath.documentId(), FirebaseAuth.getInstance().getUid());
         return queryResult.get();
                 // already matched

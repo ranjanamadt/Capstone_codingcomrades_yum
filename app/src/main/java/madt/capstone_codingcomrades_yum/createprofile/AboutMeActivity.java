@@ -91,7 +91,7 @@ public class AboutMeActivity extends BaseActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // changing the string date as per the date selected by the user
-                        String monthLetter = getMonthLetter(month);
+                        String monthLetter = getMonthLetter(month).substring(0,3);
                         stringDate = monthLetter + " " + dayOfMonth + ", " + year;
                         binding.dobTV.setText(stringDate);
                     }

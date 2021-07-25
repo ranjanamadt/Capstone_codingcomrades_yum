@@ -2,6 +2,7 @@ package madt.capstone_codingcomrades_yum;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.util.Base64;
 import android.util.Log;
 
@@ -112,16 +113,15 @@ public class User {
             this.taste = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.TASTE);
             this.enjoy_eating = (List<String>) document.get(FSConstants.PREFERENCE_TYPE.ENJOY_EATING);
             this.preferences = (List<String>) document.get(FSConstants.USER.PREFERENCES);
-
+            this.activeStatus = (Boolean) document.get(FSConstants.USER.ACTIVE_STATUS);
             this.report_list = (List<String>) document.get(FSConstants.USER.REPORT_LIST) != null ? (List<String>) document.get(FSConstants.USER.REPORT_LIST) : new ArrayList<>();
             this.matched_users = (List<String>) document.get(FSConstants.USER.MATCHED_USERS) != null ? (List<String>) document.get(FSConstants.USER.MATCHED_USERS) : new ArrayList<>();
-            this.latitude = Double.parseDouble((String) document.get(FSConstants.USER.LATITUDE));
-            this.longitude = Double.parseDouble((String) document.get(FSConstants.USER.LONGITUDE));
-            Log.e("minAge: ", document.get(FSConstants.USER.MIN_AGE_PREFERENCE).toString());
+            this.latitude = Double.parseDouble(document.get(FSConstants.USER.LATITUDE).toString());
+            this.longitude = Double.parseDouble(document.get(FSConstants.USER.LONGITUDE).toString());
             this.minAge = Integer.parseInt(document.get(FSConstants.USER.MIN_AGE_PREFERENCE).toString());
             this.maxAge = Integer.parseInt(document.get(FSConstants.USER.MAX_AGE_PREFERENCE).toString());
             this.lookingFor = document.get(FSConstants.USER.LOOKING_FOR) != null ? document.get(FSConstants.USER.LOOKING_FOR).toString() : "Male";
-            this.maxDistance = Integer.parseInt((String) document.get(FSConstants.USER.MAX_DISTANCE));
+            this.maxDistance = Integer.parseInt(document.get(FSConstants.USER.MAX_DISTANCE).toString());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -309,5 +309,10 @@ public class User {
         this.maxDistance = maxDistance;
     }
 
-
+    public Location getLocationObject(){
+        Location locationLoginUser = new Location("locationA");// creates the location a object
+        locationLoginUser.setLatitude(latitude != null ? latitude : -180);// sets the location a latitude
+        locationLoginUser.setLongitude(longitude != null ? longitude : -180);// sets the location a longitude
+        return locationLoginUser;
+    }
 }
