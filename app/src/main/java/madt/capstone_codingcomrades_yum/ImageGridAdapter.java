@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -33,11 +34,13 @@ import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
 
 public class ImageGridAdapter extends BaseAdapter {
 
+    Context applicationContext;
     List<String> profileImageList = new ArrayList<>();
     LayoutInflater inflter;
     LoginUserDetail userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
 
     public ImageGridAdapter(Context applicationContext, List<String> profileImageList) {
+        this.applicationContext = applicationContext;
         this.profileImageList = profileImageList;
         inflter = (LayoutInflater.from(applicationContext));
     }
@@ -110,9 +113,17 @@ public class ImageGridAdapter extends BaseAdapter {
             icon.getLayoutParams().height = icon.getLayoutParams().height * 2;
         }*/
 
+        if(i == 0){
+            close.setVisibility(View.GONE);
+        }
+
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(i == 0){
+                    Toast.makeText(applicationContext, "Profile picture can not be deleted", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.e("before adapter: ", "profileImageList size: "+ profileImageList.size());
                 profileImageList.remove(i);
                 Log.e("after adapter: ", "profileImageList size: "+ profileImageList.size());
