@@ -107,9 +107,9 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:clickable="true"
 
-            android:fontFamily="@font/segoe_ui_bold"
+            android:fontFamily="@font/segoe_ui"
             android:text="@string/info_btn"
-            android:textColor="@color/facebook_blue"
+            android:textColor="@color/paragraph_gray"
             android:textSize="@dimen/_14sdp"
             app:layout_constraintBottom_toTopOf="@+id/reject_btn2"
             app:layout_constraintEnd_toEndOf="@+id/mtcBio"

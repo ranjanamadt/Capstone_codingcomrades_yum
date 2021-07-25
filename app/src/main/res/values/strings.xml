@@ -142,4 +142,14 @@
     <string name="update">Update</string>
     <string name="apply_changes">Apply changes</string>
     <string name="edit_settings">Edit Settings</string>
+    <string name="i_like_to_talk_about">I like to talk about</string>
+    <string name="enjoys_in_general">Enjoys in general</string>
+    <string name="enjoys_eating">Enjoys eating</string>
+    <string name="eating_preference">Eating Preference</string>
+    <string name="taste_preference">Taste Preference</string>
+    <string name="talk_preference">Talk Preference</string>
+    <string name="no_eat_preference">No Eat Preference</string>
+    <string name="no_talk_preference">No Talk Preference</string>
+    <string name="minimum_age">Minimum age</string>
+    <string name="maximum_age">Maximum age</string>
 </resources>

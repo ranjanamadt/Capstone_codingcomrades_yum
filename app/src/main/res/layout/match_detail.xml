@@ -98,15 +98,15 @@
                         android:id="@+id/mdLikes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:fontFamily="@font/segoe_ui"
-                        android:text="@string/likes"
+                        android:text="@string/enjoys_eating"
                         android:textColor="@color/paragraph_gray"
                         android:textSize="@dimen/_14sdp"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/mdBio"
                         app:layout_constraintTop_toBottomOf="@+id/mdBio" />
 
                     <com.google.android.material.chip.ChipGroup
@@ -122,7 +122,6 @@
                         android:id="@+id/mdTopics"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/segoe_ui"
                         android:text="@string/topics"
@@ -131,7 +130,8 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chipLikes" />
+                        app:layout_constraintStart_toStartOf="@+id/mdLikes"
+                        app:layout_constraintTop_toBottomOf="@+id/chiptaste" />
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipTopics"
@@ -185,7 +185,7 @@
                         android:id="@+id/chipDontTalk"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
 
                         app:layout_constraintEnd_toEndOf="@+id/mdBio"
                         app:layout_constraintStart_toStartOf="@+id/mdBio"
@@ -200,7 +200,7 @@
                         android:fontFamily="@font/segoe_ui"
                         android:text="@string/report_user"
                         android:textColor="@color/red_log"
-                        android:textSize="@dimen/_15sdp"
+                        android:textSize="@dimen/_12sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -217,6 +217,29 @@
                         android:text=""
                         app:layout_constraintStart_toStartOf="@+id/mdUserName"
                         app:layout_constraintTop_toBottomOf="@+id/mdUserName" />
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/segoe_ui"
+                        android:text="@string/enjoys_in_general"
+                        android:textColor="@color/paragraph_gray"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintStart_toStartOf="@+id/mdLikes"
+                        app:layout_constraintTop_toBottomOf="@+id/chipLikes" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chiptaste"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:layout_constraintEnd_toEndOf="@+id/chipLikes"
+                        app:layout_constraintStart_toStartOf="@+id/textView27"
+                        app:layout_constraintTop_toBottomOf="@+id/textView27">
+
+                    </com.google.android.material.chip.ChipGroup>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

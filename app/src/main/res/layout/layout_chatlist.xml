@@ -45,6 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/segoe_ui"
                     android:text="Username"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
@@ -53,6 +54,7 @@
                     android:id="@+id/tv_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/segoe_ui"
                     android:text="20/07/2021"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp" />
@@ -62,6 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui"
                     android:text="12:28"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10sdp" />
@@ -72,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
+                android:fontFamily="@font/segoe_ui"
                 android:text="Last Message"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />

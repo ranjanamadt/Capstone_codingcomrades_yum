@@ -153,6 +153,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/chipGroupDownToEat" />
 
                 <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/segoe_ui"
+                    android:text="@string/i_like_to_talk_about"
+                    android:textColor="@color/light_text"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/textView21"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotEat" />
+
+                <TextView
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -163,7 +176,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroupNotEat" />
+                    app:layout_constraintTop_toTopOf="@+id/chipGroupTopic" />
 
                 <Button
                     android:id="@+id/btnConfirmFinishProfile"
@@ -243,6 +256,17 @@
                     app:layout_constraintBottom_toTopOf="@+id/etAboutMe"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTopic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/chipGroupNotEat"
+                    app:layout_constraintStart_toStartOf="@+id/textView26"
+                    app:layout_constraintTop_toBottomOf="@+id/textView26">
+
+                </com.google.android.material.chip.ChipGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

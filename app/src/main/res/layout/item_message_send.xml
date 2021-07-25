@@ -20,8 +20,8 @@
             android:fontFamily="@font/segoe_ui"
             android:maxWidth="@dimen/_250sdp"
 
-            android:padding="16dp"
-            android:textColor="@android:color/white"
+            android:padding="@dimen/_11sdp"
+            android:textColor="@color/black"
             android:textSize="@dimen/_12sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
