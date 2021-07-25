@@ -87,6 +87,7 @@
     <string name="err_fetching_data">Error fetching data, please come again after few minutes</string>
     <string name="error_updating_user">Error updating user into the Database</string>
     <string name="success_updating_user">User data updated successfully</string>
+    <string name="not_more_than_2_images">No more than 2 images can be uploaded</string>
 
     <string name="title_about_me">About Me</string>
     <string name="title_finish_profile">Finishing Up Profile</string>

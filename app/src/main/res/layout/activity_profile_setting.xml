@@ -38,8 +38,10 @@
                     android:id="@+id/simpleGridView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="2"
-                    android:padding="@dimen/_2sdp" />
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:numColumns="2"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

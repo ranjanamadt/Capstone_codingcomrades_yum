@@ -126,6 +126,12 @@ public class ProfileFragment extends BaseFragment {
         binding.addPictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(profileImagesStringList.size() > 1){
+                    ySnackbar(getActivity(), getString(R.string.not_more_than_2_images));
+                    return;
+                }
+
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -182,7 +188,6 @@ public class ProfileFragment extends BaseFragment {
                                     @Override
                                     public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
                                         //CommonUtils.hideProgress();
-                                        //ySnackbar(FinishProfileActivity.this, getString(R.string.error_saving_user));
                                     }
                                 });
                             }

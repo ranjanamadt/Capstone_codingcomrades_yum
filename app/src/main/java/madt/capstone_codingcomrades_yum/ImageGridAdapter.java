@@ -104,6 +104,12 @@ public class ImageGridAdapter extends BaseAdapter {
         Bitmap profileImageBitmap = BitmapFactory.decodeByteArray(profileImageEncodeByte, 0, profileImageEncodeByte.length);
         icon.setImageBitmap(profileImageBitmap); // set logo images
 
+        Log.e("size adapter: ", "" + profileImageList.size());
+        /*if(profileImageList.size() == 1){
+            icon.requestLayout();
+            icon.getLayoutParams().height = icon.getLayoutParams().height * 2;
+        }*/
+
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

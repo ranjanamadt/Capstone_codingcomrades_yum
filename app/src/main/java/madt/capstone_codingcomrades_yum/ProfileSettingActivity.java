@@ -298,6 +298,13 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.number.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
 
                 profileImageList = ((List<String>) documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE));
+                if(profileImageList.size() == 1){
+                    binding.simpleGridView.setNumColumns(1);
+                    /*binding.simpleGridView.requestLayout();
+                    binding.simpleGridView.getLayoutParams().height = binding.simpleGridView.getLayoutParams().height/2;*/
+                } else {
+                    binding.simpleGridView.setNumColumns(2);
+                }
                 ImageGridAdapter imageGridAdapter = new ImageGridAdapter(getApplicationContext(), profileImageList);
                 binding.simpleGridView.setAdapter(imageGridAdapter);
 
