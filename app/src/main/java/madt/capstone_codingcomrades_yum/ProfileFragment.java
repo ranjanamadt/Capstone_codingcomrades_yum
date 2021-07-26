@@ -61,6 +61,66 @@ public class ProfileFragment extends BaseFragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
+        userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
+
+        try {
+            String fullName = userDetail.getFullName();
+            binding.proUserName.setText(fullName);
+
+            Date dobObj = null;
+            long age = 0;
+            try {
+                dobObj = new SimpleDateFormat("MMM d, yyyy").parse(userDetail.getDob());
+                Date today = new Date();
+                long difference_In_Time = today.getTime() - dobObj.getTime();
+                age = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            binding.proAge.setText(String.valueOf(age) + " years");
+
+
+            yLog("userDetail.getProfileImage().size(): ", String.valueOf(userDetail.getProfileImage().size()));
+            if (userDetail.getProfileImage().size() > 0) {
+                profileImagesStringList = new ArrayList<>();
+
+                for (int i = 0; i < userDetail.getProfileImage().size(); i++) {
+                    byte[] fireStoreImg = userDetail.getProfileImage().get(i).getBytes();
+                    String fireStoreStr = new String(fireStoreImg, "UTF-8");
+                    byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
+                    Bitmap fireStoreBitmap = BitmapFactory.decodeByteArray(fireStoreEncodeByte, 0, fireStoreEncodeByte.length);
+                    profileImagesUriList.add(fireStoreBitmap);
+                    profileImagesStringList.add(userDetail.getProfileImage().get(i));
+                }
+
+                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                binding.imageSlider.setSliderAdapter(sliderAdapter);
+                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                binding.imageSlider.startAutoCycle();
+
+            } /*else if (userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE) != null){
+                byte[] previousImg = userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE).getBytes();
+                String previousStr = new String(previousImg, "UTF-8");
+                byte[] encodeByte = Base64.decode(previousStr, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                profileImagesUriList.add(bitmap);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] profileImgByte = baos.toByteArray();
+                String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
+                profileImagesStringList.add(profileImgString);
+
+                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                binding.imageSlider.setSliderAdapter(sliderAdapter);
+                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                binding.imageSlider.startAutoCycle();
+            }*/
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
         binding.addPictures.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +150,13 @@ public class ProfileFragment extends BaseFragment {
                         try {
                             if (data != null) {
                                 profileImagesUriList.add(MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), data.getData()));
+
+
+                                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                                binding.imageSlider.setSliderAdapter(sliderAdapter);
+                                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                                binding.imageSlider.startAutoCycle();
 
                                 InputStream imageStream = null;
 
@@ -140,58 +207,5 @@ public class ProfileFragment extends BaseFragment {
 
 
         return binding.getRoot();
-    }
-
-    private void setUserData() {
-
-        try {
-            String fullName = userDetail.getFullName();
-            binding.proUserName.setText(fullName);
-
-            Date dobObj = null;
-            long age = 0;
-            try {
-                dobObj = new SimpleDateFormat("MMM d, yyyy").parse(userDetail.getDob());
-                Date today = new Date();
-                long difference_In_Time = today.getTime() - dobObj.getTime();
-                age = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            binding.proAge.setText(String.valueOf(age) + " years");
-
-
-            yLog("userDetail.getProfileImage().size(): ", String.valueOf(userDetail.getProfileImage().size()));
-            if (userDetail.getProfileImage().size() > 0) {
-                profileImagesStringList = new ArrayList<>();
-
-                for (int i = 0; i < userDetail.getProfileImage().size(); i++) {
-                    byte[] fireStoreImg = userDetail.getProfileImage().get(i).getBytes();
-                    String fireStoreStr = new String(fireStoreImg, "UTF-8");
-                    byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
-                    Bitmap fireStoreBitmap = BitmapFactory.decodeByteArray(fireStoreEncodeByte, 0, fireStoreEncodeByte.length);
-                    profileImagesUriList.add(fireStoreBitmap);
-                    profileImagesStringList.add(userDetail.getProfileImage().get(i));
-                }
-
-                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                binding.imageSlider.setSliderAdapter(sliderAdapter);
-                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                binding.imageSlider.startAutoCycle();
-
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
-        setUserData();
     }
 }
