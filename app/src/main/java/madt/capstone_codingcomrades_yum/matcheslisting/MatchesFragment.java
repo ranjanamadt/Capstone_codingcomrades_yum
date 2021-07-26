@@ -369,7 +369,8 @@ public class MatchesFragment extends BaseFragment {
                 });
 
         Map<String, Object> mapOtherMatchedList = new HashMap<>();
-        mapMatchedList.put(FSConstants.USER.MATCHED_USERS, othersMatchedList);
+
+        mapOtherMatchedList.put(FSConstants.USER.MATCHED_USERS, othersMatchedList);
         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, matchedUUID, mapOtherMatchedList)
 
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
