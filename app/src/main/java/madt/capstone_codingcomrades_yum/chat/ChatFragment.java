@@ -1,6 +1,8 @@
 package madt.capstone_codingcomrades_yum.chat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,19 +17,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.core.BaseFragment;
 import madt.capstone_codingcomrades_yum.databinding.FragmentChatBinding;
+import madt.capstone_codingcomrades_yum.matcheslisting.MatchDetail;
+import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
+import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
 import madt.capstone_codingcomrades_yum.utils.CommonUtils;
 import madt.capstone_codingcomrades_yum.utils.FSConstants;
 import madt.capstone_codingcomrades_yum.utils.FirebaseCRUD;
@@ -38,10 +48,13 @@ public class ChatFragment extends BaseFragment {
     private ChatElementAdapter chatAdapter;
     private ArrayList<ChatDetail> chatList = new ArrayList<>();
     public static String searchKey = "";
+    String collectionID = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" +
+                FSConstants.Collections.CHATROOM;
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false);
         binding.recyclerList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -70,8 +83,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatList(String textFilter) {
-        String collectionID = FSConstants.Collections.USERS + "/" + FirebaseAuth.getInstance().getUid() + "/" +
-                FSConstants.Collections.CHATROOM;
+
         FirebaseCRUD.getInstance().getAll(collectionID).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -80,6 +92,7 @@ public class ChatFragment extends BaseFragment {
                     for (DocumentSnapshot document : task.getResult()) {
 
                         ChatDetail userDetail = new ChatDetail(document);
+                        userDetail.setChatRoomId(document.getId());
                         if(userDetail.getFirstName().contains(textFilter) ||
                            userDetail.getLastName().contains(textFilter) ||
                            userDetail.getLastMessage().contains(textFilter)){
@@ -130,6 +143,40 @@ public class ChatFragment extends BaseFragment {
                     i.putExtra(FSConstants.CHAT_List.USER_NAME, chatEl.getFirstName() + " " + chatEl.getLastName());
                     MessageChatActivity.chatUserDetail = chatEl;
                     startActivity(i);
+                }
+            });
+            holder.topView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle(getString(R.string.delete_chat_dialog_title));
+                    builder.setMessage(getString(R.string.delete_chat_dialog_description));
+
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(getString(R.string.delete_chat_dialog_confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                              FirebaseCRUD.getInstance().deleteDocument(collectionID,chatList.get(position).getChatRoomId()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                  @Override
+                                  public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                      if(task.isSuccessful()){
+                                          ySnackbar(getActivity(),getString(R.string.delete_chat_success));
+                                      }
+                                  }
+                              });
+
+                        }
+                    });
+                    builder.setNegativeButton(getString(R.string.cancel_action), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.create().show();
+
+                    return false;
                 }
             });
 
