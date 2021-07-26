@@ -1,25 +1,21 @@
 package madt.capstone_codingcomrades_yum;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smarteist.autoimageslider.SliderViewAdapter;
-import com.squareup.picasso.Picasso;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 
-    List<String> images;
+    List<Bitmap> images;
 
-    public SliderAdapter(List<String> images){
+    public SliderAdapter(List<Bitmap> images){
         this.images = images;
     }
 
@@ -32,18 +28,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder viewHolder, int position) {
-        byte[] fireStoreImg = images.get(position).getBytes();
-        String fireStoreStr = null;
-        try {
-            fireStoreStr = new String(fireStoreImg, "UTF-8");
-            byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
-            Bitmap fireStoreBitmap = BitmapFactory.decodeByteArray(fireStoreEncodeByte, 0, fireStoreEncodeByte.length);
-            viewHolder.imageView.setImageBitmap(fireStoreBitmap);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
+        viewHolder.imageView.setImageBitmap(images.get(position));
     }
 
     @Override
