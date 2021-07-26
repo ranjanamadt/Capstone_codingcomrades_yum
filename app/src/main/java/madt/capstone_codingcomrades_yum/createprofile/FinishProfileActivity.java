@@ -91,7 +91,6 @@ public class FinishProfileActivity extends BaseActivity {
 
     String latitude = "";
     String longitude = "";
-    String lookingFor = "Any";
     Uri uri;
     String profileImgString;
 
@@ -145,9 +144,6 @@ public class FinishProfileActivity extends BaseActivity {
                 preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.NOT_TALK));
                 preferences.addAll((List<String>) documentSnapshot.get(FSConstants.PREFERENCE_TYPE.INTEREST));
 
-                if(documentSnapshot.get(FSConstants.USER.LOOKING_FOR) != null){
-                    lookingFor = documentSnapshot.get(FSConstants.USER.LOOKING_FOR).toString();
-                }
                 /*if (!LoginActivity.profile_image.isEmpty()) {
                     Picasso.get().load(LoginActivity.profile_image).into(binding.imageBtn);
                 }*/
@@ -207,7 +203,6 @@ public class FinishProfileActivity extends BaseActivity {
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
                 finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgStringList);
                 finishProfile.put(FSConstants.USER.PREFERENCES, preferences);
-                finishProfile.put(FSConstants.USER.LOOKING_FOR, lookingFor);
 
                 CommonUtils.showProgress(FinishProfileActivity.this);
 
