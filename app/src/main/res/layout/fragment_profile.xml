@@ -90,9 +90,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/proUserName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/proUserName"
-                    app:layout_constraintTop_toTopOf="@+id/proUserName"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintStart_toEndOf="@+id/proUserName" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/addPictures"

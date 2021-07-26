@@ -56,6 +56,7 @@ public class MatchDetail extends BaseActivity {
                     addEnjoyEating((List<String>)matchUser.getEnjoy_eating());
                     addInterests((List<String>)matchUser.getInterest());
                     addNotTalk((List<String>)matchUser.getNot_talk());
+                    addTaste((List<String>)matchUser.getTaste());
 
                     if(matchUser.getProfileImage() != null){
                         binding.imageBtn.setImageBitmap(matchUser.getProfileBitmapImage());
@@ -162,6 +163,15 @@ public class MatchDetail extends BaseActivity {
             Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipDontTalk, false);
             newChip.setText(notTalk.toString());
             binding.chipDontTalk.addView(newChip);
+
+        }
+    }
+
+    private void addTaste(List<String> tasteList) {
+        for (String taste : tasteList) {
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chiptaste, false);
+            newChip.setText(taste.toString());
+            binding.chiptaste.addView(newChip);
 
         }
     }
