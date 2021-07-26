@@ -143,6 +143,7 @@ public class AboutMeActivity extends BaseActivity {
                     user.put(FSConstants.USER.MIN_AGE_PREFERENCE, minAge);
                     user.put(FSConstants.USER.MAX_AGE_PREFERENCE, maxAge);
                     user.put(FSConstants.USER.MAX_DISTANCE, maxDistance);
+                    user.put(FSConstants.USER.LOOKING_FOR, "Male");
 
                     Log.e("is exist :", isUserExist + "//");
                     if (isUserExist) {
