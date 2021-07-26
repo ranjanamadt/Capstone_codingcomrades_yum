@@ -91,13 +91,6 @@ public class ProfileFragment extends BaseFragment {
                             if (data != null) {
                                 profileImagesUriList.add(MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), data.getData()));
 
-
-                                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                                binding.imageSlider.setSliderAdapter(sliderAdapter);
-                                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                                binding.imageSlider.startAutoCycle();
-
                                 InputStream imageStream = null;
 
                                 if (data != null)
@@ -187,25 +180,7 @@ public class ProfileFragment extends BaseFragment {
                 //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
                 binding.imageSlider.startAutoCycle();
 
-            } /*else if (userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE) != null){
-                byte[] previousImg = userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE).getBytes();
-                String previousStr = new String(previousImg, "UTF-8");
-                byte[] encodeByte = Base64.decode(previousStr, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                profileImagesUriList.add(bitmap);
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] profileImgByte = baos.toByteArray();
-                String profileImgString = Base64.encodeToString(profileImgByte, Base64.DEFAULT);
-                profileImagesStringList.add(profileImgString);
-
-                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
-                binding.imageSlider.setSliderAdapter(sliderAdapter);
-                binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                binding.imageSlider.startAutoCycle();
-            }*/
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
