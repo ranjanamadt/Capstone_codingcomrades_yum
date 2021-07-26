@@ -174,7 +174,7 @@ public class MatchesFragment extends BaseFragment {
         List<String> myPreferences = mLoginDetail.getPreferences();
         int maxDistance = mLoginDetail.getMaxDistance();
         int mLoginDetailMaxAge = mLoginDetail.getMaxAge();
-        int mLoginDetailMinAge = mLoginDetail.getMaxAge();
+        int mLoginDetailMinAge = mLoginDetail.getMinAge();
         String mLoginDetailLookingFor = mLoginDetail.getLookingFor();
         Location locationLoginUser = mLoginDetail.getLocationObject();
 
@@ -205,12 +205,12 @@ public class MatchesFragment extends BaseFragment {
 //                    else if(distances > (float) maxDistance){
 //                        Log.e("Distances :", document.getId());
 //                    }
-//                    else if (mLoginDetailMinAge < matchUser.getAge()) {
-//                        Log.e("Younger :", document.getId());
-//                    }
-//                    else if (matchUser.getAge() > mLoginDetailMaxAge ) {
-//                        Log.e("Older :", document.getId());
-//                    }
+                    else if (matchUser.getAge() < mLoginDetailMinAge ) {
+                        Log.e("Younger than " + mLoginDetailMinAge + " :", document.getId());
+                    }
+                    else if (matchUser.getAge() > mLoginDetailMaxAge ) {
+                        Log.e("Older than " + mLoginDetailMaxAge + " :", document.getId());
+                    }
 
                     else if (reported != null && reported.contains(document.getId())) {
                         Log.e("Reported :", document.getId());
