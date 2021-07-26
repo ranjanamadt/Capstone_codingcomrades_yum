@@ -1,5 +1,7 @@
 package madt.capstone_codingcomrades_yum.login;
 
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -218,4 +220,11 @@ public class LoginUserDetail {
         this.maxDistance = maxDistance;
     }
 
+
+    public Location getLocationObject(){
+        Location locationLoginUser = new Location("locationA");// creates the location a object
+        locationLoginUser.setLatitude(latitude);// sets the location a latitude
+        locationLoginUser.setLongitude(longitude);// sets the location a longitude
+        return locationLoginUser;
+    }
 }
