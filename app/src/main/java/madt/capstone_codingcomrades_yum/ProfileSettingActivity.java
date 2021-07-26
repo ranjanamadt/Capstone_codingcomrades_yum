@@ -58,6 +58,8 @@ public class ProfileSettingActivity extends BaseActivity {
     List<String> resultNotTalk = new ArrayList<>();
     List<String> otherLocations = new ArrayList<>();
     List<String> profileImageList = new ArrayList<>();
+    int resultMinAge, resultMaxAge, resultMaxDistance;
+    String resultLookingFor;
     Boolean checkEating = false, checkTaste = false, checkInterest = false, checkNoEat = false, checkNoTalk = false;
     final static String[] genders = {"Male", "Female", "Genderqueer/Non-Binary", "Any"};
     int minAgeSeekBar = 18;
@@ -78,8 +80,8 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.seekbarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maxDistanceSeekBar = progress + 2;
-                binding.maxDistance.setText(String.valueOf(progress + 2) + " Miles");
+                maxDistanceSeekBar = progress;
+                binding.maxDistance.setText(String.valueOf(progress) + " Miles");
             }
 
             @Override
@@ -106,11 +108,15 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.seekbarMinAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                minAgeSeekBar = progress + 18;
-                binding.minimumAge.setText(String.valueOf(progress + 18) + " Years");
+                minAgeSeekBar = progress;
+                binding.minimumAge.setText(String.valueOf(progress) + " Years");
                 if (maxAgeSeekBar < minAgeSeekBar) {
-                    maxAgeSeekBar = progress + 18;
-                    binding.maximumAge.setText(String.valueOf(progress + 18) + " Years");
+                    maxAgeSeekBar = progress;
+                    binding.maximumAge.setText(String.valueOf(progress) + " Years");
+                }
+                if(minAgeSeekBar < 18){
+                    minAgeSeekBar = 18;
+                    binding.minimumAge.setText(String.valueOf(minAgeSeekBar) + " Years");
                 }
             }
 
@@ -128,8 +134,17 @@ public class ProfileSettingActivity extends BaseActivity {
         binding.seekbarMaxAge.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maxAgeSeekBar = progress + minAgeSeekBar;
-                binding.maximumAge.setText(String.valueOf(progress + minAgeSeekBar) + " Years");
+                maxAgeSeekBar = progress;
+                binding.maximumAge.setText(String.valueOf(maxAgeSeekBar) + " Years");
+                if(maxAgeSeekBar > 100){
+                    maxAgeSeekBar = 100;
+                    binding.maximumAge.setText(String.valueOf(progress) + " Years");
+                }
+                if(maxAgeSeekBar < minAgeSeekBar){
+                    maxAgeSeekBar = minAgeSeekBar;
+                    binding.maximumAge.setText(String.valueOf(maxAgeSeekBar) + " Years");
+
+                }
             }
 
             @Override
@@ -356,6 +371,17 @@ public class ProfileSettingActivity extends BaseActivity {
                 binding.number.setText((String) documentSnapshot.get(FSConstants.USER.PHONE_NUMBER));
                 activeStatus =(Boolean) documentSnapshot.get(FSConstants.USER.ACTIVE_STATUS);
                 binding.switchAvailable.setChecked(activeStatus);
+
+                resultMinAge = Integer.parseInt(documentSnapshot.get(FSConstants.USER.MIN_AGE_PREFERENCE).toString());
+                resultMaxAge = Integer.parseInt(documentSnapshot.get(FSConstants.USER.MAX_AGE_PREFERENCE).toString());
+                resultMaxDistance = Integer.parseInt(documentSnapshot.get(FSConstants.USER.MAX_DISTANCE).toString());
+                resultLookingFor = documentSnapshot.get(FSConstants.USER.LOOKING_FOR).toString();
+
+                binding.seekbarMinAge.setProgress(resultMinAge);
+                binding.seekbarMaxAge.setProgress(resultMaxAge);
+                binding.seekbarDistance.setProgress(resultMaxDistance);
+                int index = findIndex(genders, resultLookingFor);
+                binding.preferenceLooking.setSelection(index);
 
                 profileImageList = ((List<String>) documentSnapshot.get(FSConstants.USER.PROFILE_IMAGE));
                 if(profileImageList.size() == 1){
@@ -776,4 +802,24 @@ public class ProfileSettingActivity extends BaseActivity {
                     }
                 });
     }
+
+    public static int findIndex(String[] strArray, String pref)
+    {
+        if (strArray == null) {
+            return -1;
+        }
+
+        int len = strArray.length;
+        int i = 0;
+        while (i < len) {
+            if (strArray[i].equalsIgnoreCase(pref)) {
+                return i;
+            }
+            else {
+                i = i + 1;
+            }
+        }
+        return -1;
+    }
+
 }
