@@ -162,21 +162,21 @@
                     android:textColor="@color/light_text"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView21"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
                     app:layout_constraintTop_toBottomOf="@+id/chipGroupNotEat" />
 
                 <TextView
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/segoe_ui"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/i_rather_not_talk_about"
                     android:textColor="@color/light_text"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                    app:layout_constraintTop_toTopOf="@+id/chipGroupTopic" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupTopic" />
 
                 <Button
                     android:id="@+id/btnConfirmFinishProfile"
@@ -194,6 +194,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chipGroupNotTalk" />
 
+
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupEnjoyEat"
                     android:layout_width="0dp"
@@ -209,27 +211,38 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroupEnjoyEat"
+                    app:layout_constraintEnd_toEndOf="@+id/etAboutMe"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView20"
                     app:layout_constraintTop_toBottomOf="@+id/textView20"></com.google.android.material.chip.ChipGroup>
+
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupNotEat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroupDownToEat"
+                    app:layout_constraintEnd_toEndOf="@+id/etAboutMe"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView21"
                     app:layout_constraintTop_toBottomOf="@+id/textView21"></com.google.android.material.chip.ChipGroup>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTopic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/etAboutMe"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView26"
+                    app:layout_constraintTop_toBottomOf="@+id/textView26"></com.google.android.material.chip.ChipGroup>
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupNotTalk"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroupNotEat"
+                    app:layout_constraintEnd_toEndOf="@+id/etAboutMe"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textView22"
                     app:layout_constraintTop_toBottomOf="@+id/textView22"></com.google.android.material.chip.ChipGroup>
@@ -248,25 +261,13 @@
                     android:id="@+id/fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_120sdp"
                     android:clickable="true"
                     android:tint="@color/white"
                     app:backgroundTint="@color/red_log"
                     app:layout_constraintBottom_toTopOf="@+id/etAboutMe"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/etAboutMe"
                     app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupTopic"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/chipGroupNotEat"
-                    app:layout_constraintStart_toStartOf="@+id/textView26"
-                    app:layout_constraintTop_toBottomOf="@+id/textView26">
-
-                </com.google.android.material.chip.ChipGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
