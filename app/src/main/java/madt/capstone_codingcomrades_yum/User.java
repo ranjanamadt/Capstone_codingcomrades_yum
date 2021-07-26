@@ -120,7 +120,7 @@ public class User {
             this.longitude = Double.parseDouble(document.get(FSConstants.USER.LONGITUDE).toString());
             this.minAge = Integer.parseInt(document.get(FSConstants.USER.MIN_AGE_PREFERENCE).toString());
             this.maxAge = Integer.parseInt(document.get(FSConstants.USER.MAX_AGE_PREFERENCE).toString());
-            this.lookingFor = document.get(FSConstants.USER.LOOKING_FOR) != null ? document.get(FSConstants.USER.LOOKING_FOR).toString() : "Male";
+            this.lookingFor = document.get(FSConstants.USER.LOOKING_FOR) != null ? document.get(FSConstants.USER.LOOKING_FOR).toString() : "Any";
             this.maxDistance = Integer.parseInt(document.get(FSConstants.USER.MAX_DISTANCE).toString());
         } catch (Exception e){
             e.printStackTrace();
