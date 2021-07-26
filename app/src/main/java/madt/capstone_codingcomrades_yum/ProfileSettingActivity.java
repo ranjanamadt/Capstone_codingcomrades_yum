@@ -75,6 +75,8 @@ public class ProfileSettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile_setting);
 
+        binding.paymentBtn.setVisibility(View.GONE);
+
         binding.preferenceLooking.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genders));
 
         binding.seekbarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
