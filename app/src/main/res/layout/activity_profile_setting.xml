@@ -560,7 +560,7 @@
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_20sdp"
                         android:fontFamily="@font/segoe_ui_bold"
-                        android:text="@string/show_online_status"
+                        android:text="@string/available"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp"
                         app:layout_constraintEnd_toStartOf="@+id/switchAvailable"
