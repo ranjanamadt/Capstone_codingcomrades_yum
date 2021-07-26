@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class ProfileFragment extends BaseFragment {
                              Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
-
+        Log.e("in" ,"on resume");
         userDetail = new Gson().fromJson(AppSharedPreferences.getInstance().getString(SharedConstants.USER_DETAIL), LoginUserDetail.class);
 
         try {
@@ -85,19 +86,16 @@ public class ProfileFragment extends BaseFragment {
                 profileImagesStringList = new ArrayList<>();
 
                 for (int i = 0; i < userDetail.getProfileImage().size(); i++) {
-                    byte[] fireStoreImg = userDetail.getProfileImage().get(i).getBytes();
-                    String fireStoreStr = new String(fireStoreImg, "UTF-8");
-                    byte[] fireStoreEncodeByte = Base64.decode(fireStoreStr, Base64.DEFAULT);
-                    Bitmap fireStoreBitmap = BitmapFactory.decodeByteArray(fireStoreEncodeByte, 0, fireStoreEncodeByte.length);
-                    profileImagesUriList.add(fireStoreBitmap);
+
                     profileImagesStringList.add(userDetail.getProfileImage().get(i));
                 }
 
-                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesUriList);
+                Log.e("use detail :",userDetail.getProfileImage().size()+"//"+profileImagesStringList.size());
+                SliderAdapter sliderAdapter = new SliderAdapter(profileImagesStringList);
                 binding.imageSlider.setSliderAdapter(sliderAdapter);
                 binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
                 //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                binding.imageSlider.startAutoCycle();
+             //   binding.imageSlider.startAutoCycle();
 
             } /*else if (userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE) != null){
                 byte[] previousImg = userDetailJson.getString(FSConstants.USER.PROFILE_IMAGE).getBytes();
@@ -118,7 +116,7 @@ public class ProfileFragment extends BaseFragment {
                 //sliderView.setCustomSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
                 binding.imageSlider.startAutoCycle();
             }*/
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

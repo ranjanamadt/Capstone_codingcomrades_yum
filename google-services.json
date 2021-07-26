@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "643218771073-tf676kj2bee7vjfbmn02suji9vku3nf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "madt.capstone_codingcomrades_yum",
+            "certificate_hash": "cbb4009791cee95088d39264235c7405bcc81150"
+          }
+        },
+        {
           "client_id": "643218771073-cfvbfp4399g1ehn9uqitqggtv9jo1f3n.apps.googleusercontent.com",
           "client_type": 3
         }
