@@ -193,18 +193,18 @@ public class MatchesFragment extends BaseFragment {
                     Boolean isActive = matchUser.getActiveStatus() != null ? true : false;
                     List<String> matchPreferences = matchUser.getPreferences();
 
-                    Float distances = locationLoginUser.distanceTo(matchUser.getLocationObject());
+                    Float distances = locationLoginUser.distanceTo(matchUser.getLocationObject()) / (1609);
 
 
                     if(!isActive){
                         Log.e("Inactive :", document.getId());
                     }
-                    else if (!mLoginDetailLookingFor.equalsIgnoreCase(matchUser.getGender())) {
+                    else if (!mLoginDetailLookingFor.equalsIgnoreCase("Any") && !mLoginDetailLookingFor.equalsIgnoreCase(matchUser.getGender()) ) {
                         Log.e("Different gender :", document.getId());
                     }
-//                    else if(distances > (float) maxDistance){
-//                        Log.e("Distances :", document.getId());
-//                    }
+                    else if(distances > (float) maxDistance){
+                        Log.e("Distances : " + distances.toString(), document.getId());
+                    }
                     else if (matchUser.getAge() < mLoginDetailMinAge ) {
                         Log.e("Younger than " + mLoginDetailMinAge + " :", document.getId());
                     }
