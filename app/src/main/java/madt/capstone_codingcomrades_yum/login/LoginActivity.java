@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import madt.capstone_codingcomrades_yum.HomeActivity;
 import madt.capstone_codingcomrades_yum.R;
 import madt.capstone_codingcomrades_yum.createprofile.AboutMeActivity;
 import madt.capstone_codingcomrades_yum.core.BaseActivity;
@@ -18,6 +19,7 @@ import madt.capstone_codingcomrades_yum.createprofile.FoodTopicsActivity;
 import madt.capstone_codingcomrades_yum.databinding.LoginScreenBinding;
 import madt.capstone_codingcomrades_yum.sharedpreferences.AppSharedPreferences;
 import madt.capstone_codingcomrades_yum.sharedpreferences.SharedConstants;
+import madt.capstone_codingcomrades_yum.splash.SplashActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -140,9 +142,9 @@ public class LoginActivity extends BaseActivity {
                         last_name = profile.getLastName();
                         profile_image = profile.getProfilePictureUri(300,250).toString();
                     }
-
-                    Intent i = new Intent(LoginActivity.this,
+                    Intent i=new Intent(LoginActivity.this,
                             AboutMeActivity.class);
+
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                 } else{

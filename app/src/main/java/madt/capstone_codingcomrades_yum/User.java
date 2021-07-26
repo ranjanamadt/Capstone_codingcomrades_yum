@@ -30,7 +30,7 @@ public class User {
     Double longitude;
     int minAge;
     int maxAge;
-    String lookingFor;
+    String lookingFor="";
     int maxDistance;
 
     public String getPhoneNumber() {

@@ -75,10 +75,15 @@ public class MatchesFragment extends BaseFragment {
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
-                //CREATE MATCH
+                //CREATE MATCH IN CURRENT USER
                 List<String> matchedList = mLoginDetail.getMatched_users();
                 matchedList.add(matchesList.get(position).getUuid());
-                addMatchToUser(matchedList);
+
+                //CREATE MATCH IN OTHER USER`
+                List<String> matchedListOther = matchesList.get(position).getMatched_users();
+                matchedListOther.add(mLoginDetail.getUuid());
+
+                addMatchToUser(matchedList,matchedListOther,matchesList.get(position).getUuid());
 
                 //CREATE MESSAGE
                 Message firstMessage = new Message(
@@ -349,15 +354,28 @@ public class MatchesFragment extends BaseFragment {
             });
 
 
-    private void addMatchToUser(List<String> matchedList) {
+    private void addMatchToUser(List<String> matchedList, List<String> othersMatchedList, String matchedUUID) {
         Map<String, Object> mapMatchedList = new HashMap<>();
         mapMatchedList.put(FSConstants.USER.MATCHED_USERS, matchedList);
+
         FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, mLoginDetail.getUuid(), mapMatchedList)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         mLoginDetail.setMatched_users(matchedList);
                         AppSharedPreferences.getInstance().setString(SharedConstants.USER_DETAIL, new Gson().toJson(mLoginDetail).toString());
+
+                    }
+                });
+
+        Map<String, Object> mapOtherMatchedList = new HashMap<>();
+        mapMatchedList.put(FSConstants.USER.MATCHED_USERS, othersMatchedList);
+        FirebaseCRUD.getInstance().updateDoc(FSConstants.Collections.USERS, matchedUUID, mapOtherMatchedList)
+
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
 
                     }
                 });

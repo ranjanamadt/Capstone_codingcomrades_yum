@@ -102,7 +102,7 @@ public class ChatDetail {
         this.chatRoomId = document.getId();
         HashMap<String, Object> userDetail = (HashMap<String, Object>) document.get(FSConstants.CHAT_List.USER_DETAIL);
         this.firstName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
-        this.lastName = userDetail.get(FSConstants.USER.FIRST_NAME).toString();
+        this.lastName = userDetail.get(FSConstants.USER.LAST_NAME).toString();
         this.lastMessageTimeStamp = userDetail.get(FSConstants.USER.LAST_MESSAGE_TIMESTAMP).toString();
         this.lastMessage = userDetail.get(FSConstants.USER.LAST_MESSAGE).toString();
         this.profileImage = userDetail.get(FSConstants.USER.PROFILE_IMAGE).toString();

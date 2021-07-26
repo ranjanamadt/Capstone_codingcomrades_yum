@@ -201,6 +201,7 @@ public class FinishProfileActivity extends BaseActivity {
                 finishProfile.put(FSConstants.USER.LATITUDE, latitude);
                 finishProfile.put(FSConstants.USER.LONGITUDE, longitude);
                 finishProfile.put(FSConstants.USER.ABOUT_ME, aboutMe);
+                finishProfile.put(FSConstants.USER.LOOKING_FOR, "Any");
                 finishProfile.put(FSConstants.USER.PROFILE_IMAGE, profileImgStringList);
                 finishProfile.put(FSConstants.USER.PREFERENCES, preferences);
 

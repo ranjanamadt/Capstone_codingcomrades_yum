@@ -160,7 +160,9 @@ public class ChatFragment extends BaseFragment {
                                   @Override
                                   public void onComplete(@NonNull @NotNull Task<Void> task) {
                                       if(task.isSuccessful()){
-                                          ySnackbar(getActivity(),getString(R.string.delete_chat_success));
+                                          yToast(getActivity(),getString(R.string.delete_chat_success));
+                                          chatList.remove(chatList.get(position));
+                                          notifyDataSetChanged();
                                       }
                                   }
                               });

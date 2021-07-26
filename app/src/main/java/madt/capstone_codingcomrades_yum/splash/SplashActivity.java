@@ -37,14 +37,13 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 Intent i;
                 if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                    // If User already logged in
-
+                    // If user need to logged in
                     i = new Intent(SplashActivity.this,
                             LoginActivity.class);
 
                 } else {
 
-                    // If user need to logged in
+                    // If User already logged in
                     if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.FINISH_PROFILE_DONE)) {
                         i = new Intent(SplashActivity.this,
                                 AboutMeActivity.class);
@@ -52,25 +51,7 @@ public class SplashActivity extends BaseActivity {
                         i = new Intent(SplashActivity.this,
                                 HomeActivity.class);
                     }
-                   /* if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.ABOUT_DONE)) {
-                        i = new Intent(SplashActivity.this,
-                                AboutMeActivity.class);
-                    } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.TASTE_DONE)) {
-                        i = new Intent(SplashActivity.this,
-                                TasteActivity.class);
-                    } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.INTEREST_DONE)) {
-                        i = new Intent(SplashActivity.this,
-                                InterestActivity.class);
-                    } else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.FOOD_TOPIC_DONE)) {
-                        i = new Intent(SplashActivity.this,
-                                FoodTopicsActivity.class);
-                    }else if (!AppSharedPreferences.getInstance().getBoolean(SharedConstants.FINISH_PROFILE_DONE)) {
-                        i = new Intent(SplashActivity.this,
-                                FinishProfileActivity.class);
-                    } else {
-                        i = new Intent(SplashActivity.this,
-                                HomeActivity.class);
-                    }*/
+
                 }
 
                 startActivity(i);
