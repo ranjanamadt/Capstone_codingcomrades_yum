@@ -142,7 +142,7 @@ public class MatchDetail extends BaseActivity {
 
     private void addInterests(List<String> tasteList) {
         for (String taste : tasteList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipTopics, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.purple_chip_without_close, binding.chipTopics, false);
             newChip.setText(taste.toString());
             binding.chipTopics.addView(newChip);
         }
@@ -151,7 +151,7 @@ public class MatchDetail extends BaseActivity {
 
     private void addNotEat(List<String> notEatList) {
         for (String notEat : notEatList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipDontEat, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipDontEat, false);
             newChip.setText(notEat.toString());
             binding.chipDontEat.addView(newChip);
         }
@@ -160,7 +160,7 @@ public class MatchDetail extends BaseActivity {
 
     private void addNotTalk(List<String> notTalkList) {
         for (String notTalk : notTalkList) {
-            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.yellow_chip_without_close, binding.chipDontTalk, false);
+            Chip newChip = (Chip) getLayoutInflater().inflate(R.layout.pink_chip_without_close, binding.chipDontTalk, false);
             newChip.setText(notTalk.toString());
             binding.chipDontTalk.addView(newChip);
 
