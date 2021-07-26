@@ -161,6 +161,7 @@ public class ChatFragment extends BaseFragment {
                                   public void onComplete(@NonNull @NotNull Task<Void> task) {
                                       if(task.isSuccessful()){
                                           ySnackbar(getActivity(),getString(R.string.delete_chat_success));
+                                          getChatList(searchKey );
                                       }
                                   }
                               });
